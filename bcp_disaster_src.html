@@ -1,0 +1,2482 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#3e62ad">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="発災時行動判断">
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="manifest" id="pwa-manifest">
+<script>
+  // PWA manifest（インライン生成）
+  const _manifest = {
+    name: "発災時行動判断支援ツール",
+    short_name: "行動判断支援",
+    description: "発災時に病院の被害程度を評価し、行動基準・EMIS入力を支援するツール",
+    start_url: ".",
+    display: "standalone",
+    background_color: "#f9fafb",
+    theme_color: "#3e62ad",
+    icons: [
+      { src: "data:image/png;base64,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", sizes: "180x180", type: "image/png" }
+    ]
+  };
+  const _blob = new Blob([JSON.stringify(_manifest)], {type: 'application/json'});
+  document.getElementById('pwa-manifest').href = URL.createObjectURL(_blob);
+</script>
+<title>発災時行動判断支援ツール — 東京医療減災Labo</title>
+<style>
+/* ═══════════════════════════════════════
+   HDMG Design System — CSS Variables
+═══════════════════════════════════════ */
+:root {
+  --primary:         #3e62ad;
+  --primary-hover:   #2d4a8c;
+  --primary-light:   #5c7fc4;
+  --primary-lighter: #e8edf7;
+
+  --success:         #22c55e;
+  --success-bg:      #dcfce7;
+  --success-border:  #86efac;
+  --success-text:    #166534;
+
+  --warning:         #f59e0b;
+  --warning-bg:      #fef3c7;
+  --warning-border:  #fcd34d;
+  --warning-text:    #92400e;
+
+  --danger:          #ef4444;
+  --danger-bg:       #fee2e2;
+  --danger-border:   #fca5a5;
+  --danger-text:     #991b1b;
+
+  --gray-50:  #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+
+  --text-primary:   #111827;
+  --text-secondary: #6b7280;
+  --bg-primary:     #ffffff;
+  --bg-secondary:   #f9fafb;
+  --bg-tertiary:    #f3f4f6;
+  --border-default: #e5e7eb;
+  --border-focus:   #3e62ad;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               "Noto Sans JP", "Yu Gothic UI", "Hiragino Sans", sans-serif;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / .05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* ─── Header ─── */
+.hdr {
+  background: var(--bg-primary);
+  border-bottom: 3px solid var(--primary);
+  padding: 0 1.25rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+.hdr-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.hdr-logo-mark {
+  width: 32px;
+  height: 32px;
+  background: var(--primary);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+}
+.hdr-logo-text {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  line-height: 1.3;
+}
+.hdr-divider { width: 1px; height: 28px; background: var(--border-default); }
+.hdr-info { min-width: 0; }
+.hdr-hospital {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hdr-subtitle { font-size: 0.7rem; color: var(--primary); font-weight: 600; }
+.hdr-right {
+  margin-left: auto;
+  text-align: right;
+  flex-shrink: 0;
+}
+.hdr-clock {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+.hdr-date { font-size: 0.7rem; color: var(--text-secondary); }
+
+/* ─── Tab bar ─── */
+.tab-bar {
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-default);
+  display: flex;
+  padding: 0 0.75rem;
+  position: sticky;
+  top: 56px;
+  z-index: 90;
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+}
+.tab-btn {
+  padding: 0.75rem 1rem;
+  border: none;
+  background: none;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--primary); }
+.tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+/* ─── Tab content ─── */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ─── Main container ─── */
+.main { max-width: 720px; margin: 0 auto; padding: 1.25rem; }
+
+/* ─── Card ─── */
+.card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+.card-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.875rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid var(--border-default);
+}
+
+/* ─── Form ─── */
+.fr { margin-bottom: 0.875rem; }
+.fr:last-child { margin-bottom: 0; }
+.fr .lbl {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: 0.3rem;
+}
+.fr input[type=text],
+.fr input[type=number],
+.fr input[type=password] {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.fr input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(62,98,173,.15);
+}
+.pw-wrap { display: flex; gap: 0.5rem; }
+.pw-wrap input { flex: 1; }
+
+/* ─── Checkbox grid ─── */
+.cb-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.375rem;
+  margin-top: 0.25rem;
+}
+.cb-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  padding: 0.4375rem 0.75rem;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  background: var(--bg-primary);
+  transition: all 0.15s;
+  min-height: 44px;
+}
+.cb-label:hover { border-color: var(--primary); background: var(--primary-lighter); }
+.cb-label input { accent-color: var(--primary); }
+
+/* ─── Warning box ─── */
+.warn-box {
+  background: var(--warning-bg);
+  border: 1px solid var(--warning-border);
+  border-radius: var(--radius-md);
+  padding: 0.625rem 0.875rem;
+  font-size: 0.8125rem;
+  color: var(--warning-text);
+  margin-top: 0.75rem;
+  line-height: 1.5;
+}
+
+/* ─── Buttons ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  min-height: 44px;
+}
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-primary   { background: var(--primary); color: #fff; }
+.btn-primary:hover:not(:disabled)   { background: var(--primary-hover); }
+.btn-danger    { background: var(--danger); color: #fff; }
+.btn-danger:hover:not(:disabled)    { background: #dc2626; }
+.btn-success   { background: #16a34a; color: #fff; }
+.btn-success:hover:not(:disabled)   { background: #15803d; }
+.btn-secondary { background: var(--bg-primary); color: var(--gray-700); border: 1px solid var(--gray-300); }
+.btn-secondary:hover:not(:disabled) { background: var(--gray-50); }
+.btn-sm  { padding: 0.3125rem 0.75rem; font-size: 0.8125rem; min-height: 36px; }
+.btn-full { width: 100%; }
+.btn-xl  { padding: 0.875rem 1.5rem; font-size: 1rem; min-height: 56px; }
+
+/* ─── Step card ─── */
+.step-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  margin-bottom: 1rem;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: opacity 0.2s;
+}
+.step-card.locked { opacity: 0.42; pointer-events: none; }
+.step-hd {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-default);
+}
+.step-badge {
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.step-title { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); }
+.step-status { margin-left: auto; font-size: 0.75rem; font-weight: 600; white-space: nowrap; flex-shrink: 0; }
+.step-status.done    { color: var(--success-text); }
+.step-status.pending { color: var(--text-secondary); }
+.step-body { padding: 1.25rem; }
+
+/* ─── Step 0 ─── */
+.danger-list {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 0.875rem;
+  margin: 0.75rem 0 1rem;
+  font-size: 0.875rem;
+}
+.danger-list ul { margin: 0.375rem 0 0 1.25rem; }
+.danger-list li { margin-bottom: 0.3rem; }
+.step0-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+/* Group 0 alert */
+.group0-alert {
+  background: var(--danger-bg);
+  border: 2px solid var(--danger);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+.group0-label { font-size: 1.375rem; font-weight: 900; color: var(--danger-text); margin-bottom: 0.75rem; }
+.group0-desc  { font-size: 0.9rem; color: var(--danger-text); font-weight: 600; margin-bottom: 0.375rem; }
+
+/* ─── Step 1 ─── */
+.progress-wrap { margin-bottom: 1rem; }
+.progress-text {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-bottom: 0.375rem;
+}
+.progress-bg {
+  background: var(--gray-200);
+  border-radius: 999px;
+  height: 6px;
+  overflow: hidden;
+}
+.progress-fill {
+  background: var(--primary);
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s;
+}
+.eval-section { margin-bottom: 1.125rem; }
+.eval-cat {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary);
+  background: var(--primary-lighter);
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+.eval-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+.eval-row:last-child { border-bottom: none; }
+.eval-label { flex: 1; font-size: 0.875rem; font-weight: 500; }
+.eval-label.sub { padding-left: 1rem; font-size: 0.8125rem; color: var(--text-secondary); }
+.eval-btns { display: flex; gap: 0.375rem; flex-shrink: 0; }
+.eval-btn {
+  min-width: 48px;
+  height: 44px;
+  border: 2px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  background: var(--bg-primary);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.eval-btn.m { color: #15803d; }
+.eval-btn.m:hover, .eval-btn.m.sel { background: var(--success-bg); border-color: var(--success); color: var(--success-text); }
+.eval-btn.s { color: #92400e; }
+.eval-btn.s:hover, .eval-btn.s.sel { background: var(--warning-bg); border-color: var(--warning); color: var(--warning-text); }
+.eval-btn.x { color: #991b1b; }
+.eval-btn.x:hover, .eval-btn.x.sel { background: var(--danger-bg); border-color: var(--danger); color: var(--danger-text); }
+
+/* ─── Step 2 ─── */
+.damage-display {
+  text-align: center;
+  padding: 1.5rem;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-default);
+  margin-bottom: 1rem;
+}
+.damage-num   { font-size: 4rem; font-weight: 900; line-height: 1; margin-bottom: 0.125rem; }
+.damage-label { font-size: 1rem; font-weight: 700; }
+.damage-sub   { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem; }
+.damage-actions {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 0.75rem;
+  text-align: left;
+  font-size: 0.875rem;
+  margin-top: 0.875rem;
+}
+.da-key { font-weight: 600; color: var(--text-secondary); }
+.da-val { color: var(--text-primary); }
+
+/* Damage level colors */
+.dmg-0 { color: var(--success-text); }
+.dmg-1 { color: #1e40af; }
+.dmg-2 { color: var(--warning-text); }
+.dmg-3 { color: #9a3412; }
+.dmg-4 { color: var(--danger-text); }
+
+/* ─── Step 3 ─── */
+.group-box {
+  border: 2px solid var(--primary);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+.group-box-label { font-size: 0.75rem; font-weight: 600; color: var(--primary); margin-bottom: 0.5rem; }
+.group-box-name  { font-size: 1.625rem; font-weight: 900; color: var(--primary); margin-bottom: 0.875rem; }
+.emis-block {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 0.875rem;
+  font-size: 0.875rem;
+}
+.emis-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+.emis-row:last-child { margin-bottom: 0; }
+.emis-key { font-weight: 600; color: var(--text-secondary); min-width: 76px; flex-shrink: 0; }
+.emis-val { font-weight: 700; color: var(--text-primary); }
+
+/* ─── Step 4 ─── */
+.target-bar {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 0.875rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.recovery-section-title {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.375rem;
+  border-bottom: 1px solid var(--border-default);
+}
+.recovery-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--gray-100);
+  font-size: 0.875rem;
+}
+.recovery-row:last-child { border-bottom: none; }
+.rk-badge {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 700;
+  flex-shrink: 0;
+}
+.rk-x { background: var(--danger); color: #fff; }
+.rk-s { background: var(--warning); color: var(--warning-text); }
+.rk-s-text { font-size: 0.75rem; font-weight: 700; }
+.recovery-name { flex: 1; font-weight: 600; }
+.recovery-wt   { font-size: 0.75rem; color: var(--text-secondary); }
+.note-box {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+/* ─── Memo ─── */
+.memo-wrap { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-default); }
+.memo-wrap .lbl { font-size: 0.8125rem; font-weight: 600; color: var(--gray-700); display: block; margin-bottom: 0.3rem; }
+.memo-wrap textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  resize: none;
+  height: 68px;
+}
+.memo-wrap textarea:focus { outline: none; border-color: var(--border-focus); box-shadow: 0 0 0 3px rgba(62,98,173,.15); }
+.char-count { font-size: 0.75rem; color: var(--text-secondary); text-align: right; margin-top: 2px; }
+
+/* ─── History ─── */
+.hist-item {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  box-shadow: var(--shadow-sm);
+}
+.hist-hd { display: flex; align-items: center; gap: 0.625rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+.hist-time { font-size: 0.9375rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.hist-badge {
+  font-size: 0.75rem; font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+.hist-group { background: var(--primary-lighter); color: var(--primary); border: 1px solid #c5d2ec; }
+.hist-detail { font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.6; }
+.hist-detail strong { color: var(--text-primary); }
+.hist-memo { font-size: 0.8125rem; font-style: italic; color: var(--text-secondary); margin-top: 0.25rem; }
+
+/* ─── Guide ─── */
+.g-section { margin-bottom: 1.5rem; }
+.g-section h3 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.625rem;
+  padding-bottom: 0.375rem;
+  border-bottom: 2px solid var(--primary-lighter);
+}
+.g-section p, .g-section li { font-size: 0.875rem; line-height: 1.7; margin-bottom: 0.25rem; }
+.g-section ol { padding-left: 1.5rem; }
+.g-section ol li { margin-bottom: 0.5rem; }
+.g-table { width: 100%; border-collapse: collapse; font-size: 0.8125rem; margin-top: 0.5rem; }
+.g-table th, .g-table td { border: 1px solid var(--border-default); padding: 0.5rem 0.75rem; text-align: left; }
+.g-table th { background: var(--bg-tertiary); font-weight: 600; }
+.g-code {
+  background: var(--gray-900);
+  color: #e5e7eb;
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  font-family: "Noto Sans Mono", "Menlo", monospace;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  margin: 0.5rem 0;
+}
+.g-note {
+  font-size: 0.8rem;
+  color: var(--danger-text);
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-radius: var(--radius-md);
+  padding: 0.625rem 0.875rem;
+  margin-top: 0.75rem;
+}
+
+/* ═══════════════════════════════════════
+   行動判断支援票 (.kt) — 評価・帳票タブ
+   CSS は bcp_step1_v2.html から移植
+═══════════════════════════════════════ */
+.kt {
+  background: var(--bg-primary);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.25rem;
+  max-width: 840px;
+  margin: 0 auto;
+  box-shadow: var(--shadow-md);
+}
+.kt.locked { opacity: 0.42; pointer-events: none; }
+
+.kt-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.625rem;
+}
+.kt-hospital { font-size: 1rem; font-weight: 700; color: var(--text-primary); }
+.kt-subtitle  { font-size: 0.6875rem; color: var(--primary); font-weight: 600; margin-top: 1px; }
+.kt-meta      { font-size: 0.6875rem; color: var(--text-secondary); text-align: right; line-height: 1.7; }
+.kt-alert {
+  font-size: 0.6875rem; color: var(--danger-text); font-weight: 700;
+  background: var(--danger-bg); border: 1px solid var(--danger-border);
+  padding: 1px 6px; border-radius: 3px; display: inline-block; margin-top: 2px;
+}
+
+.step-bar {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 0.3rem; margin-top: 0.75rem;
+}
+.step-no {
+  background: var(--primary); color: #fff;
+  font-size: 0.6875rem; font-weight: 700;
+  padding: 1px 8px; border-radius: 3px; white-space: nowrap;
+}
+.step-bar .step-title { font-size: 0.75rem; font-weight: 600; color: var(--text-primary); }
+.step-legend { font-size: 0.6875rem; color: var(--text-secondary); margin-bottom: 0.375rem; }
+
+.fuzzy-badge {
+  margin-left: auto; font-size: 0.6rem; font-weight: 600;
+  padding: 2px 8px; border-radius: 999px;
+  display: none; align-items: center; gap: 4px;
+  white-space: nowrap; flex-shrink: 0;
+}
+.fuzzy-badge.visible { display: inline-flex; }
+.fuzzy-badge.level-0 { background: var(--success-bg);  color: var(--success-text); border: 1px solid var(--success-border); }
+.fuzzy-badge.level-1 { background: #dbeafe;             color: #1e40af;             border: 1px solid #93c5fd; }
+.fuzzy-badge.level-2 { background: var(--warning-bg);  color: var(--warning-text); border: 1px solid var(--warning-border); }
+.fuzzy-badge.level-3 { background: #ffedd5;             color: #9a3412;             border: 1px solid #fdba74; }
+.fuzzy-badge.level-4 { background: var(--danger-bg);   color: var(--danger-text);  border: 1px solid var(--danger-border); }
+
+/* Main table */
+.tt { width: 100%; border-collapse: collapse; font-size: 0.6875rem; }
+.tt th, .tt td {
+  border: 1px solid #94a3b8; padding: 2px 5px;
+  text-align: center; vertical-align: middle;
+}
+.tt thead th {
+  background: var(--primary); color: #fff;
+  font-size: 0.625rem; font-weight: 600; padding: 3px 5px;
+}
+
+.cat-td {
+  background: var(--primary-hover); color: #fff;
+  font-size: 0.5rem; font-weight: 700;
+  writing-mode: vertical-rl; text-orientation: mixed;
+  width: 20px; text-align: start !important; vertical-align: middle;
+  letter-spacing: 0.04em; padding: 6px 3px !important;
+  overflow: visible; white-space: nowrap;
+}
+.item-td {
+  text-align: left; padding: 5px 7px;
+  background: var(--bg-secondary); font-weight: 600;
+  white-space: normal; font-size: 0.7rem; min-width: 80px; line-height: 1.35;
+}
+.sub-td {
+  text-align: left; padding: 5px 7px;
+  background: var(--bg-secondary); font-size: 0.6875rem;
+  white-space: normal; line-height: 1.35;
+}
+
+.sc {
+  width: 32px; font-size: 0.875rem; font-weight: 700;
+  cursor: pointer; user-select: none; transition: background 0.1s;
+}
+.sc:hover:not(.na) { background: var(--primary-lighter); }
+.sc.m  { color: var(--success-text); }
+.sc.s  { color: var(--warning-text); }
+.sc.x  { color: var(--danger-text); }
+.sc.na { color: var(--gray-400); font-size: 0.625rem; background: var(--gray-100); cursor: default; }
+.sc.na:hover { background: var(--gray-100); }
+.sc.sel.m { background: var(--success-bg); }
+.sc.sel.s { background: var(--warning-bg); }
+.sc.sel.x { background: var(--danger-bg); }
+
+td.cat-last-row { border-bottom: 2.5px solid #475569 !important; }
+td.cat-first-row { border-top: 3px solid #1e3a6e !important; } 
+
+/* Step 2 */
+.step2-table .dmg-hd-cell {
+  background: var(--gray-700); color: #fff;
+  font-size: 0.625rem; font-weight: 700; padding: 3px 5px; text-align: left;
+}
+.dmg-sel-cell {
+  background: var(--gray-700); color: #fff;
+  font-size: 0.6875rem; font-weight: 600; padding: 5px 4px;
+  user-select: none;
+}
+.dmg-sel-cell.sel { background: var(--primary) !important; }
+
+/* Step 3 */
+.step3-lbl {
+  text-align: left; padding-left: 7px; font-weight: 700;
+  background: var(--bg-secondary); font-size: 0.6875rem; white-space: nowrap;
+}
+.act-cell { font-size: 0.6875rem; line-height: 1.3; padding: 3px 4px; color: var(--gray-700); }
+.act-cell.sel { background: var(--warning-bg); font-weight: 700; color: var(--text-primary); }
+
+.kt-footer {
+  margin-top: 0.5rem; font-size: 0.6rem; color: var(--text-secondary);
+  border-top: 1px solid var(--border-default); padding-top: 0.3rem;
+  display: flex; justify-content: space-between;
+}
+
+/* ─── 帳票プレビュー ─── */
+.ticket-wrap {
+  background: #555;
+  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  overflow-y: auto;
+  max-height: 78vh;
+  margin-bottom: 1.25rem;
+}
+.ticket-paper {
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  width: 185mm;
+  min-height: 240mm;
+  margin: 0 auto;
+  padding: 8mm 10mm;
+  font-family: var(--font-sans);
+  font-size: 7pt;
+  line-height: 1.4;
+  color: #111;
+}
+/* ticket内テーブル */
+.kt2 { width: 100%; border-collapse: collapse; }
+.kt2 th, .kt2 td {
+  border: 0.5pt solid #666;
+  padding: 2pt 4pt;
+  text-align: center;
+  vertical-align: middle;
+}
+.kt2 thead th {
+  background: #3e62ad;
+  color: #fff;
+  font-size: 6pt;
+  font-weight: 700;
+  padding: 3pt 4pt;
+}
+.kt2-cat {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  text-align: start;
+  background: #374151;      /* グレースケール: 旧 #2d4a8c */
+  color: #fff;
+  font-size: 5pt;
+  font-weight: 700;
+  width: 13pt;
+  padding: 6pt 2pt;
+  white-space: nowrap;
+  overflow: visible;
+}
+.kt2-item {
+  text-align: left;
+  padding: 2.5pt 5pt;
+  background: #f3f4f6;
+  font-weight: 600;
+  font-size: 6.5pt;
+  min-width: 80pt;
+}
+.kt2-item.sub {
+  padding-left: 11pt;
+  font-weight: 400;
+  font-size: 6pt;
+  background: #f9fafb;
+}
+.kt2-sc {
+  width: 16pt;
+  font-size: 9pt;
+  font-weight: 900;
+  cursor: default;
+}
+.kt2-sc.avail  { color: #aaa; font-size: 7pt; font-weight: 400; }
+.kt2-sc.na     { color: #ccc; font-size: 6pt; background: #f3f4f6; }
+.kt2-sc.sel-m  { background: #e5e7eb; color: #111; }   /* グレースケール: 旧 緑 */
+.kt2-sc.sel-s  { background: #9ca3af; color: #111; }   /* グレースケール: 旧 黄 */
+.kt2-sc.sel-x  { background: #374151; color: #fff; }   /* グレースケール: 旧 赤 */
+.kt2-dmg-hd    { background: #374151; color: #fff; font-size: 6.5pt; font-weight: 700; padding: 3pt 5pt; white-space: nowrap; }
+.kt2-dmg-cell  { background: #374151; color: #fff; font-size: 6.5pt; padding: 4pt 3pt; }
+.kt2-dmg-cell.sel { background: #111827; font-weight: 900; font-size: 7.5pt; } /* グレースケール: 旧 #3e62ad */
+.kt2-act-lbl   { text-align: left; font-weight: 700; background: #f3f4f6; font-size: 6pt; white-space: nowrap; padding: 2pt 5pt; }
+.kt2-act-cell  { font-size: 6pt; line-height: 1.3; padding: 2.5pt 3pt; color: #333; }
+.kt2-act-cell.sel { background: #e5e7eb; font-weight: 700; color: #000; text-decoration: underline; } /* グレースケール: 旧 黄 */
+.kt2-step-bar {
+  display: flex;
+  align-items: center;
+  gap: 6pt;
+  margin: 6pt 0 2pt;
+}
+.kt2-step-no {
+  background: #374151;      /* グレースケール: 旧 #3e62ad */
+  color: #fff;
+  font-size: 6pt;
+  font-weight: 700;
+  padding: 1.5pt 7pt;
+  border-radius: 2pt;
+  white-space: nowrap;
+}
+.kt2-step-title { font-size: 7pt; font-weight: 700; }
+.kt2-legend { font-size: 7.5pt; color: #555; margin-bottom: 3pt; }
+
+/* ─── Print ─── */
+@media print {
+  /* ── レイアウト: 評価・帳票タブのみ表示 ── */
+  .hdr, .tab-bar,
+  #tab-setup, #tab-history, #tab-guide,
+  #step0-card, .no-print,
+  .ticket-wrap { display: none !important; }
+
+  #tab-eval { display: block !important; }
+
+  body { background: #fff; }
+  .main { max-width: none !important; padding: 0 !important; }
+
+  /* kt本体 */
+  .kt {
+    border: none !important; padding: 0 !important;
+    max-width: none !important; border-radius: 0 !important;
+    box-shadow: none !important;
+    opacity: 1 !important; pointer-events: auto !important;
+  }
+  .kt.locked { opacity: 1 !important; pointer-events: auto !important; }
+
+  /* ヘッダー */
+  .kt-hd { border-bottom: 1.5pt solid #1e3a6e; padding-bottom: 2pt; margin-bottom: 3pt; }
+  .kt-hospital { font-size: 11pt; }
+  .kt-subtitle  { font-size: 6.5pt; margin-top: 0; }
+  .kt-meta      { font-size: 6.5pt; line-height: 1.4; }
+  .kt-alert     { font-size: 6pt; padding: 1pt 5pt; }
+
+  /* Step バー */
+  .step-bar { margin-top: 4pt !important; margin-bottom: 1pt; page-break-inside: avoid; }
+  .step-no {
+    font-size: 6pt; padding: 1pt 5pt; border-radius: 2pt;
+    background: none !important; color: #000 !important; border: 1pt solid #333 !important;
+  }
+  .step-bar .step-title { font-size: 7pt; }
+  .step-legend { font-size: 6pt; margin-bottom: 3pt; line-height: 1.3; }
+  .fuzzy-badge { display: none !important; }
+
+  /* テーブル全セル: 細罫線・白背景・黒文字 */
+  .tt th, .tt td {
+    border: 0.5pt solid #666 !important;
+    background: none !important;
+    color: #000 !important;
+    font-size: 7pt !important;
+    padding: 1pt 2.5pt !important;
+  }
+  .tt thead th {
+    border-top: 2pt solid #000 !important;
+    border-bottom: 1.5pt solid #000 !important;
+  }
+
+  /* カテゴリ縦書き列 */
+  .cat-td {
+    width: 16pt !important;
+    padding: 4pt 2pt !important;
+    background: none !important; color: #000 !important;
+    border-left: 2pt solid #333 !important;
+    border-top: 2pt solid #000 !important;
+    border-bottom: 2pt solid #000 !important;
+    border-right: 0.5pt solid #000 !important;
+    font-size: 5pt !important;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .item-td, .sub-td {
+    font-size: 6.5pt !important; padding: 3pt 4pt !important;
+    line-height: 1.25 !important; background: none !important;
+  }
+
+  /* ○△× セル */
+  .sc { font-size: 8pt !important; }
+  /* 選択された記号: 太字・大きく */
+  .sc.sel { font-weight: 900 !important; font-size: 11pt !important; }
+  .sc.sel.m, .sc.sel.s, .sc.sel.x { font-weight: 900 !important; font-size: 11pt !important; }
+  /* 未選択で有効な記号: 薄いグレー・小さく */
+  .sc:not(.sel):not(.na) { color: #bbb !important; font-size: 7pt !important; background: none !important; }
+  /* 選択不可（—）: さらに薄く */
+  .sc.na { color: #ddd !important; font-size: 6pt !important; background: none !important; }
+
+  td.cat-last-row { border-bottom: 2pt solid #000 !important; }
+  td.cat-first-row { border-top: 2pt solid #000 !important; } 
+
+  /* Step 2 */
+  .step2-table .dmg-hd-cell, .dmg-sel-cell {
+    font-size: 6pt !important; padding: 2.5pt 3pt !important;
+    background: none !important; color: #000 !important;
+    border: 0.5pt solid #666 !important;
+  }
+  .dmg-sel-cell.sel {
+    border: 2.5pt solid #000 !important; font-weight: 900 !important;
+  }
+
+  /* Step 3 */
+  .act-cell { font-size: 6pt !important; padding: 2pt 3pt !important; line-height: 1.2 !important; }
+  .act-cell.sel { font-weight: 900 !important; text-decoration: underline !important; background: none !important; }
+  .step3-lbl { font-size: 6.5pt !important; padding: 2pt 4pt !important; background: none !important; }
+
+  .kt-footer { margin-top: 2pt; padding-top: 2pt; font-size: 5pt; }
+
+  /* ── 旧帳票タブ (kt2-*) は非表示 ── */
+  #tab-ticket { display: none !important; }
+  .ticket-paper {
+    width: 100% !important;
+    min-height: 0 !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* ══════════════════════════════════════
+     罫線・グレースケール印刷
+     「背景のグラフィックを有効」設定不要
+  ══════════════════════════════════════ */
+
+  /* ① 全セルに細罫線・白背景・黒文字（基本ルール）
+        セレクタを高精度にして inline style より CSS を優先させる
+        ※ !important 同士は高精度が勝つ                          */
+  .ticket-paper .kt2 td,
+  .ticket-paper .kt2 th {
+    border: 0.5pt solid #666 !important;
+    background: none !important;
+    color: #000 !important;
+  }
+
+  /* ② ヘッダー行: 上下を太く（精度 031 > 021） */
+  .ticket-paper .kt2 thead th {
+    border-top: 2pt solid #000 !important;
+    border-bottom: 1.5pt solid #000 !important;
+  }
+
+  /* ③ カテゴリ縦書き列: 左太線・上下なし（精度 031 > 021） */
+  .ticket-paper .kt2 td.kt2-cat {
+    border-left: 2pt solid #333 !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    border-right: 0.5pt solid #888 !important;
+  }
+
+  /* ④ 選択された ○△×: 大きく太く */
+  .ticket-paper .kt2-sc.sel-m,
+  .ticket-paper .kt2-sc.sel-s,
+  .ticket-paper .kt2-sc.sel-x {
+    font-weight: 900 !important;
+    font-size: 11pt !important;
+  }
+  /* 未選択シンボルは見えるグレー（#ccc は白に近すぎるため） */
+  .ticket-paper .kt2-sc.avail { color: #666 !important; }
+  .ticket-paper .kt2-sc.na   { color: #999 !important; }
+
+  /* ⑤ 被害程度行: 上下を太く */
+  .ticket-paper .kt2-dmg-hd,
+  .ticket-paper .kt2-dmg-cell {
+    border-top: 1.5pt solid #000 !important;
+    border-bottom: 1.5pt solid #000 !important;
+  }
+  /* 選択された被害程度列: 太い外枠 */
+  .ticket-paper .kt2-dmg-cell.sel {
+    border: 2.5pt solid #000 !important;
+    font-weight: 900 !important;
+  }
+
+  /* ⑥ 行動基準 選択セル */
+  .ticket-paper .kt2-act-cell.sel {
+    font-weight: 900 !important;
+    text-decoration: underline !important;
+  }
+
+  /* ⑦ Step バー */
+  .ticket-paper .kt2-step-no {
+    background: none !important;
+    color: #000 !important;
+    border: 1pt solid #333 !important;
+  }
+
+  @page { size: A4 portrait; margin: 8mm 10mm; }
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .main { padding: 0.75rem; }
+  .step0-btns { grid-template-columns: 1fr; }
+  .cb-grid { grid-template-columns: 1fr; }
+  .tab-btn { padding: 0.625rem 0.625rem; font-size: 0.8125rem; }
+  .hdr-logo-text { display: none; }
+  .damage-num { font-size: 3rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── Header ─── -->
+<header class="hdr">
+  <div class="hdr-logo">
+    <div class="hdr-logo-mark">減</div>
+    <div class="hdr-logo-text">東京医療減災Labo<br>東京都立病院機構</div>
+  </div>
+  <div class="hdr-divider"></div>
+  <div class="hdr-info">
+    <div class="hdr-hospital" id="hdrHospital">——</div>
+    <div class="hdr-subtitle">発災時行動判断支援ツール</div>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-date"  id="hdrDate">——</div>
+    <div class="hdr-clock" id="hdrClock">——:——:——</div>
+  </div>
+</header>
+
+<!-- ─── Tab bar ─── -->
+<nav class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('setup')">⚙️ 初回設定</button>
+  <button class="tab-btn"        onclick="switchTab('eval')">📋 評価・帳票</button>
+  <button class="tab-btn"        onclick="switchTab('history')">📅 判断履歴</button>
+  <button class="tab-btn"        onclick="switchTab('guide')">📖 運用ガイド</button>
+</nav>
+
+
+<!-- ════════════════════════════════════════════
+     TAB: 初回設定
+════════════════════════════════════════════ -->
+<div class="tab-content active" id="tab-setup">
+<div class="main">
+
+  <div class="card">
+    <div class="card-title">🏥 基本情報</div>
+    <div class="fr">
+      <label class="lbl">病院名</label>
+      <input type="text" id="hospitalName" placeholder="○○病院" oninput="onProfileChange()">
+    </div>
+    <div class="fr">
+      <label class="lbl">所在地（区市町村）</label>
+      <input type="text" id="address" placeholder="東京都○○区">
+    </div>
+    <div class="fr">
+      <label class="lbl">病床数</label>
+      <input type="number" id="beds" placeholder="例: 120" min="1" style="max-width:160px">
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔐 EMIS情報</div>
+    <div class="fr">
+      <label class="lbl">EMIS ID</label>
+      <input type="text" id="emisId" placeholder="G-MISと共有" autocomplete="off">
+    </div>
+    <div class="fr">
+      <label class="lbl">EMIS パスワード</label>
+      <div class="pw-wrap">
+        <input type="password" id="emisPw" placeholder="G-MISと共有" autocomplete="off">
+        <button class="btn btn-secondary btn-sm emis-pw-btn" onclick="togglePw('emisPw', this)">表示</button>
+      </div>
+    </div>
+    <div class="warn-box">
+      ⚠️ このファイルには EMIS パスワードが保存されます。ファイルを他者と共有しないでください。印刷時にはパスワードは出力されません。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏢 診療科・設備チェック</div>
+    <p style="font-size:0.8125rem;color:var(--text-secondary);margin-bottom:0.75rem">
+      チェックした項目が「評価・帳票」Step 1 の評価対象に追加されます
+    </p>
+    <div class="cb-grid">
+      <label class="cb-label"><input type="checkbox" id="d_emr"      onchange="onProfileChange()"> 電子カルテ あり</label>
+      <label class="cb-label"><input type="checkbox" id="d_icu"      onchange="onProfileChange()"> ICU / HCU あり</label>
+      <label class="cb-label"><input type="checkbox" id="d_or"       onchange="onProfileChange()"> 手術室</label>
+      <label class="cb-label"><input type="checkbox" id="d_dialysis" onchange="onProfileChange()"> 透析室</label>
+      <label class="cb-label"><input type="checkbox" id="d_rad"      onchange="onProfileChange()"> 放射線科</label>
+      <label class="cb-label"><input type="checkbox" id="d_lab"      onchange="onProfileChange()"> 臨床検査科</label>
+      <label class="cb-label"><input type="checkbox" id="d_blood"    onchange="onProfileChange()"> 輸血科</label>
+      <label class="cb-label"><input type="checkbox" id="d_pharma"   onchange="onProfileChange()"> 薬剤科</label>
+      <label class="cb-label"><input type="checkbox" id="d_nutri"    onchange="onProfileChange()"> 栄養科</label>
+      <label class="cb-label"><input type="checkbox" id="d_me"       onchange="onProfileChange()"> MEセンター</label>
+      <label class="cb-label"><input type="checkbox" id="d_steril"   onchange="onProfileChange()"> 中央器材室・滅菌室</label>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
+    <button class="btn btn-primary" onclick="saveProfile()">💾 設定を保存</button>
+    <button class="btn btn-secondary" onclick="switchTab('eval')">評価・帳票へ →</button>
+  </div>
+
+  <div style="margin-top:1.5rem;border-top:1px solid var(--border-default);padding-top:1rem">
+    <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.5rem">⚠️ 危険な操作</div>
+    <button class="btn btn-danger btn-sm" onclick="clearAllData()">
+      🗑️ すべてのデータを完全削除（キャッシュクリア）
+    </button>
+    <div style="font-size:0.6875rem;color:var(--text-secondary);margin-top:0.375rem">
+      プロフィール・評価データ・判断履歴がすべて削除されます。元に戻せません。
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     TAB: 評価・帳票
+════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-eval">
+<div class="main" style="max-width:860px">
+
+  <!-- ── Step 0: 場の安全確認（帳票の上に配置） ── -->
+  <div class="step-card" id="step0-card" style="margin-bottom:1rem">
+    <div class="step-hd">
+      <span class="step-badge">Step 0</span>
+      <span class="step-title">場の安全確認</span>
+      <span class="step-status pending" id="step0-status">未実施</span>
+    </div>
+    <div class="step-body">
+      <p style="font-size:0.9375rem;font-weight:700;color:var(--text-primary)">
+        この場所に留まることは安全ですか？
+      </p>
+      <div class="danger-list">
+        <p style="font-size:0.8125rem;font-weight:600;color:var(--text-secondary)">
+          以下のいずれかに該当する場合は「危険あり」を選択してください：
+        </p>
+        <ul>
+          <li>建物の倒壊・崩落の危険がある</li>
+          <li>施設内に消火できない火災がある</li>
+          <li>津波・洪水による浸水リスクがある</li>
+          <li>その他、即時退避が必要な状況</li>
+        </ul>
+      </div>
+      <div class="step0-btns" id="step0-btns">
+        <button class="btn btn-success btn-xl btn-full" onclick="step0Select('safe')">
+          ✅ 安全<br><small style="font-weight:400;font-size:0.8rem">→ 評価を開始する</small>
+        </button>
+        <button class="btn btn-danger btn-xl btn-full" onclick="step0Select('danger')">
+          🚨 危険あり<br><small style="font-weight:400;font-size:0.8rem">→ 群0（緊急避難）確定</small>
+        </button>
+      </div>
+      <div id="group0-result" style="display:none">
+        <div class="group0-alert">
+          <div class="group0-label">🚨 病院行動評価群: 群0（緊急避難）</div>
+          <p class="group0-desc">ただちに安全な場所へ退避してください。</p>
+          <p class="group0-desc">患者・職員の安全確保を最優先にしてください。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 行動判断支援票（.kt） ── -->
+  <div class="kt locked" id="kt">
+
+    <!-- 帳票ヘッダー -->
+    <div class="kt-hd">
+      <div>
+        <div class="kt-hospital" id="ktHospital">○○病院</div>
+        <div class="kt-subtitle">行動判断支援票</div>
+      </div>
+      <div class="kt-meta">
+        <div id="ktDateTime">——</div>
+        <span class="kt-alert">発災直後使用 — 大きな用紙で貼り出すこと</span>
+      </div>
+    </div>
+
+    <!-- ══ Step 1 ══ -->
+    <div class="step-bar">
+      <span class="step-no">Step 1</span>
+      <span class="step-title">各項目の評価（クリックで選択）</span>
+    </div>
+    <div class="step-legend">
+      <strong style="color:var(--success-text)">○</strong> 正常に運用中 ／
+      <strong style="color:var(--warning-text)">△</strong> 制限が係るも運用可能 ／
+      <strong style="color:var(--danger-text)">×</strong> 運用不可・復旧が必要
+    </div>
+
+    <table class="tt" id="mainTable">
+      <colgroup>
+        <col style="width:20px">
+        <col style="min-width:100px">
+        <col style="width:30px">
+        <col style="width:30px">
+        <col style="width:30px">
+      </colgroup>
+      <thead>
+        <tr>
+          <th colspan="2" style="text-align:left;padding-left:6px">項　目</th>
+          <th>○</th><th>△</th><th>×</th>
+        </tr>
+      </thead>
+      <tbody id="step1tbody"><!-- buildTable() で生成 --></tbody>
+    </table>
+
+    <!-- ══ Step 2 ══ -->
+    <div class="step-bar" style="margin-top:10px">
+      <span class="step-no">Step 2</span>
+      <span class="step-title">被害程度を確認する</span>
+      <span class="fuzzy-badge" id="fuzzyBadge"></span>
+    </div>
+    <table class="tt step2-table">
+      <tbody>
+        <tr>
+          <td class="dmg-hd-cell" style="text-align:left;padding-left:7px;width:60px;white-space:nowrap">被害程度</td>
+          <td class="dmg-sel-cell" id="d0">被害０</td>
+          <td class="dmg-sel-cell" id="d1">被害１</td>
+          <td class="dmg-sel-cell" id="d2">被害２</td>
+          <td class="dmg-sel-cell" id="d3">被害３</td>
+          <td class="dmg-sel-cell" id="d4">被害４</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ══ Step 3 ══ -->
+    <div class="step-bar" style="margin-top:10px">
+      <span class="step-no">Step 3</span>
+      <span class="step-title">行動基準を確認し、施設内に通知する</span>
+    </div>
+    <table class="tt">
+      <thead>
+        <tr>
+          <th colspan="2" style="text-align:left;padding-left:6px;width:60px">診療区分</th>
+          <th>被害０</th><th>被害１</th><th>被害２</th><th>被害３</th><th>被害４</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="cat-td" rowspan="2">行動基準</td>
+          <td class="step3-lbl">外　来</td>
+          <td class="act-cell" id="a-out-0">平常<br>診療</td>
+          <td class="act-cell" id="a-out-1">維持<br>（制限）</td>
+          <td class="act-cell" id="a-out-2">診療制限<br>および転送検討</td>
+          <td class="act-cell" id="a-out-3">応急処置<br>で転院搬送</td>
+          <td class="act-cell" id="a-out-4">退避</td>
+        </tr>
+        <tr>
+          <td class="step3-lbl">入　院</td>
+          <td class="act-cell" id="a-in-0">平常<br>診療</td>
+          <td class="act-cell" id="a-in-1">維持<br>（新規中止）</td>
+          <td class="act-cell" id="a-in-2">維持<br>（重症者転院）</td>
+          <td class="act-cell" id="a-in-3">転院搬送<br>の準備</td>
+          <td class="act-cell" id="a-in-4">退避</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- フッター記入欄 -->
+    <div style="margin-top:0.5rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;font-size:0.625rem">
+      <div style="border:0.5px solid #aaa;padding:3px 5px;min-height:18px">評価者：</div>
+      <div style="border:0.5px solid #aaa;padding:3px 5px;min-height:18px">確認者：</div>
+      <div style="border:0.5px solid #aaa;padding:3px 5px;min-height:18px">掲示日時：</div>
+    </div>
+
+    <div class="kt-footer">
+      <span>東京医療減災Labo（東京都立病院機構）／ 無償提供 / Ver.1.0</span>
+      <span id="ktFooter">○○病院　BCP</span>
+    </div>
+
+  </div><!-- /.kt -->
+
+  <!-- ── 帳票外エリア（印刷対象外）── -->
+  <div class="no-print" style="margin-top:1rem">
+
+    <!-- 行動基準の具体像 -->
+    <div id="action-details-area"></div>
+
+    <!-- Step 4: 病院行動評価群 Ver.4 -->
+    <div class="step-bar" style="margin-top:0.75rem">
+      <span class="step-no">Step 4</span>
+      <span class="step-title">病院行動評価群 Ver.4 を確認し、EMIS に入力する</span>
+    </div>
+    <table class="tt">
+      <thead>
+        <tr>
+          <th style="text-align:left;padding-left:6px">評価群 / EMIS</th>
+          <th>被害０</th><th>被害１</th>
+          <th>被害２</th><th>被害３</th><th>被害４</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="step3-lbl" style="font-size:0.6rem;">病院行動評価群<br>Ver.4</td>
+          <td class="act-cell" id="a-grp-0">群III<br>（通常）</td>
+          <td class="act-cell" id="a-grp-1">群II<br>（機能維持）</td>
+          <td class="act-cell" id="a-grp-2">群II<br>（機能維持）</td>
+          <td class="act-cell" id="a-grp-3">群I<br>（避難）</td>
+          <td class="act-cell" id="a-grp-4">群0<br>（緊急避難）</td>
+        </tr>
+        <tr>
+          <td class="step3-lbl">EMIS ID</td>
+          <td colspan="5" class="act-cell"
+              style="text-align:left;font-weight:700;"
+              id="emis-id-display">（未設定）</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="
+      margin-top:0.5rem;
+      font-size:0.8125rem;
+      color:var(--text-secondary);
+      background:var(--bg-secondary);
+      border:1px solid var(--border-default);
+      border-radius:var(--radius-md);
+      padding:0.625rem 0.875rem;
+      line-height:1.8;
+    ">
+      <strong style="color:var(--text-primary);display:block;margin-bottom:0.25rem">
+        病院行動評価群 Ver.4 と被害程度の対応（目安）
+      </strong>
+      被害0 → 群III（通常運用/病床拡大）　
+      被害1 → 群II（機能維持）　
+      被害2 → 群II（機能維持）　
+      被害3 → 群I（避難）　
+      被害4 → 群0（緊急避難）
+      <div style="
+        margin-top:0.375rem;
+        font-size:0.75rem;
+        color:var(--warning-text);
+        background:var(--warning-bg);
+        border:1px solid var(--warning-border);
+        border-radius:var(--radius-sm);
+        padding:0.25rem 0.625rem;
+        display:inline-block;
+      ">
+        ⚠️ 被害2かつ転院搬送の対象が広範囲の場合は、群Iを検討してください
+      </div>
+    </div>
+
+    <!-- 復旧優先項目 -->
+    <div id="recovery-area" style="margin-top:0.75rem"></div>
+
+    <!-- メモ -->
+    <div class="memo-wrap" style="margin-top:0.75rem">
+      <label class="lbl">メモ（任意・50文字以内）</label>
+      <textarea id="memo-input" maxlength="50" placeholder="例：発電機稼働確認済み"
+        oninput="document.getElementById('char-count').textContent=this.value.length+'/50'"></textarea>
+      <div class="char-count" id="char-count">0/50</div>
+    </div>
+
+    <div style="display:flex;gap:0.75rem;margin-top:1rem;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="recordHistory()">
+        📝 この判断を記録する
+      </button>
+      <button class="btn btn-secondary" onclick="doPrint()">
+        🖨️ 印刷する（A4縦）
+      </button>
+      <button class="btn btn-secondary btn-sm" onclick="printBlank()">
+        🖨️ 白紙帳票を印刷（ラミネート用）
+      </button>
+      <button class="btn btn-secondary btn-sm" onclick="resetEval()">
+        🔄 評価をリセット
+      </button>
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     TAB: 判断履歴
+════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-history">
+<div class="main">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+    <h2 style="font-size:1rem;font-weight:700">📅 判断履歴</h2>
+    <button class="btn btn-secondary btn-sm" onclick="clearHistory()">🗑 全て削除</button>
+  </div>
+  <div id="history-list">
+    <p style="color:var(--text-secondary);text-align:center;padding:2rem;font-size:0.875rem">
+      記録がありません
+    </p>
+  </div>
+</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     TAB: 運用ガイド
+════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-guide">
+<div class="main">
+<div class="card">
+  <div class="card-title">📖 運用ガイド</div>
+
+  <div class="g-section">
+    <h3>【平時にやっておくこと】</h3>
+    <ol>
+      <li>
+        <strong>プロフィールを入力する</strong><br>
+        「初回設定」タブから病院名・EMIS情報・診療科チェックを入力して保存する。
+      </li>
+      <li>
+        <strong>ファイルを保管する</strong><br>
+        防災センターPC・当直室タブレット・夜間管理看護師長のPCなど、発災時にアクセスできる端末に保存する。ネット接続不要のため、ローカルに保存したHTMLファイルをブラウザで開くだけで動作する。
+      </li>
+      <li>
+        <strong>印刷動作を確認しておく</strong><br>
+        「評価・帳票」タブの 🖨️ 印刷ボタン で評価結果をA4縦に出力できる。平時に一度試し印刷して、ブラウザの印刷設定（用紙サイズ A4・余白 標準）を確認しておく。
+      </li>
+      <li>
+        <strong>操作を一度試しておく</strong><br>
+        操作に慣れておくと発災時に焦らない。
+      </li>
+    </ol>
+  </div>
+
+  <div class="g-section">
+    <h3>【発災直後の操作手順】</h3>
+    <div class="g-code">1. このファイルをブラウザで開く
+
+2. [評価・帳票] タブを開く
+
+3. Step 0: 「この場所は安全か」を判断する
+   → 危険あり: 退避。ツールの操作より身の安全を優先する
+   → 安全: Step 1 へ進む（帳票が有効化される）
+
+4. Step 1: 帳票の各項目を○△×で直接クリック評価する
+   → わからない項目は△にしておく
+   → クリックするたびに Step 2/3 が自動更新される
+
+5. Step 2: 被害程度を確認する
+   → クリック評価の結果からファジー推論で自動表示
+
+6. Step 3: 行動基準を確認する
+   → 外来・入院の該当列がハイライト表示される
+   → 帳票下の「📌 行動基準の具体像」で具体的な行動内容を確認する
+
+7. Step 4: 病院行動評価群 Ver.4 を確認する（帳票外に表示）
+   → 病院行動評価群 Ver.4 がハイライト表示される
+   → EMIS ID が表示される（初回設定で登録した値）
+
+8. 帳票下の「📝 この判断を記録する」を押す
+
+9. 🖨️「印刷する（A4縦）」ボタンで印刷し、見えやすい場所に掲示する
+
+10. 必要に応じてEMISに入力する</div>
+  </div>
+
+  <div class="g-section">
+    <h3>【評価結果の印刷・掲示】</h3>
+    <ol>
+      <li>「評価・帳票」タブの 🖨️ 印刷ボタン を押す</li>
+      <li>ブラウザの印刷ダイアログで用紙サイズ A4・余白 標準を確認して印刷する</li>
+      <li>印刷した行動判断支援票に評価者名・確認者名・掲示日時を記入する</li>
+      <li>災害対策本部内の見えやすい位置に掲示する</li>
+    </ol>
+    <p style="margin-top:0.5rem">状況が変化したら再評価し、新しい票に印刷し直して張り替える。</p>
+    <div class="g-note" style="margin-top:0.75rem">
+      <strong>【1枚に収まらない場合】</strong><br>
+      ブラウザの印刷ダイアログで「倍率」を調整してください。<br>
+      ・診療科項目が多い場合: 80〜85% を目安に縮小<br>
+      ・「用紙幅に合わせる」を選ぶと自動調整される場合があります<br>
+      ・Safari: 「拡大縮小」スライダーで調整<br>
+      ・Chrome/Edge: 「倍率」の数値を直接入力<br>
+    </div>
+  </div>
+
+  <div class="g-section">
+    <h3>【EMIS入力の手順】</h3>
+    <ol>
+      <li>EMISにアクセスする（端末からブラウザでEMISを開く）</li>
+      <li>Step 3 に表示された EMIS ID でログインする（PW は [表示] ボタンで確認）</li>
+      <li>「被災状況」の入力画面で「病院行動評価群」に判定された群番号を入力する</li>
+    </ol>
+    <div class="g-note">
+      ⚠️ 本ツールの判定はあくまで参考です。EMISへの最終的な入力内容は責任者が判断してください。
+    </div>
+  </div>
+
+  <div class="g-section">
+    <h3>【再評価のタイミング】</h3>
+    <p>状況が変化したら [評価・帳票] タブで再評価し、紙の行動判断支援票を更新・張り替える。</p>
+    <table class="g-table">
+      <thead><tr><th>タイミング</th><th>目安</th></tr></thead>
+      <tbody>
+        <tr><td>初回評価後</td><td>発災から30〜60分以内</td></tr>
+        <tr><td>状況が改善した時</td><td>発電機が復旧した、エレベーターが復旧した等</td></tr>
+        <tr><td>状況が悪化した時</td><td>水道が止まった、通信が途絶した等</td></tr>
+        <tr><td>定期更新</td><td>発災後24時間は2〜4時間ごとを目安</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</div>
+</div>
+
+
+<script>
+'use strict';
+
+/* ═══════════════════════════════════════
+   Data definitions
+═══════════════════════════════════════ */
+const ITEMS = [
+  { cat:'インフラ系', id:'infra1',  label:'一般電源',              states:['m','x'],     cond:'always'     },
+  { cat:'インフラ系', id:'infra2',  label:'非常用発電機',          states:['m','s','x'], cond:'always'     },
+  { cat:'インフラ系', id:'infra3',  label:'通信（内部）',          states:['m','s','x'], cond:'always'     },
+  { cat:'インフラ系', id:'infra4',  label:'通信（外部）',          states:['m','s','x'], cond:'always'     },
+  { cat:'インフラ系', id:'infra5',  label:'上水道',                states:['m','s','x'], cond:'always'     },
+  { cat:'インフラ系', id:'infra6',  label:'下水道',                states:['m','s','x'], cond:'always'     },
+  { cat:'医療ガス系',             id:'med1',   label:'酸素',                  states:['m','s','x'], cond:'always'     },
+  { cat:'医療ガス系',             id:'med3',   label:'吸引圧',                states:['m','s','x'], cond:'always'     },
+  { cat:'医療ガス系',             id:'med2',   label:'圧縮空気',              states:['m','s','x'], cond:'icu'        },
+  { cat:'搬送系',                 id:'phy1',   label:'エレベーター（非常用）', states:['m','s','x'], cond:'always'     },
+  { cat:'搬送系',                 id:'phy2',   label:'エレベーター（一般用）', states:['m','x'],     cond:'always'     },
+  { cat:'情報系',         id:'emr1',   label:'カルテ閲覧・記録',       states:['m','x'],     cond:'emr', sub:true },
+  { cat:'情報系',         id:'emr2',   label:'処方・検査オーダー',     states:['m','x'],     cond:'emr', sub:true },
+  { cat:'情報系',         id:'emr3',   label:'各部門システム',         states:['m','x'],     cond:'emr', sub:true },
+  { cat:'診療系',                 id:'clin1',  label:'手術室',                states:['m','s','x'], cond:'d_or'       },
+  { cat:'診療系',                 id:'clin_d', label:'透析室',                states:['m','s','x'], cond:'d_dialysis' },
+  { cat:'診療系',                 id:'clin2',  label:'放射線科',              states:['m','s','x'], cond:'d_rad'      },
+  { cat:'診療系',                 id:'clin3',  label:'臨床検査科',            states:['m','s','x'], cond:'d_lab'      },
+  { cat:'診療系',                 id:'clin4',  label:'輸血科',                states:['m','s','x'], cond:'d_blood'    },
+  { cat:'診療系',                 id:'clin5',  label:'薬剤科',                states:['m','s','x'], cond:'d_pharma'   },
+  { cat:'診療系',                 id:'clin6',  label:'栄養科',                states:['m','s','x'], cond:'d_nutri'    },
+  { cat:'診療系',                 id:'clin7',  label:'MEセンター',            states:['m','s','x'], cond:'d_me'       },
+  { cat:'診療系',                 id:'clin8',  label:'中央器材室・滅菌室',    states:['m','s','x'], cond:'d_steril'   },
+];
+
+const ITEM_WEIGHTS = {
+  infra1: 5,   infra2: 5,   infra3: 3,   infra4: 3,   infra5: 5,   infra6: 5,
+  med1:   4,   med2:   3,   med3:   4,
+  phy1:   2,   phy2:   1,
+  emr1:   2,   emr2:   2,   emr3:   1,
+  clin1:  3,   clin_d: 2,   clin2:  2,   clin3:  2,   clin4:  3,
+  clin5:  1.5, clin6:  1,   clin7:  2,   clin8:  1.5,
+};
+
+const STATUS_SCORES = { m: 0, s: 1, x: 3 };
+
+const MEMBERSHIP_PARAMS = {
+  0: { a: 0.0, b: 0.0, c: 0.3, d: 0.5 },
+  1: { a: 0.3, b: 0.5, c: 0.7, d: 1.0 },
+  2: { a: 0.7, b: 1.0, c: 1.3, d: 1.6 },
+  3: { a: 1.3, b: 1.6, c: 2.0, d: 2.5 },
+  4: { a: 2.0, b: 2.5, c: 999, d: 999 },
+};
+
+const DAMAGE_INFO = {
+  0: { cls:'dmg-0', out:'平常診療',          inp:'平常診療'             },
+  1: { cls:'dmg-1', out:'維持（制限）',        inp:'維持（受付中止）'      },
+  2: { cls:'dmg-2', out:'一部制限・転院搬送',  inp:'維持（重症者転院搬送）' },
+  3: { cls:'dmg-3', out:'応急処置・転院搬送',  inp:'転院搬送準備'          },
+  4: { cls:'dmg-4', out:'退避',              inp:'退避'                 },
+};
+
+// 行動基準の具体像（評価実施タブ Step3 に表示・帳票には出力しない）
+const ACTION_DETAILS = {
+  0: {
+    out: '平常診療継続。全診療・新規入院受付・通常業務に制限なし。',
+    inp: '平常診療継続。全診療・予定入院受付・通常業務に制限なし。',
+  },
+  1: {
+    out: '来院患者は受け入れる。ただし時間・設備を要する処置（MRI・待機手術・定期検査等）は延期。緊急対応を優先。',
+    inp: '既入院患者の診療を継続。予定入院受付を中止し、病床を緊急受入用に確保。',
+  },
+  2: {
+    out: '応急処置のみ実施。定期外来・慢性疾患診療は中止。転院搬送が必要な患者リストを本部に報告。',
+    inp: '継続入院は維持。生命維持装置等使用中の安定した重症者の転院先を本部が調整・決定。病棟は転院候補リストを作成し提出。',
+  },
+  3: {
+    out: '来院患者への応急処置・安定化処置のみ実施し、速やかに転院搬送。通常外来診療は全停止。',
+    inp: '全入院患者の転院搬送準備を開始。搬送優先順位を本部が決定し各病棟へ指示。退避困難な患者は安全区域へ移動・待機。',
+  },
+  4: {
+    out: '患者・職員の生命安全を最優先。建物から退避。搬送可能な患者は転院搬送。退避困難な患者は院内の最も安全な場所へ移動・待機。',
+    inp: '患者・職員の生命安全を最優先。建物から退避。搬送可能な患者は転院搬送。退避困難な患者は院内の最も安全な場所へ移動・待機。',
+  },
+};
+
+/* ═══════════════════════════════════════
+   App state
+═══════════════════════════════════════ */
+const S = {
+  step0Result: null,   // 'safe' | 'danger' | null
+  cellState:   {},     // { itemId: 'm'|'s'|'x' }
+  damageLevel: null,   // 0–4
+};
+
+/* ═══════════════════════════════════════
+   Clock (live)
+═══════════════════════════════════════ */
+function updateClock() {
+  const now  = new Date();
+  const pad  = n => String(n).padStart(2, '0');
+  const days = ['日','月','火','水','木','金','土'];
+  document.getElementById('hdrClock').textContent =
+    `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+  document.getElementById('hdrDate').textContent =
+    `${now.getFullYear()}/${pad(now.getMonth()+1)}/${pad(now.getDate())}（${days[now.getDay()]}）`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+/* ═══════════════════════════════════════
+   Tab navigation
+═══════════════════════════════════════ */
+const TAB_IDS = ['setup','eval','history','guide'];
+function switchTab(id) {
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', TAB_IDS[i] === id);
+  });
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  if (id === 'history') renderHistory();
+  if (id === 'eval') {
+    updateKtHeader();
+    buildTable();
+  }
+}
+
+/* ═══════════════════════════════════════
+   Profile / 初回設定
+═══════════════════════════════════════ */
+function onProfileChange() {
+  const name = document.getElementById('hospitalName').value.trim();
+  document.getElementById('hdrHospital').textContent = name || '——';
+  // EMIS ID を帳票に反映
+  const emisId = document.getElementById('emisId').value.trim() || '（未設定）';
+  const emisEl = document.getElementById('emis-id-display');
+  if (emisEl) emisEl.textContent = emisId;
+  // 帳票ヘッダーを更新
+  updateKtHeader();
+  autoSave();
+  buildTable();
+}
+
+function togglePw(inputId, btn) {
+  const el = document.getElementById(inputId);
+  if (el.type === 'password') { el.type = 'text';     btn.textContent = '隠す'; }
+  else                        { el.type = 'password'; btn.textContent = '表示'; }
+}
+
+function saveProfile() {
+  autoSave();
+  const btn = event.currentTarget;
+  const orig = btn.textContent;
+  btn.textContent = '✓ 保存しました';
+  btn.disabled = true;
+  setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 2000);
+}
+
+/* ═══════════════════════════════════════
+   Condition check
+═══════════════════════════════════════ */
+function isVisible(cond) {
+  if (cond === 'always') return true;
+  if (cond === 'emr')    return !!document.getElementById('d_emr')?.checked;
+  if (cond === 'icu')    return !!document.getElementById('d_icu')?.checked;
+  return !!document.getElementById(cond)?.checked;
+}
+function getVisible() { return ITEMS.filter(it => isVisible(it.cond)); }
+
+/* ═══════════════════════════════════════
+   Build Step 1 table (kt/tt方式)
+═══════════════════════════════════════ */
+function buildTable() {
+  const tbody = document.getElementById('step1tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+
+  const visible = getVisible();
+  const catCount = {};
+  visible.forEach(it => { catCount[it.cat] = (catCount[it.cat] || 0) + 1; });
+  const catLastIdx = {};
+  visible.forEach((it, i) => { catLastIdx[it.cat] = i; });
+  const catFirstIdx = {};
+  visible.forEach((it, i) => { if (catFirstIdx[it.cat] === undefined) catFirstIdx[it.cat] = i; });
+  const catDone = {};
+
+  visible.forEach((it, idx) => {
+    const tr = document.createElement('tr');
+    const isLast = catLastIdx[it.cat] === idx;
+    const isFirst = catFirstIdx[it.cat] === idx;  
+    
+    if (!catDone[it.cat]) {
+      const td = document.createElement('td');
+      td.className = 'cat-td';
+      td.rowSpan = catCount[it.cat];
+      td.textContent = it.cat;
+      tr.appendChild(td);
+      catDone[it.cat] = true;
+    }
+
+    const itemTd = document.createElement('td');
+    itemTd.className = (it.sub ? 'sub-td' : 'item-td') + (isLast ? ' cat-last-row' : '') + (isFirst ? ' cat-first-row' : '');
+    itemTd.textContent = it.label;
+    tr.appendChild(itemTd);
+
+    ['m','s','x'].forEach(st => {
+      const td = document.createElement('td');
+      const sym = st === 'm' ? '○' : st === 's' ? '△' : '×';
+      if (it.states.includes(st)) {
+        td.className = `sc ${st}${S.cellState[it.id] === st ? ' sel' : ''}` + (isLast ? ' cat-last-row' : '') + (isFirst ? ' cat-first-row' : '');
+        td.textContent = sym;
+        td.addEventListener('click', () => onCellClick(it.id, st, tr));
+      } else {
+        td.className = `sc na` + (isLast ? ' cat-last-row' : '') + (isFirst ? ' cat-first-row' : '');
+        td.textContent = '—';
+      }
+      tr.appendChild(td);
+    });
+
+    tbody.appendChild(tr);
+  });
+}
+
+function onCellClick(id, state, row) {
+  row.querySelectorAll('.sc').forEach(c => c.classList.remove('sel'));
+  if (S.cellState[id] === state) {
+    delete S.cellState[id];
+  } else {
+    S.cellState[id] = state;
+    const item = ITEMS.find(it => it.id === id);
+    if (item) {
+      const slot = item.states.indexOf(state);
+      row.querySelectorAll('.sc:not(.na)')[slot]?.classList.add('sel');
+    }
+  }
+  calcAndUpdateStep2();
+  autoSave();
+}
+
+/* ═══════════════════════════════════════
+   calcAndUpdateStep2 — ファジー推論→Step2/3自動更新
+═══════════════════════════════════════ */
+function calcAndUpdateStep2() {
+  const result = calcFuzzy();
+  if (!result) {
+    // 評価数が足りない場合はバッジ非表示
+    const badge = document.getElementById('fuzzyBadge');
+    if (badge) badge.classList.remove('visible');
+    return;
+  }
+
+  S.damageLevel = result.level;
+  const dmg = result.level;
+
+  // Step2: 被害程度をハイライト（自動のみ）
+  for (let i = 0; i < 5; i++) {
+    document.getElementById('d' + i)?.classList.toggle('sel', i === dmg);
+  }
+  // fuzzyバッジ更新
+  updateFuzzy();
+
+  // Step3: 行動基準ハイライト
+  for (let i = 0; i < 5; i++) {
+    document.getElementById('a-out-' + i)?.classList.toggle('sel', i === dmg);
+    document.getElementById('a-in-' + i)?.classList.toggle('sel', i === dmg);
+    document.getElementById('a-grp-' + i)?.classList.toggle('sel', i === dmg);
+  }
+
+  // 帳票外エリア更新
+  const adEl = document.getElementById('action-details-area');
+  const rvEl = document.getElementById('recovery-area');
+  if (adEl) adEl.innerHTML = renderActionDetails(dmg);
+  if (rvEl) rvEl.innerHTML = renderRecoveryItems(dmg);
+}
+
+/* ═══════════════════════════════════════
+   renderRecoveryItems — 復旧優先項目（帳票外）
+═══════════════════════════════════════ */
+function renderRecoveryItems(level) {
+  if (level === null || level === undefined || level === 0) return '';
+  const visible   = getVisible();
+  const criticals = visible
+    .filter(it => S.cellState[it.id] === 'x')
+    .sort((a, b) => (ITEM_WEIGHTS[b.id] ?? 1) - (ITEM_WEIGHTS[a.id] ?? 1));
+  const marginals = visible
+    .filter(it => S.cellState[it.id] === 's')
+    .sort((a, b) => (ITEM_WEIGHTS[b.id] ?? 1) - (ITEM_WEIGHTS[a.id] ?? 1));
+
+  if (!criticals.length && !marginals.length) return '';
+
+  const critRows = criticals.map((it, i) => `
+    <div class="recovery-row">
+      <div class="rk-badge rk-x">${i + 1}</div>
+      <div class="recovery-name">${it.label}</div>
+      <div class="recovery-wt">重要度 ${ITEM_WEIGHTS[it.id] ?? 1}</div>
+    </div>`).join('');
+
+  const margRows = marginals.map(it => `
+    <div class="recovery-row">
+      <div class="rk-badge rk-s rk-s-text">△</div>
+      <div class="recovery-name">${it.label}</div>
+      <div class="recovery-wt">重要度 ${ITEM_WEIGHTS[it.id] ?? 1}</div>
+    </div>`).join('');
+
+  return `
+    <div style="border:1px solid var(--border-default);border-radius:var(--radius-md);overflow:hidden;font-size:0.8125rem;">
+      <div style="background:var(--primary);color:#fff;font-size:0.75rem;font-weight:600;padding:0.375rem 0.75rem;">
+        🔧 復旧優先項目
+      </div>
+      <div style="padding:0.625rem 0.75rem;background:var(--bg-primary);">
+        ${criticals.length ? `<div class="recovery-section-title">🔴 復旧対象（× の項目）</div>${critRows}` : ''}
+        ${marginals.length ? `<div class="recovery-section-title" style="margin-top:0.5rem">🟡 改善余地あり（△ の項目）</div>${margRows}` : ''}
+      </div>
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════
+   Fuzzy inference
+═══════════════════════════════════════ */
+function trapezoid(x, a, b, c, d) {
+  if (x <= a || x >= d) return (x <= a && a === b && x === a) ? 1 : (x >= c && c === d && x === d) ? 1 : 0;
+  if (x >= b && x <= c) return 1;
+  if (x < b) return (x - a) / (b - a);
+  return (d - x) / (d - c);
+}
+
+function calcFuzzy() {
+  const visible = getVisible();
+  let totalScore = 0, totalWeight = 0;
+  visible.forEach(it => {
+    const st = S.cellState[it.id];
+    if (st !== undefined) {
+      const w = ITEM_WEIGHTS[it.id] ?? 1;
+      totalScore  += w * (STATUS_SCORES[st] ?? 0);
+      totalWeight += w;
+    }
+  });
+  if (totalWeight === 0) return null;
+
+  const score = totalScore / totalWeight;
+  let num = 0, den = 0;
+  for (let lv = 0; lv <= 4; lv++) {
+    const p  = MEMBERSHIP_PARAMS[lv];
+    const mu = trapezoid(score, p.a, p.b, p.c, p.d);
+    num += lv * mu;
+    den += mu;
+  }
+  const crisp = den > 0 ? num / den : (score > 2.5 ? 4 : 0);
+  return { level: Math.round(crisp), score };
+}
+
+function updateFuzzy() {
+  const result = calcFuzzy();
+  const badge  = document.getElementById('fuzzyBadge');
+  if (!badge) return;
+  if (!result) { badge.classList.remove('visible'); return; }
+  const levelLabels = ['被害０','被害１','被害２','被害３','被害４'];
+  badge.className = `fuzzy-badge visible level-${result.level}`;
+  badge.textContent = `推定: ${levelLabels[result.level]}（スコア ${result.score.toFixed(2)}）`;
+}
+
+/* ═══════════════════════════════════════
+   kt ヘッダー更新
+═══════════════════════════════════════ */
+function updateKtHeader() {
+  const name = document.getElementById('hospitalName').value.trim() || '○○病院';
+  const el   = document.getElementById('ktHospital');
+  if (el) el.textContent = name;
+  const foot = document.getElementById('ktFooter');
+  if (foot) foot.textContent = `${name}　BCP`;
+  const emisId = document.getElementById('emisId').value.trim() || '（未設定）';
+  const emisEl = document.getElementById('emis-id-display');
+  if (emisEl) emisEl.textContent = emisId;
+}
+
+function updateKtDateTime() {
+  const el = document.getElementById('ktDateTime');
+  if (!el) return;
+  const now  = new Date();
+  const pad  = n => String(n).padStart(2, '0');
+  const days = ['日','月','火','水','木','金','土'];
+  el.textContent =
+    `${now.getFullYear()}/${pad(now.getMonth()+1)}/${pad(now.getDate())}（${days[now.getDay()]}）` +
+    ` ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+}
+
+/* ═══════════════════════════════════════
+   Step flow helpers (Step 0 card)
+═══════════════════════════════════════ */
+function markStepDone(id, text) {
+  const el = document.getElementById(id + '-status');
+  if (!el) return;
+  el.textContent = text;
+  el.className = 'step-status done';
+}
+
+/* ─── Step 0 ─── */
+function step0Select(choice) {
+  S.step0Result = choice;
+  document.getElementById('step0-btns').style.display = 'none';
+
+  if (choice === 'danger') {
+    S.damageLevel = 4;
+    document.getElementById('step0-status').textContent = '⚠ 危険あり';
+    document.getElementById('step0-status').className = 'step-status pending';
+    document.getElementById('group0-result').style.display = 'block';
+    // 帳票を有効化し、被害4を強制ハイライト
+    document.getElementById('kt').classList.remove('locked');
+    buildTable();
+    for (let i = 0; i < 5; i++) {
+      document.getElementById('d' + i)?.classList.toggle('sel', i === 4);
+      document.getElementById('a-out-' + i)?.classList.toggle('sel', i === 4);
+      document.getElementById('a-in-' + i)?.classList.toggle('sel', i === 4);
+      document.getElementById('a-grp-' + i)?.classList.toggle('sel', i === 4);
+    }
+    document.getElementById('action-details-area').innerHTML = renderActionDetails(4);
+    document.getElementById('recovery-area').innerHTML = '';
+  } else {
+    markStepDone('step0', '✓ 安全');
+    document.getElementById('kt').classList.remove('locked');
+    buildTable();
+    document.getElementById('kt').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  autoSave();
+}
+
+/* ─── 行動基準の具体像（帳票外エリアのみ・印刷されない） ─── */
+function renderActionDetails(level) {
+  if (level === null || level === undefined) return '';
+  const d = ACTION_DETAILS[level];
+  if (!d) return '';
+  return `
+    <div style="
+      margin-top:0.75rem;
+      border:1px solid var(--border-default);
+      border-radius:var(--radius-md);
+      overflow:hidden;
+      font-size:0.8125rem;
+    ">
+      <div style="
+        background:var(--primary);
+        color:#fff;
+        font-size:0.75rem;
+        font-weight:600;
+        padding:0.375rem 0.75rem;
+      ">📌 行動基準の具体像（被害${level}）</div>
+      <div style="padding:0.625rem 0.75rem;background:var(--bg-primary);">
+        <div${d.inp ? ' style="margin-bottom:0.5rem"' : ''}>
+          <span style="font-weight:700;color:var(--primary);font-size:0.75rem;margin-right:0.375rem">外来:</span>${d.out}
+        </div>
+        ${d.inp ? `<div>
+          <span style="font-weight:700;color:var(--primary);font-size:0.75rem;margin-right:0.375rem">入院:</span>${d.inp}
+        </div>` : ''}
+      </div>
+      <div style="
+        background:var(--warning-bg);
+        border-top:1px solid var(--warning-border);
+        padding:0.25rem 0.75rem;
+        font-size:0.6875rem;
+        color:var(--warning-text);
+      ">※ 具体的な定義は本部が決定し各部署へ通知してください。</div>
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════
+   History
+═══════════════════════════════════════ */
+function recordHistory() {
+  const now = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  const ts  = `${now.getFullYear()}/${pad(now.getMonth()+1)}/${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+
+  const dmg     = S.damageLevel;
+  const isDgr   = S.step0Result === 'danger';
+  let   group;
+  if (isDgr || dmg === 4)          group = '群0（緊急避難）';
+  else if (dmg === 3)              group = '群I（避難）';
+  else if (dmg === 2 || dmg === 1) group = '群II（機能維持）';
+  else if (dmg === 0)              group = '群III（通常運用 / 病床拡大）';
+  else                             group = '群0（緊急避難）';
+
+  const info     = DAMAGE_INFO[dmg ?? 4];
+  const visible  = getVisible();
+  const crits    = visible
+    .filter(it => S.cellState[it.id] === 'x')
+    .sort((a, b) => (ITEM_WEIGHTS[b.id] ?? 1) - (ITEM_WEIGHTS[a.id] ?? 1))
+    .map(it => it.label);
+  const margs    = visible
+    .filter(it => S.cellState[it.id] === 's')
+    .sort((a, b) => (ITEM_WEIGHTS[b.id] ?? 1) - (ITEM_WEIGHTS[a.id] ?? 1))
+    .map(it => it.label);
+  const memo     = document.getElementById('memo-input')?.value?.trim() || '';
+
+  const rec = { ts, step0: S.step0Result, damage: dmg, group,
+                outAction: info.out, inpAction: info.inp, crits, margs, memo,
+                cellState: { ...S.cellState } };
+
+  const history = loadHistory();
+  history.unshift(rec);
+  if (history.length > 50) history.length = 50;
+  saveHistory(history);
+
+  const btn = event.currentTarget;
+  const orig = btn.textContent;
+  btn.textContent = '✓ 記録しました';
+  btn.disabled = true;
+  btn.style.background = '#16a34a';
+  setTimeout(() => { btn.textContent = orig; btn.disabled = false; btn.style.background = ''; }, 2500);
+}
+
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem('bcp_disaster_history') || '[]'); } catch(e) { return []; }
+}
+function saveHistory(arr) {
+  try { localStorage.setItem('bcp_disaster_history', JSON.stringify(arr)); } catch(e) {}
+}
+
+function renderHistory() {
+  const history = loadHistory();
+  const wrap    = document.getElementById('history-list');
+  if (!history.length) {
+    wrap.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:2rem;font-size:0.875rem">記録がありません</p>';
+    return;
+  }
+  wrap.innerHTML = history.map((r, idx) => {
+    const dmgCls   = r.damage !== null && r.damage !== undefined ? (DAMAGE_INFO[r.damage]?.cls || '') : '';
+    const crStr    = r.crits?.length  ? r.crits.join(' / ')  : 'なし';
+    const mgStr    = r.margs?.length  ? r.margs.join(' / ')  : '';
+    const hasDetail = !!r.cellState;
+    return `
+      <div class="hist-item" style="cursor:${hasDetail ? 'pointer' : 'default'}"
+           ${hasDetail ? `onclick="showHistoryDetail(bcp_history_cache[${idx}])"` : ''}>
+        <div class="hist-hd">
+          <span class="hist-time">📅 ${r.ts}</span>
+          <span class="hist-badge hist-group">${r.group}</span>
+          ${r.damage !== null && r.damage !== undefined
+            ? `<span class="hist-badge ${dmgCls}">被害${r.damage}</span>` : ''}
+          ${hasDetail ? `<span class="hist-badge" style="background:var(--primary-lighter);color:var(--primary);margin-left:auto">📋 詳細</span>` : ''}
+        </div>
+        <div class="hist-detail">
+          <div>外来: <strong>${r.outAction || '—'}</strong> ／ 入院: <strong>${r.inpAction || '—'}</strong></div>
+          <div>復旧優先: <strong>${crStr}</strong></div>
+          ${mgStr ? `<div>改善余地: <strong>${mgStr}</strong></div>` : ''}
+        </div>
+        ${r.memo ? `<div class="hist-memo">📝 ${r.memo}</div>` : ''}
+      </div>
+    `;
+  }).join('');
+  // カード onclick から参照できるようにキャッシュ
+  window.bcp_history_cache = history;
+}
+
+function clearHistory() {
+  if (!confirm('判断履歴をすべて削除しますか？\nこの操作は元に戻せません。')) return;
+  saveHistory([]);
+  renderHistory();
+}
+
+/* ═══════════════════════════════════════
+   Modal (history detail)
+═══════════════════════════════════════ */
+function showModal(title, html, onClose) {
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-body').innerHTML = html;
+  document.getElementById('modal-overlay').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  window._modalOnClose = onClose;
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').style.display = 'none';
+  document.body.style.overflow = '';
+  if (window._modalOnClose) { window._modalOnClose(); window._modalOnClose = null; }
+}
+
+function showHistoryDetail(entry) {
+  if (!entry.cellState) {
+    showModal(
+      `📋 履歴詳細 — ${entry.ts}`,
+      `<p style="color:var(--text-secondary);padding:1rem;text-align:center">
+        この記録には評価詳細データが含まれていません（古い形式）。
+       </p>`,
+      null
+    );
+    return;
+  }
+  // entry のデータで帳票HTMLを生成
+  const html = buildHistoryTicketHTML(entry);
+  showModal(
+    `📋 履歴詳細 — ${entry.ts}`,
+    `<div style="background:#555;padding:0.75rem;border-radius:6px;overflow-x:auto">
+       <div class="ticket-paper" style="width:170mm;min-height:0;margin:0 auto">
+         ${html}
+       </div>
+     </div>`,
+    null
+  );
+}
+
+/* ─── 履歴詳細用の帳票HTML生成 ─── */
+function buildHistoryTicketHTML(entry) {
+  const cs    = entry.cellState || {};
+  const dmg   = entry.damage ?? entry.damageLevel ?? null;
+  const isDgr = (entry.step0 ?? entry.step0Result) === 'danger';
+  const name  = document.getElementById('hospitalName').value.trim() || '○○病院';
+  const emisId = document.getElementById('emisId').value.trim() || '（未設定）';
+
+  // 表示アイテム（保存時の設定に依存するが現在のプロフィールで近似）
+  const visible = getVisible();
+  const catCount = {};
+  visible.forEach(it => { catCount[it.cat] = (catCount[it.cat] || 0) + 1; });
+  const catLastIdx = {};
+  visible.forEach((it, i) => { catLastIdx[it.cat] = i; });
+  const catDone = {};
+
+  const s1rows = visible.map((item, idx) => {
+    const st    = cs[item.id];
+    const isLast = catLastIdx[item.cat] === idx;
+    const bBot  = isLast ? 'border-bottom:2.5pt solid #475569;' : '';
+    const sc = (sym, stKey, selCls) => {
+      const has = item.states.includes(stKey);
+      if (!has) return `<td class="kt2-sc na" style="${bBot}">—</td>`;
+      const isSel = st === stKey;
+      return `<td class="kt2-sc ${isSel ? selCls : 'avail'}" style="${bBot}">${sym}</td>`;
+    };
+    let catTd = '';
+    if (!catDone[item.cat]) {
+      catDone[item.cat] = true;
+      catTd = `<td class="kt2-cat" rowspan="${catCount[item.cat]}">${item.cat}</td>`;
+    }
+    return `<tr>${catTd}<td class="kt2-item${item.sub ? ' sub' : ''}" style="${bBot}">${item.label}</td>
+      ${sc('○','m','sel-m')}${sc('△','s','sel-s')}${sc('×','x','sel-x')}</tr>`;
+  }).join('');
+
+  const dmgRow = [0,1,2,3,4].map(lv => {
+    const isSel = (dmg === lv) || (isDgr && lv === 4);
+    return `<td class="kt2-dmg-cell${isSel?' sel':''}">${isSel?'▶ ':''}被害${lv}${isSel?' ◀':''}</td>`;
+  }).join('');
+
+  const TICKET_ACTS = [
+    { out:'平常診療', inp:'平常診療' },
+    { out:'維持\n（制限）', inp:'維持\n（受付中止）' },
+    { out:'一部制限\n・転院搬送', inp:'維持\n（重症者転院）' },
+    { out:'応急処置\n・転院搬送', inp:'転院搬送準備' },
+    { out:'退避', inp:'退避' },
+  ];
+  const actRow = key => [0,1,2,3,4].map(lv => {
+    const isSel = (dmg === lv) || (isDgr && lv === 4);
+    const text  = TICKET_ACTS[lv][key].replace(/\n/g,'<br>');
+    return `<td class="kt2-act-cell${isSel?' sel':''}">${text}</td>`;
+  }).join('');
+  const grpNames = ['群III<br>（通常）','群II<br>（機能維持）','群II<br>（機能維持）','群I<br>（避難）','群0<br>（緊急避難）'];
+  const grpRow = grpNames.map((g,lv) => {
+    const isSel = (dmg === lv) || (isDgr && lv === 4);
+    return `<td class="kt2-act-cell${isSel?' sel':''}" style="font-size:5.5pt;">${g}</td>`;
+  }).join('');
+
+  return `
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2pt solid #3e62ad;padding-bottom:3pt;margin-bottom:5pt;">
+      <div>
+        <div style="font-size:14pt;font-weight:700;">${name}</div>
+        <div style="font-size:6.5pt;color:#3e62ad;font-weight:600;">行動判断支援票</div>
+      </div>
+      <div style="text-align:right;font-size:6pt;color:#555;line-height:1.9;">
+        <div>記録日時：${entry.ts}</div>
+        <span style="color:#991b1b;font-weight:700;border:0.5pt solid #fca5a5;background:#fee2e2;padding:0 4pt;border-radius:2pt;display:inline-block;">発災直後使用 — 大きく貼り出すこと</span>
+      </div>
+    </div>
+    <div class="kt2-step-bar"><span class="kt2-step-no">Step 1</span><span class="kt2-step-title">各項目の状況</span></div>
+    <table class="kt2"><colgroup><col style="width:13pt"><col><col style="width:20pt"><col style="width:20pt"><col style="width:20pt"></colgroup>
+      <thead><tr><th colspan="2" style="text-align:left;padding-left:6pt">項　目</th><th>○</th><th>△</th><th>×</th></tr></thead>
+      <tbody>${s1rows}</tbody></table>
+    <div class="kt2-step-bar"><span class="kt2-step-no">Step 2</span><span class="kt2-step-title">被害程度を確認する</span></div>
+    <table class="kt2"><tbody><tr><td class="kt2-dmg-hd" style="width:52pt;text-align:left">被害程度</td>${dmgRow}</tr></tbody></table>
+    <div class="kt2-step-bar"><span class="kt2-step-no">Step 3</span><span class="kt2-step-title">行動基準を確認する</span></div>
+    <table class="kt2">
+      <thead><tr><th colspan="2" style="text-align:left;padding-left:6pt;width:60pt">診療区分</th><th>被害０</th><th>被害１</th><th>被害２</th><th>被害３</th><th>被害４</th></tr></thead>
+      <tbody>
+        <tr><td class="kt2-cat" rowspan="3" style="font-size:4pt">行動基準</td><td class="kt2-act-lbl">外来</td>${actRow('out')}</tr>
+        <tr><td class="kt2-act-lbl">入院</td>${actRow('inp')}</tr>
+        <tr><td class="kt2-act-lbl" style="font-size:5.5pt">病院行動評価群</td>${grpRow}</tr>
+        <tr><td colspan="2" class="kt2-act-lbl">EMIS ID</td><td colspan="5" class="kt2-act-cell" style="text-align:left;font-weight:700">${emisId}</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:4pt;border-top:0.5pt solid #ddd;padding-top:2pt;display:flex;justify-content:space-between;font-size:5.5pt;color:#999;">
+      <span>東京医療減災Labo（東京都立病院機構）</span><span>${name}</span>
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════
+   Clear all data
+═══════════════════════════════════════ */
+function clearAllData() {
+  if (!confirm(
+    '⚠️ すべてのデータを削除します。\n\n' +
+    '・病院プロフィール（病院名・EMIS情報・診療科設定）\n' +
+    '・評価データ（Step 0〜4の評価内容）\n' +
+    '・判断履歴（全件）\n\n' +
+    'この操作は元に戻せません。削除しますか？'
+  )) return;
+
+  const keysToRemove = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith('bcp_')) keysToRemove.push(key);
+  }
+  keysToRemove.forEach(k => localStorage.removeItem(k));
+  location.href = location.href;
+}
+
+/* ═══════════════════════════════════════
+   Reset evaluation
+═══════════════════════════════════════ */
+function resetEval() {
+  if (!confirm('評価をリセットしてStep 0から始めますか？\n（初回設定・判断履歴は保持されます）')) return;
+
+  S.step0Result = null;
+  S.cellState   = {};
+  S.damageLevel = null;
+
+  // Step 0 リセット
+  document.getElementById('step0-btns').style.display = '';
+  document.getElementById('group0-result').style.display = 'none';
+  document.getElementById('step0-status').textContent  = '未実施';
+  document.getElementById('step0-status').className    = 'step-status pending';
+
+  // 帳票をロック
+  document.getElementById('kt').classList.add('locked');
+
+  // Step 1 tbody クリア
+  const tbody = document.getElementById('step1tbody');
+  if (tbody) tbody.innerHTML = '';
+
+  // Step 2/3 ハイライト解除
+  for (let i = 0; i < 5; i++) {
+    document.getElementById('d' + i)?.classList.remove('sel');
+    document.getElementById('a-out-' + i)?.classList.remove('sel');
+    document.getElementById('a-in-' + i)?.classList.remove('sel');
+    document.getElementById('a-grp-' + i)?.classList.remove('sel');
+  }
+  const badge = document.getElementById('fuzzyBadge');
+  if (badge) badge.classList.remove('visible');
+
+  // 帳票外エリアクリア
+  const adEl = document.getElementById('action-details-area');
+  const rvEl = document.getElementById('recovery-area');
+  if (adEl) adEl.innerHTML = '';
+  if (rvEl) rvEl.innerHTML = '';
+
+  // メモクリア
+  const memo = document.getElementById('memo-input');
+  if (memo) memo.value = '';
+  const cc = document.getElementById('char-count');
+  if (cc) cc.textContent = '0/50';
+
+  autoSave();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ═══════════════════════════════════════
+   localStorage — profile + eval state
+═══════════════════════════════════════ */
+const DEPT_IDS = ['d_emr','d_icu','d_or','d_dialysis','d_rad','d_lab','d_blood','d_pharma','d_nutri','d_me','d_steril'];
+
+function gatherData() {
+  return {
+    hospitalName: document.getElementById('hospitalName').value,
+    address:      document.getElementById('address').value,
+    beds:         document.getElementById('beds').value,
+    emisId:       document.getElementById('emisId').value,
+    emisPw:       document.getElementById('emisPw').value,
+    depts:        DEPT_IDS.filter(id => document.getElementById(id)?.checked),
+    evalState: {
+      step0Result: S.step0Result,
+      cellState:   { ...S.cellState },
+      damageLevel: S.damageLevel,
+    },
+  };
+}
+
+function autoSave() {
+  try { localStorage.setItem('bcp_disaster_profile', JSON.stringify(gatherData())); } catch(e) {}
+}
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem('bcp_disaster_profile');
+    if (!raw) return;
+    const d = JSON.parse(raw);
+    if (d.hospitalName) {
+      document.getElementById('hospitalName').value = d.hospitalName;
+      document.getElementById('hdrHospital').textContent = d.hospitalName;
+    }
+    if (d.address)  document.getElementById('address').value  = d.address;
+    if (d.beds)     document.getElementById('beds').value     = d.beds;
+    if (d.emisId)   document.getElementById('emisId').value   = d.emisId;
+    if (d.emisPw)   document.getElementById('emisPw').value   = d.emisPw;
+    (d.depts || []).forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.checked = true;
+    });
+    if (d.evalState) {
+      S.step0Result = d.evalState.step0Result ?? null;
+      S.damageLevel = d.evalState.damageLevel ?? null;
+      Object.assign(S.cellState, d.evalState.cellState || {});
+    }
+  } catch(e) {}
+}
+
+
+/* ═══════════════════════════════════════
+   Print
+═══════════════════════════════════════ */
+function doPrint() {
+  const emisId = document.getElementById('emisId').value.trim() || '（未設定）';
+  const emisEl = document.getElementById('emis-id-display');
+  if (emisEl) emisEl.textContent = emisId;
+
+  // rowspanセルは@media printでborder-top/bottomが効かないため
+  // 印刷直前にインラインスタイルで上下の太線を設定する
+  const catTds = document.querySelectorAll('#mainTable .cat-td');
+  catTds.forEach(td => {
+    td.style.setProperty('border-top',    '2pt solid #000', 'important');
+    td.style.setProperty('border-bottom', '2pt solid #000', 'important');
+  });
+
+  window.print();
+
+  // 印刷後にインラインスタイルを戻す
+  catTds.forEach(td => {
+    td.style.removeProperty('border-top');
+    td.style.removeProperty('border-bottom');
+  });
+}
+
+function printBlank() {
+  // 現在の状態を退避
+  const savedCellState = { ...S.cellState };
+  const savedDamage    = S.damageLevel;
+  const savedStep0     = S.step0Result;
+
+  // 状態を一時クリア
+  Object.keys(S.cellState).forEach(k => delete S.cellState[k]);
+  S.damageLevel = null;
+  S.step0Result = null;
+
+  // Step2/3 ハイライトをすべて解除
+  for (let i = 0; i < 5; i++) {
+    document.getElementById('d'      + i)?.classList.remove('sel');
+    document.getElementById('a-out-' + i)?.classList.remove('sel');
+    document.getElementById('a-in-'  + i)?.classList.remove('sel');
+    document.getElementById('a-grp-' + i)?.classList.remove('sel');
+  }
+  document.getElementById('action-details-area').innerHTML = '';
+  document.getElementById('recovery-area').innerHTML = '';
+
+  // 帳票をアンロック
+  const kt = document.getElementById('kt');
+  const wasLocked = kt?.classList.contains('locked');
+  if (wasLocked) kt.classList.remove('locked');
+
+  // EMIS ID を反映してからテーブルを再描画
+  const emisId = document.getElementById('emisId').value.trim() || '（未設定）';
+  const emisEl = document.getElementById('emis-id-display');
+  if (emisEl) emisEl.textContent = emisId;
+  buildTable();
+
+  // cat-tdの太線（rowspanセルはCSS @media printで効かないためインラインで設定）
+  const catTds = document.querySelectorAll('#mainTable .cat-td');
+  catTds.forEach(td => {
+    td.style.setProperty('border-top',    '2pt solid #000', 'important');
+    td.style.setProperty('border-bottom', '2pt solid #000', 'important');
+  });
+
+  window.print();
+
+  // 印刷後にインラインスタイルを戻す
+  catTds.forEach(td => {
+    td.style.removeProperty('border-top');
+    td.style.removeProperty('border-bottom');
+  });
+
+  // 状態を戻す
+  Object.assign(S.cellState, savedCellState);
+  S.damageLevel = savedDamage;
+  S.step0Result = savedStep0;
+  if (wasLocked) kt.classList.add('locked');
+
+  // 表示を復元
+  buildTable();
+  calcAndUpdateStep2();
+}
+
+/* ═══════════════════════════════════════
+   Init
+═══════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded', () => {
+  loadData();
+  updateKtHeader();
+  updateKtDateTime();
+  setInterval(updateKtDateTime, 60000); // 1分ごとに更新
+
+  // Restore Step 0 state
+  if (S.step0Result === 'safe') {
+    document.getElementById('step0-btns').style.display = 'none';
+    markStepDone('step0', '✓ 安全');
+    document.getElementById('kt').classList.remove('locked');
+    buildTable();
+    // Restore step 2/3 highlights
+    if (S.damageLevel !== null) {
+      for (let i = 0; i < 5; i++) {
+        document.getElementById('d' + i)?.classList.toggle('sel', i === S.damageLevel);
+        document.getElementById('a-out-' + i)?.classList.toggle('sel', i === S.damageLevel);
+        document.getElementById('a-in-' + i)?.classList.toggle('sel', i === S.damageLevel);
+        document.getElementById('a-grp-' + i)?.classList.toggle('sel', i === S.damageLevel);
+      }
+      updateFuzzy();
+      const adEl = document.getElementById('action-details-area');
+      const rvEl = document.getElementById('recovery-area');
+      if (adEl) adEl.innerHTML = renderActionDetails(S.damageLevel);
+      if (rvEl) rvEl.innerHTML = renderRecoveryItems(S.damageLevel);
+    }
+  } else if (S.step0Result === 'danger') {
+    document.getElementById('step0-btns').style.display = 'none';
+    document.getElementById('step0-status').textContent = '⚠ 危険あり';
+    document.getElementById('step0-status').className   = 'step-status pending';
+    document.getElementById('group0-result').style.display = 'block';
+    document.getElementById('kt').classList.remove('locked');
+    buildTable();
+    for (let i = 0; i < 5; i++) {
+      document.getElementById('d' + i)?.classList.toggle('sel', i === 4);
+      document.getElementById('a-out-' + i)?.classList.toggle('sel', i === 4);
+      document.getElementById('a-in-' + i)?.classList.toggle('sel', i === 4);
+      document.getElementById('a-grp-' + i)?.classList.toggle('sel', i === 4);
+    }
+    const adEl = document.getElementById('action-details-area');
+    if (adEl) adEl.innerHTML = renderActionDetails(4);
+  }
+});
+</script>
+
+<!-- ════════════════════════════════════════════
+     モーダル（履歴詳細）
+════════════════════════════════════════════ -->
+<div id="modal-overlay" style="
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.6);
+  z-index:1000;
+  overflow-y:auto;
+  padding:2rem;
+" onclick="if(event.target===this)closeModal()">
+  <div style="
+    background:#fff;
+    border-radius:8px;
+    max-width:820px;
+    margin:0 auto;
+    padding:1.25rem;
+    box-shadow:0 8px 32px rgba(0,0,0,0.35);
+  ">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.875rem;border-bottom:1px solid var(--border-default);padding-bottom:0.75rem">
+      <strong id="modal-title" style="font-size:0.9375rem"></strong>
+      <button onclick="closeModal()" class="btn btn-secondary btn-sm">✕ 閉じる</button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+</body>
+</html>
