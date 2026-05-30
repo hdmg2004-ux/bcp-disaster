@@ -15,7 +15,7 @@
   const _manifest = {
     name: "発災時行動判断支援ツール",
     short_name: "行動判断支援",
-    description: "発災時に病院の被害程度を評価し、行動基準・EMIS入力を支援するツール",
+    description: "発災時の病院被害評価と行動基準判断を支援するオフライン動作HTMLツール。東京医療減災Labo（東京都立病院機構）無償提供。",
     start_url: ".",
     display: "standalone",
     background_color: "#f9fafb",
@@ -234,8 +234,6 @@ body {
   border-color: var(--border-focus);
   box-shadow: 0 0 0 3px rgba(62,98,173,.15);
 }
-.pw-wrap { display: flex; gap: 0.5rem; }
-.pw-wrap input { flex: 1; }
 
 /* ─── Checkbox grid ─── */
 .cb-grid {
@@ -464,17 +462,6 @@ body {
 }
 .group-box-label { font-size: 0.75rem; font-weight: 600; color: var(--primary); margin-bottom: 0.5rem; }
 .group-box-name  { font-size: 1.625rem; font-weight: 900; color: var(--primary); margin-bottom: 0.875rem; }
-.emis-block {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
-  padding: 0.875rem;
-  font-size: 0.875rem;
-}
-.emis-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
-.emis-row:last-child { margin-bottom: 0; }
-.emis-key { font-weight: 600; color: var(--text-secondary); min-width: 76px; flex-shrink: 0; }
-.emis-val { font-weight: 700; color: var(--text-primary); }
 
 /* ─── Step 4 ─── */
 .target-bar {
@@ -1069,24 +1056,6 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
   </div>
 
   <div class="card">
-    <div class="card-title">🔐 EMIS情報</div>
-    <div class="fr">
-      <label class="lbl">EMIS ID</label>
-      <input type="text" id="emisId" placeholder="G-MISと共有" autocomplete="off">
-    </div>
-    <div class="fr">
-      <label class="lbl">EMIS パスワード</label>
-      <div class="pw-wrap">
-        <input type="password" id="emisPw" placeholder="G-MISと共有" autocomplete="off">
-        <button class="btn btn-secondary btn-sm emis-pw-btn" onclick="togglePw('emisPw', this)">表示</button>
-      </div>
-    </div>
-    <div class="warn-box">
-      ⚠️ このファイルには EMIS パスワードが保存されます。ファイルを他者と共有しないでください。印刷時にはパスワードは出力されません。
-    </div>
-  </div>
-
-  <div class="card">
     <div class="card-title">🏢 診療科・設備チェック</div>
     <p style="font-size:0.8125rem;color:var(--text-secondary);margin-bottom:0.75rem">
       チェックした項目が「評価・帳票」Step 1 の評価対象に追加されます
@@ -1289,12 +1258,12 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
     <!-- Step 4: 病院行動評価群 Ver.4 -->
     <div class="step-bar" style="margin-top:0.75rem">
       <span class="step-no">Step 4</span>
-      <span class="step-title">病院行動評価群 Ver.4 を確認し、EMIS に入力する</span>
+      <span class="step-title">病院行動評価群 Ver.4 を確認する</span>
     </div>
     <table class="tt">
       <thead>
         <tr>
-          <th style="text-align:left;padding-left:6px">評価群 / EMIS</th>
+          <th style="text-align:left;padding-left:6px">病院行動評価群</th>
           <th>被害０</th><th>被害１</th>
           <th>被害２</th><th>被害３</th><th>被害４</th>
         </tr>
@@ -1307,12 +1276,6 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
           <td class="act-cell" id="a-grp-2">群II<br>（機能維持）</td>
           <td class="act-cell" id="a-grp-3">群I<br>（避難）</td>
           <td class="act-cell" id="a-grp-4">群0<br>（緊急避難）</td>
-        </tr>
-        <tr>
-          <td class="step3-lbl">EMIS ID</td>
-          <td colspan="5" class="act-cell"
-              style="text-align:left;font-weight:700;"
-              id="emis-id-display">（未設定）</td>
         </tr>
       </tbody>
     </table>
@@ -1411,7 +1374,7 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
     <ol>
       <li>
         <strong>プロフィールを入力する</strong><br>
-        「初回設定」タブから病院名・EMIS情報・診療科チェックを入力して保存する。
+        「初回設定」タブから病院名・診療科チェックを入力して保存する。
       </li>
       <li>
         <strong>ファイルを保管する</strong><br>
@@ -1451,13 +1414,10 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
 
 7. Step 4: 病院行動評価群 Ver.4 を確認する（帳票外に表示）
    → 病院行動評価群 Ver.4 がハイライト表示される
-   → EMIS ID が表示される（初回設定で登録した値）
 
 8. 帳票下の「📝 この判断を記録する」を押す
 
-9. 🖨️「印刷する（A4縦）」ボタンで印刷し、見えやすい場所に掲示する
-
-10. 必要に応じてEMISに入力する</div>
+9. 🖨️「印刷する（A4縦）」ボタンで印刷し、見えやすい場所に掲示する</div>
   </div>
 
   <div class="g-section">
@@ -1476,18 +1436,6 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
       ・「用紙幅に合わせる」を選ぶと自動調整される場合があります<br>
       ・Safari: 「拡大縮小」スライダーで調整<br>
       ・Chrome/Edge: 「倍率」の数値を直接入力<br>
-    </div>
-  </div>
-
-  <div class="g-section">
-    <h3>【EMIS入力の手順】</h3>
-    <ol>
-      <li>EMISにアクセスする（端末からブラウザでEMISを開く）</li>
-      <li>Step 3 に表示された EMIS ID でログインする（PW は [表示] ボタンで確認）</li>
-      <li>「被災状況」の入力画面で「病院行動評価群」に判定された群番号を入力する</li>
-    </ol>
-    <div class="g-note">
-      ⚠️ 本ツールの判定はあくまで参考です。EMISへの最終的な入力内容は責任者が判断してください。
     </div>
   </div>
 
@@ -1640,21 +1588,12 @@ function switchTab(id) {
 function onProfileChange() {
   const name = document.getElementById('hospitalName').value.trim();
   document.getElementById('hdrHospital').textContent = name;
-  // EMIS ID を帳票に反映
-  const emisId = document.getElementById('emisId').value.trim() || '（未設定）';
-  const emisEl = document.getElementById('emis-id-display');
-  if (emisEl) emisEl.textContent = emisId;
   // 帳票ヘッダーを更新
   updateKtHeader();
   autoSave();
   buildTable();
 }
 
-function togglePw(inputId, btn) {
-  const el = document.getElementById(inputId);
-  if (el.type === 'password') { el.type = 'text';     btn.textContent = '隠す'; }
-  else                        { el.type = 'password'; btn.textContent = '表示'; }
-}
 
 function saveProfile() {
   autoSave();
@@ -1878,9 +1817,6 @@ function updateKtHeader() {
   if (el) el.textContent = name;
   const foot = document.getElementById('ktFooter');
   if (foot) foot.textContent = `${name}　BCP`;
-  const emisId = document.getElementById('emisId').value.trim() || '（未設定）';
-  const emisEl = document.getElementById('emis-id-display');
-  if (emisEl) emisEl.textContent = emisId;
 }
 
 function updateKtDateTime() {
@@ -2114,7 +2050,6 @@ function buildHistoryTicketHTML(entry) {
   const dmg   = entry.damage ?? entry.damageLevel ?? null;
   const isDgr = (entry.step0 ?? entry.step0Result) === 'danger';
   const name  = document.getElementById('hospitalName').value.trim() || '○○病院';
-  const emisId = document.getElementById('emisId').value.trim() || '（未設定）';
 
   // 表示アイテム（保存時の設定に依存するが現在のプロフィールで近似）
   const visible = getVisible();
@@ -2190,7 +2125,6 @@ function buildHistoryTicketHTML(entry) {
         <tr><td class="kt2-cat" rowspan="3" style="font-size:4pt">行動基準</td><td class="kt2-act-lbl">外来</td>${actRow('out')}</tr>
         <tr><td class="kt2-act-lbl">入院</td>${actRow('inp')}</tr>
         <tr><td class="kt2-act-lbl" style="font-size:5.5pt">病院行動評価群</td>${grpRow}</tr>
-        <tr><td colspan="2" class="kt2-act-lbl">EMIS ID</td><td colspan="5" class="kt2-act-cell" style="text-align:left;font-weight:700">${emisId}</td></tr>
       </tbody>
     </table>
     <div style="margin-top:4pt;border-top:0.5pt solid #ddd;padding-top:2pt;display:flex;justify-content:space-between;font-size:5.5pt;color:#999;">
@@ -2205,7 +2139,7 @@ function buildHistoryTicketHTML(entry) {
 function clearAllData() {
   if (!confirm(
     '⚠️ すべてのデータを削除します。\n\n' +
-    '・病院プロフィール（病院名・EMIS情報・診療科設定）\n' +
+    '・病院プロフィール（病院名・診療科設定）\n' +
     '・評価データ（Step 0〜4の評価内容）\n' +
     '・判断履歴（全件）\n\n' +
     'この操作は元に戻せません。削除しますか？'
@@ -2279,8 +2213,6 @@ function gatherData() {
     hospitalName: document.getElementById('hospitalName').value,
     address:      document.getElementById('address').value,
     beds:         document.getElementById('beds').value,
-    emisId:       document.getElementById('emisId').value,
-    emisPw:       document.getElementById('emisPw').value,
     depts:        DEPT_IDS.filter(id => document.getElementById(id)?.checked),
     evalState: {
       step0Result: S.step0Result,
@@ -2305,8 +2237,6 @@ function loadData() {
     }
     if (d.address)  document.getElementById('address').value  = d.address;
     if (d.beds)     document.getElementById('beds').value     = d.beds;
-    if (d.emisId)   document.getElementById('emisId').value   = d.emisId;
-    if (d.emisPw)   document.getElementById('emisPw').value   = d.emisPw;
     (d.depts || []).forEach(id => {
       const el = document.getElementById(id);
       if (el) el.checked = true;
@@ -2324,10 +2254,6 @@ function loadData() {
    Print
 ═══════════════════════════════════════ */
 function doPrint() {
-  const emisId = document.getElementById('emisId').value.trim() || '（未設定）';
-  const emisEl = document.getElementById('emis-id-display');
-  if (emisEl) emisEl.textContent = emisId;
-
   // rowspanセルは@media printでborder-top/bottomが効かないため
   // 印刷直前にインラインスタイルで上下の太線を設定する
   const catTds = document.querySelectorAll('#mainTable .cat-td');
@@ -2371,10 +2297,6 @@ function printBlank() {
   const wasLocked = kt?.classList.contains('locked');
   if (wasLocked) kt.classList.remove('locked');
 
-  // EMIS ID を反映してからテーブルを再描画
-  const emisId = document.getElementById('emisId').value.trim() || '（未設定）';
-  const emisEl = document.getElementById('emis-id-display');
-  if (emisEl) emisEl.textContent = emisId;
   buildTable();
 
   // cat-tdの太線（rowspanセルはCSS @media printで効かないためインラインで設定）
