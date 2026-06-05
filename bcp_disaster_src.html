@@ -1063,15 +1063,15 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
     <div class="cb-grid">
       <label class="cb-label"><input type="checkbox" id="d_emr"      onchange="onProfileChange()"> 電子カルテ あり</label>
       <label class="cb-label"><input type="checkbox" id="d_icu"      onchange="onProfileChange()"> ICU / HCU あり</label>
-      <label class="cb-label"><input type="checkbox" id="d_or"       onchange="onProfileChange()"> 手術室</label>
-      <label class="cb-label"><input type="checkbox" id="d_dialysis" onchange="onProfileChange()"> 透析室</label>
-      <label class="cb-label"><input type="checkbox" id="d_rad"      onchange="onProfileChange()"> 放射線科</label>
-      <label class="cb-label"><input type="checkbox" id="d_lab"      onchange="onProfileChange()"> 臨床検査科</label>
-      <label class="cb-label"><input type="checkbox" id="d_blood"    onchange="onProfileChange()"> 輸血科</label>
-      <label class="cb-label"><input type="checkbox" id="d_pharma"   onchange="onProfileChange()"> 薬剤科</label>
-      <label class="cb-label"><input type="checkbox" id="d_nutri"    onchange="onProfileChange()"> 栄養科</label>
-      <label class="cb-label"><input type="checkbox" id="d_me"       onchange="onProfileChange()"> MEセンター</label>
-      <label class="cb-label"><input type="checkbox" id="d_steril"   onchange="onProfileChange()"> 中央器材室・滅菌室</label>
+      <label class="cb-label"><input type="checkbox" id="d_or"       onchange="onProfileChange()"> 手術・カテ_部門</label>
+      <label class="cb-label"><input type="checkbox" id="d_dialysis" onchange="onProfileChange()"> 透析_部門</label>
+      <label class="cb-label"><input type="checkbox" id="d_rad"      onchange="onProfileChange()"> 放射線_部門</label>
+      <label class="cb-label"><input type="checkbox" id="d_lab"      onchange="onProfileChange()"> 臨床検査_部門</label>
+      <label class="cb-label"><input type="checkbox" id="d_blood"    onchange="onProfileChange()"> 輸血_部門</label>
+      <label class="cb-label"><input type="checkbox" id="d_pharma"   onchange="onProfileChange()"> 薬剤_部門</label>
+      <label class="cb-label"><input type="checkbox" id="d_nutri"    onchange="onProfileChange()"> 栄養_部門</label>
+      <label class="cb-label"><input type="checkbox" id="d_me"       onchange="onProfileChange()"> ME_部門</label>
+      <label class="cb-label"><input type="checkbox" id="d_steril"   onchange="onProfileChange()"> 中央器材・滅菌_部門</label>
     </div>
   </div>
 
@@ -1402,12 +1402,18 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
    → 安全: Step 1 へ進む（帳票が有効化される）
 
 4. Step 1: 帳票の各項目を○△×で直接クリック評価する
+   →  ○:正常に運用中  
+      △:制限が係るも運用可能
+      ×:運用不可・復旧が必要
+     例）発電機は稼働しているが容量不足 → △
    → わからない項目は△にしておく
    → クリックするたびに Step 2/3 が自動更新される
+      全ての項目を評価する必要はない。
+      重要な項目だけでも評価するほど精度が上がる
 
 5. Step 2: 被害程度を確認する
    → クリック評価の結果からファジー推論で自動表示
-
+      
 6. Step 3: 行動基準を確認する
    → 外来・入院の該当列がハイライト表示される
    → 帳票下の「📌 行動基準の具体像」で具体的な行動内容を確認する
