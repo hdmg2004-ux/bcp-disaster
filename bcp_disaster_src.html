@@ -672,7 +672,7 @@ body {
 }
 .sub-td {
   text-align: left; padding: 5px 7px;
-  background: var(--bg-secondary); font-size: 0.6875rem;
+  background: var(--bg-secondary); font-size: 0.6875rem; font-weight: 600;
   white-space: normal; line-height: 1.35;
 }
 
@@ -763,8 +763,8 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
   color: #fff;
   font-size: 5pt;
   font-weight: 700;
-  width: 13pt;
-  padding: 6pt 2pt;
+  width: 36pt;
+  padding: 6pt 1pt;
   white-space: nowrap;
   overflow: visible;
 }
@@ -794,11 +794,11 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
 .kt2-sc.sel-s  { background: #9ca3af; color: #111; }   /* グレースケール: 旧 黄 */
 .kt2-sc.sel-x  { background: #374151; color: #fff; }   /* グレースケール: 旧 赤 */
 .kt2-dmg-hd    { background: #374151; color: #fff; font-size: 6.5pt; font-weight: 700; padding: 3pt 5pt; white-space: nowrap; }
-.kt2-dmg-cell  { background: #374151; color: #fff; font-size: 6.5pt; padding: 4pt 3pt; }
-.kt2-dmg-cell.sel { background: #111827; font-weight: 900; font-size: 7.5pt; } /* グレースケール: 旧 #3e62ad */
+.kt2-dmg-cell  { background: none; color: #333; font-size: 6.5pt; padding: 4pt 3pt; border: 0.5pt solid #999; }
+.kt2-dmg-cell.sel { background: #9ca3af; color: #000; font-weight: 900; font-size: 7.5pt; } /* ○△×選択セルと同トーンに統一。非選択は白背景で印刷インクを節約 */
 .kt2-act-lbl   { text-align: left; font-weight: 700; background: #f3f4f6; font-size: 6pt; white-space: nowrap; padding: 2pt 5pt; }
 .kt2-act-cell  { font-size: 6pt; line-height: 1.3; padding: 2.5pt 3pt; color: #333; }
-.kt2-act-cell.sel { background: #e5e7eb; font-weight: 700; color: #000; text-decoration: underline; } /* グレースケール: 旧 黄 */
+.kt2-act-cell.sel { background: #9ca3af; font-weight: 700; color: #000; text-decoration: underline; } /* 被害程度選択セルと同トーンに統一 */
 .kt2-step-bar {
   display: flex;
   align-items: center;
@@ -819,13 +819,19 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
 
 /* ─── Print ─── */
 @media print {
+  /* 背景色を印刷させる（ブラウザのデフォルトでは背景色は印刷されないため）。
+     選択済みセル（kt2-sc.sel-*）・被害程度の推定バッジ等、色分けが情報を持つ要素全てに必要。 */
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
   /* ── レイアウト: 評価・帳票タブのみ表示 ── */
   .hdr, .tab-bar,
-  #tab-setup, #tab-history, #tab-guide,
+  #tab-setup, #tab-action, #tab-history, #tab-guide,
   #step0-card, .no-print,
   .ticket-wrap { display: none !important; }
 
   #tab-eval { display: block !important; }
+
+  .print-only-footer { display: grid !important; }
 
   body { background: #fff; }
   .main { max-width: none !important; padding: 0 !important; }
@@ -844,7 +850,10 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
   .kt-hospital { font-size: 11pt; }
   .kt-subtitle  { font-size: 6.5pt; margin-top: 0; }
   .kt-meta      { font-size: 6.5pt; line-height: 1.4; }
-  .kt-alert     { font-size: 6pt; padding: 1pt 5pt; }
+  .kt-alert     {
+    font-size: 6pt; padding: 1pt 5pt;
+    color: #000 !important; background: #e5e7eb !important; border: 0.5pt solid #666 !important;
+  }
 
   /* Step バー */
   .step-bar { margin-top: 4pt !important; margin-bottom: 1pt; page-break-inside: avoid; }
@@ -854,7 +863,14 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
   }
   .step-bar .step-title { font-size: 7pt; }
   .step-legend { font-size: 6pt; margin-bottom: 3pt; line-height: 1.3; }
-  .fuzzy-badge { display: none !important; }
+
+  /* 推定バッジ: 深刻度に応じたグレー濃淡（level-0薄→level-4濃）。カラー印刷でも色分けせず統一する */
+  .fuzzy-badge { border: 0.5pt solid #666 !important; }
+  .fuzzy-badge.level-0 { background: #f3f4f6 !important; color: #000 !important; }
+  .fuzzy-badge.level-1 { background: #e5e7eb !important; color: #000 !important; }
+  .fuzzy-badge.level-2 { background: #d1d5db !important; color: #000 !important; }
+  .fuzzy-badge.level-3 { background: #9ca3af !important; color: #000 !important; }
+  .fuzzy-badge.level-4 { background: #4b5563 !important; color: #fff !important; }
 
   /* テーブル全セル: 細罫線・白背景・黒文字 */
   .tt th, .tt td {
@@ -888,9 +904,9 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
 
   /* ○△× セル */
   .sc { font-size: 8pt !important; }
-  /* 選択された記号: 太字・大きく */
-  .sc.sel { font-weight: 900 !important; font-size: 11pt !important; }
-  .sc.sel.m, .sc.sel.s, .sc.sel.x { font-weight: 900 !important; font-size: 11pt !important; }
+  /* 選択された記号: 太字・大きく・薄いグレー背景（白黒印刷でも判別できる濃さ） */
+  .sc.sel { font-weight: 900 !important; font-size: 11pt !important; background: #d1d5db !important; }
+  .sc.sel.m, .sc.sel.s, .sc.sel.x { font-weight: 900 !important; font-size: 11pt !important; background: #d1d5db !important; }
   /* 未選択で有効な記号: 薄いグレー・小さく */
   .sc:not(.sel):not(.na) { color: #bbb !important; font-size: 7pt !important; background: none !important; }
   /* 選択不可（—）: さらに薄く */
@@ -906,12 +922,13 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
     border: 0.5pt solid #666 !important;
   }
   .dmg-sel-cell.sel {
+    background: #d1d5db !important;
     border: 2.5pt solid #000 !important; font-weight: 900 !important;
   }
 
   /* Step 3 */
   .act-cell { font-size: 6pt !important; padding: 2pt 3pt !important; line-height: 1.2 !important; }
-  .act-cell.sel { font-weight: 900 !important; text-decoration: underline !important; background: none !important; }
+  .act-cell.sel { font-weight: 900 !important; text-decoration: underline !important; background: #d1d5db !important; }
   .step3-lbl { font-size: 6.5pt !important; padding: 2pt 4pt !important; background: none !important; }
 
   .kt-footer { margin-top: 2pt; padding-top: 2pt; font-size: 5pt; }
@@ -1029,6 +1046,10 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
   <button class="tab-btn active" onclick="switchTab('setup')">⚙️ 初回設定</button>
   <button class="tab-btn"        onclick="switchTab('eval')">📋 評価・帳票</button>
   <button class="tab-btn"        onclick="switchTab('history')">📅 判断履歴</button>
+  <!-- v2 dist先行公開のため一時非表示（2026/07/13）。層2のEVENTS/NODESを操作する
+       入力UIが未実装のため、アクション・カードタブは現状「常に発火なし」の空表示にしかならない。
+       層2入力UI実装後にコメントを外して復活させる。 -->
+  <!-- <button class="tab-btn"        onclick="switchTab('action')">🎯 アクション・カード</button> -->
   <button class="tab-btn"        onclick="switchTab('guide')">📖 運用ガイド</button>
 </nav>
 
@@ -1070,7 +1091,7 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
       <label class="cb-label"><input type="checkbox" id="d_blood"    onchange="onProfileChange()"> 輸血_部門</label>
       <label class="cb-label"><input type="checkbox" id="d_pharma"   onchange="onProfileChange()"> 薬剤_部門</label>
       <label class="cb-label"><input type="checkbox" id="d_nutri"    onchange="onProfileChange()"> 栄養_部門</label>
-      <label class="cb-label"><input type="checkbox" id="d_me"       onchange="onProfileChange()"> ME_部門</label>
+      <label class="cb-label"><input type="checkbox" id="d_me"       onchange="onProfileChange()"> 臨床工学_部門</label>
       <label class="cb-label"><input type="checkbox" id="d_steril"   onchange="onProfileChange()"> 中央器材・滅菌_部門</label>
     </div>
   </div>
@@ -1210,7 +1231,7 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
     <table class="tt">
       <thead>
         <tr>
-          <th colspan="2" style="text-align:left;padding-left:6px;width:60px">診療区分</th>
+          <th colspan="2" style="text-align:left;padding-left:6px;width:60px"></th>
           <th>被害０</th><th>被害１</th><th>被害２</th><th>被害３</th><th>被害４</th>
         </tr>
       </thead>
@@ -1235,15 +1256,15 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
       </tbody>
     </table>
 
-    <!-- フッター記入欄 -->
-    <div style="margin-top:0.5rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;font-size:0.625rem">
+    <!-- フッター記入欄（印刷時のみ表示） -->
+    <div class="print-only-footer" style="margin-top:0.5rem;display:none;grid-template-columns:1fr 1fr 1fr;gap:4px;font-size:0.625rem">
       <div style="border:0.5px solid #aaa;padding:3px 5px;min-height:18px">評価者：</div>
       <div style="border:0.5px solid #aaa;padding:3px 5px;min-height:18px">確認者：</div>
       <div style="border:0.5px solid #aaa;padding:3px 5px;min-height:18px">掲示日時：</div>
     </div>
 
     <div class="kt-footer">
-      <span>東京医療減災Labo（東京都立病院機構）／ 無償提供 / Ver.1.0</span>
+      <span>東京医療減災Labo（東京都立病院機構）／ 無償提供 / Ver.2.0</span>
       <span id="ktFooter">○○病院　BCP</span>
     </div>
 
@@ -1263,7 +1284,7 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
     <table class="tt">
       <thead>
         <tr>
-          <th style="text-align:left;padding-left:6px">病院行動評価群</th>
+          <th>被害程度</th>
           <th>被害０</th><th>被害１</th>
           <th>被害２</th><th>被害３</th><th>被害４</th>
         </tr>
@@ -1291,7 +1312,7 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
       line-height:1.8;
     ">
       <strong style="color:var(--text-primary);display:block;margin-bottom:0.25rem">
-        病院行動評価群 Ver.4 と被害程度の対応（目安）
+        被害程度と病院行動評価群 Ver.4 の対応（目安）
       </strong>
       被害0 → 群III（通常運用/病床拡大）　
       被害1 → 群II（機能維持）　
@@ -1382,7 +1403,7 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
       </li>
       <li>
         <strong>印刷動作を確認しておく</strong><br>
-        「評価・帳票」タブの 🖨️ 印刷ボタン で評価結果をA4縦に出力できる。平時に一度試し印刷して、ブラウザの印刷設定（用紙サイズ A4・余白 標準）を確認しておく。
+        「評価・帳票」タブの 🖨️ 印刷ボタン で評価結果をA4縦に出力できる。平時に一度試し印刷して、ブラウザの印刷設定（用紙サイズ A4・余白 標準）を確認しておく。印刷レイアウトは<strong>Google Chrome</strong>での動作を基準にしているため、可能であればChromeで試しておく。
       </li>
       <li>
         <strong>操作を一度試しておく</strong><br>
@@ -1436,6 +1457,10 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
     </ol>
     <p style="margin-top:0.5rem">状況が変化したら再評価し、新しい票に印刷し直して張り替える。</p>
     <div class="g-note" style="margin-top:0.75rem">
+      <strong>【推奨ブラウザ】</strong><br>
+      印刷レイアウト（特に項目欄の縦書きカテゴリ表示）は <strong>Google Chrome</strong> での動作を基準に調整しています。Safari・DuckDuckGoブラウザ等では、印刷結果のレイアウトが崩れる場合があります。可能な限りChromeで印刷することを推奨します。
+    </div>
+    <div class="g-note" style="margin-top:0.5rem">
       <strong>【1枚に収まらない場合】</strong><br>
       ブラウザの印刷ダイアログで「倍率」を調整してください。<br>
       ・診療科項目が多い場合: 80〜85% を目安に縮小<br>
@@ -1463,6 +1488,22 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
 </div>
 </div>
 
+<div class="tab-content" id="tab-action">
+<div class="main">
+  <div class="card">
+    <div class="card-title">🎯 アクション・カード（<span id="actionDisasterLabel">-</span>）</div>
+    <p style="font-size:0.8125rem; color:var(--text-secondary); margin-bottom:0.875rem;">
+      発災状況に応じて、実施すべきステップが自動的に開きます。院内共通のカードであり、部署ごとにカスタマイズしません。
+    </p>
+    <div id="actionCardEmpty" class="warn-box" style="display:none;">
+      現時点で発火しているアクション・カードのステップはありません。[初回設定]で災害種別を選択し、[評価・帳票]タブで状況を入力すると、該当するステップがここに表示されます。
+    </div>
+    <div id="actionCardContainer"></div>
+  </div>
+</div>
+</div>
+
+
 
 <script>
 'use strict';
@@ -1470,43 +1511,378 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
 /* ═══════════════════════════════════════
    Data definitions
 ═══════════════════════════════════════ */
+// オールハザード統合構造：
+// - cond: 層0フィルタ。{function, facility} の複合形式。病院がこの項目を「持っているか」を判定する
+// - weight_by_disaster: 種別ごとの重み。キーが無い種別ではこの項目は評価対象外（画面にも出さない）
+// - note: 項目の重要性・注意点の補足説明。(i)マーク等での展開表示を想定（任意フィールド）
+// - example: ラベルから評価対象が一意に想像できない項目にのみ設定する具体例（任意フィールド）
 const ITEMS = [
-  { cat:'インフラ系', id:'infra1',  label:'一般電源',              states:['m','x'],     cond:'always'     },
-  { cat:'インフラ系', id:'infra2',  label:'非常用発電機',          states:['m','s','x'], cond:'always'     },
-  { cat:'インフラ系', id:'infra3',  label:'通信（内部）',          states:['m','s','x'], cond:'always'     },
-  { cat:'インフラ系', id:'infra4',  label:'通信（外部）',          states:['m','s','x'], cond:'always'     },
-  { cat:'インフラ系', id:'infra5',  label:'上水道',                states:['m','s','x'], cond:'always'     },
-  { cat:'インフラ系', id:'infra6',  label:'下水道',                states:['m','s','x'], cond:'always'     },
-  { cat:'医療ガス系',             id:'med1',   label:'酸素',                  states:['m','s','x'], cond:'always'     },
-  { cat:'医療ガス系',             id:'med3',   label:'吸引圧',                states:['m','s','x'], cond:'always'     },
-  { cat:'医療ガス系',             id:'med2',   label:'圧縮空気',              states:['m','s','x'], cond:'icu'        },
-  { cat:'搬送系',                 id:'phy1',   label:'エレベーター（非常用）', states:['m','s','x'], cond:'always'     },
-  { cat:'搬送系',                 id:'phy2',   label:'エレベーター（一般用）', states:['m','x'],     cond:'always'     },
-  { cat:'情報系',         id:'emr1',   label:'カルテ閲覧・記録',       states:['m','x'],     cond:'emr', sub:true },
-  { cat:'情報系',         id:'emr2',   label:'処方・検査オーダー',     states:['m','x'],     cond:'emr', sub:true },
-  { cat:'情報系',         id:'emr3',   label:'各部門システム',         states:['m','x'],     cond:'emr', sub:true },
-  { cat:'診療系',                 id:'clin1',  label:'手術・カテ_部門',                states:['m','s','x'], cond:'d_or'       },
-  { cat:'診療系',                 id:'clin_d', label:'透析_部門',                states:['m','s','x'], cond:'d_dialysis' },
-  { cat:'診療系',                 id:'clin2',  label:'放射線_部門',              states:['m','s','x'], cond:'d_rad'      },
-  { cat:'診療系',                 id:'clin3',  label:'臨床検査_部門',            states:['m','s','x'], cond:'d_lab'      },
-  { cat:'診療系',                 id:'clin4',  label:'輸血_部門',                states:['m','s','x'], cond:'d_blood'    },
-  { cat:'診療系',                 id:'clin5',  label:'薬剤_部門',                states:['m','s','x'], cond:'d_pharma'   },
-  { cat:'診療系',                 id:'clin6',  label:'栄養_部門',                states:['m','s','x'], cond:'d_nutri'    },
-  { cat:'診療系',                 id:'clin7',  label:'ME_部門',            states:['m','s','x'], cond:'d_me'       },
-  { cat:'診療系',                 id:'clin8',  label:'中央器材・滅菌_部門',    states:['m','s','x'], cond:'d_steril'   },
+  { cat:'インフラ系', id:'infra1', label:'一般電源',              states:['m','x'],     cond:{function:'always'}, weight_by_disaster:{earthquake:5, flood:5, ashfall:5} },
+  { cat:'インフラ系', id:'infra2', label:'非常用発電機',          states:['m','s','x'], cond:{function:'always'},
+    note:'燃料には限界があるので、限界申告の判断（2章参照）を検討する',
+    weight_by_disaster:{earthquake:5, flood:5, ashfall:5} },
+  { cat:'インフラ系', id:'infra3', label:'通信（内部）',          states:['m','s','x'], cond:{function:'always'}, weight_by_disaster:{earthquake:3, flood:3, ashfall:3} },
+  { cat:'インフラ系', id:'infra4', label:'通信（外部）',          states:['m','s','x'], cond:{function:'always'}, weight_by_disaster:{earthquake:3, flood:3, ashfall:3} },
+  { cat:'インフラ系', id:'infra5', label:'上水道',                states:['m','s','x'], cond:{function:'always'}, weight_by_disaster:{earthquake:5, flood:5, ashfall:5} },
+  { cat:'インフラ系', id:'infra6', label:'下水道',                states:['m','s','x'], cond:{function:'always'},
+    note:'降灰時は灰が水を含み膨張・固化して閉塞するリスクがある（原因は種別ごとに異なるが、同一項目として評価する）',
+    weight_by_disaster:{earthquake:5, flood:5, ashfall:5} },
+  { cat:'インフラ系', id:'infra_hvac', label:'空調設備',
+    example:'冷却塔（クーリングタワー）、空調フィルター、外気吸気口等',
+    note:'病院は温度変化に脆弱な患者が集中する場所であり、空調停止の影響は災害種別を問わず大きい。降灰では冷却塔閉塞による三系統（空調・電源・冷却）連鎖停止のリスクが特に高い',
+    states:['m','s','x'], cond:{function:'always'}, weight_by_disaster:{earthquake:2, flood:2, ashfall:2} },
+  { cat:'医療ガス系', id:'med1',  label:'酸素',                  states:['m','s','x'], cond:{function:'always'}, weight_by_disaster:{earthquake:4, flood:4, ashfall:4} },
+  { cat:'医療ガス系', id:'med2',  label:'圧縮空気',              states:['m','s','x'], cond:{function:'icu'},    weight_by_disaster:{earthquake:3, flood:3, ashfall:3} },
+  { cat:'医療ガス系', id:'med4',  label:'医療ガス',
+    note:'笑気ガス（亜酸化窒素）等、酸素・圧縮空気以外の中央配管ガス全般を包括する項目。原本（行動判断支援票2022.xlsx）の「医療系」カテゴリに酸素・圧縮空気・バキュームと並んで存在していたが実装時に欠落していたため、2026/07/08に復活。重みは圧縮空気と同値（3）とした：使用場面が全病棟共通ではなく限定的（主に手術室）、比較的代替手段を取りやすいという点で酸素・吸引圧より緊急性が低いという判断（一次資料に重みの直接根拠なし、推測に基づく確定）',
+    states:['m','s','x'], cond:{function:'icu'},    weight_by_disaster:{earthquake:3, flood:3, ashfall:3} },
+  { cat:'医療ガス系', id:'med3',  label:'吸引圧',                states:['m','s','x'], cond:{function:'always'}, weight_by_disaster:{earthquake:4, flood:4, ashfall:4} },
+  { cat:'搬送系',     id:'phy1',  label:'エレベーター（非常用）', states:['m','s','x'], cond:{function:'always'}, weight_by_disaster:{earthquake:2, flood:2, ashfall:2} },
+  { cat:'搬送系',     id:'phy2',  label:'エレベーター（一般用）', states:['m','x'],     cond:{function:'always'}, weight_by_disaster:{earthquake:1, flood:1, ashfall:1} },
+  { cat:'情報系',     id:'emr1',  label:'カルテ閲覧・記録',       states:['m','x'],     cond:{function:'emr'}, sub:true, weight_by_disaster:{earthquake:2, flood:2, ashfall:2} },
+  { cat:'情報系',     id:'emr2',  label:'処方・検査オーダー',     states:['m','x'],     cond:{function:'emr'}, sub:true, weight_by_disaster:{earthquake:2, flood:2, ashfall:2} },
+  { cat:'情報系',     id:'emr3',  label:'各部門システム',         states:['m','x'],     cond:{function:'emr'}, sub:true, weight_by_disaster:{earthquake:1, flood:1, ashfall:1} },
+  { cat:'診療系',     id:'clin1', label:'手術・カテ_部門',        states:['m','s','x'], cond:{function:'d_or'},      weight_by_disaster:{earthquake:3, flood:3, ashfall:3} },
+  { cat:'診療系',     id:'clin_d',label:'透析_部門',              states:['m','s','x'], cond:{function:'d_dialysis'},
+    note:'水害では1階配置の場合浸水リスクが高いが、個別の階数条件は持たせず、病院浸水ITEMSで包括的に評価する',
+    weight_by_disaster:{earthquake:2, flood:2, ashfall:2} },
+  { cat:'診療系',     id:'clin2', label:'放射線_部門',            states:['m','s','x'], cond:{function:'d_rad'},
+    note:'降灰ではMRI・CT等精密機器が微細な灰でショート・故障するリスクがある',
+    weight_by_disaster:{earthquake:2, flood:2, ashfall:2} },
+  { cat:'診療系',     id:'clin3', label:'臨床検査_部門',          states:['m','s','x'], cond:{function:'d_lab'},     weight_by_disaster:{earthquake:2, flood:2, ashfall:2} },
+  { cat:'診療系',     id:'clin4', label:'輸血_部門',              states:['m','s','x'], cond:{function:'d_blood'},   weight_by_disaster:{earthquake:2, flood:2, ashfall:2} },
+  { cat:'診療系',     id:'clin5', label:'薬剤_部門',              states:['m','s','x'], cond:{function:'d_pharma'},  weight_by_disaster:{earthquake:1.5, flood:1.5, ashfall:1.5} },
+  { cat:'診療系',     id:'clin6', label:'栄養_部門',              states:['m','s','x'], cond:{function:'d_nutri'},   weight_by_disaster:{earthquake:1, flood:1, ashfall:1} },
+  { cat:'診療系',     id:'clin7', label:'臨床工学_部門',          states:['m','s','x'], cond:{function:'d_me'},      weight_by_disaster:{earthquake:2, flood:2, ashfall:2} },
+  { cat:'診療系',     id:'clin8', label:'中央器材・滅菌_部門',    states:['m','s','x'], cond:{function:'d_steril'},  weight_by_disaster:{earthquake:1.5, flood:1.5, ashfall:1.5} },
+
+  // === 水害固有の被害結果ITEMS（9章確定分） ===
+  // 止水板設置状況（旧flood_teisuiban）はここには含めない。9章の結論により
+  // アクションカード（層3）の実行結果として通過点で記録する方式に変更したため。
+  { cat:'診療系', id:'flood_hospital_flooding', label:'病院浸水（内水氾濫）',
+    note:'水害固有の被害結果。止水板等の防御が破られた結果として評価する。NICU等一部区画のみの局所浸水はこの項目とは別に扱う（病院全体としての浸水被害を示す粒度のため）',
+    states:['m','s','x'], cond:{function:'always'}, weight_by_disaster:{flood:5} },
 ];
 
-const ITEM_WEIGHTS = {
-  infra1: 5,   infra2: 5,   infra3: 3,   infra4: 3,   infra5: 5,   infra6: 5,
-  med1:   4,   med2:   3,   med3:   4,
-  phy1:   2,   phy2:   1,
-  emr1:   2,   emr2:   2,   emr3:   1,
-  clin1:  3,   clin_d: 2,   clin2:  2,   clin3:  2,   clin4:  3,
-  clin5:  1.5, clin6:  1,   clin7:  2,   clin8:  1.5,
-};
+/* ═══════════════════════════════════════
+   Events（9章：イベントレイヤー）
+   外部トリガー型イベント。病院の外で起きる状況進行を表現する。
+   ITEMSとは独立。ノード（NODES）側がtriggered_byでこれらを参照する（9-4）。
+   source_typeは計算に影響しない。UI上の透明性表示用の属性としてのみ使う。
+═══════════════════════════════════════ */
+const EVENTS = [
+  // --- 震度（earthquake、9-7-3確定分） ---
+  { event_id:'earthquake_seismic_intensity', disaster_type:'earthquake', source_type:'confirmed_declaration',
+    label:'気象庁発表震度',
+    levels:[
+      { level_id:'s5strong',        label:'震度5強' },
+      { level_id:'s6weak_or_above', label:'震度6弱以上' },
+    ],
+    current_level_id:null,
+    note:'ITEMS側の被害評価（m/s/x）は本イベントと独立に人力入力される。組織体制トリガーとしてのみ機能する' },
+
+  // --- 水害（flood、9-7確定分） ---
+  { event_id:'flood_typhoon_approach', disaster_type:'flood', source_type:'predicted_value',
+    label:'台風進路予報', levels:null, occurred:null,
+    note:'トリガーには使わない参考情報。台風進路は変動するため閾値判定の対象にしない' },
+  { event_id:'flood_railway_suspension', disaster_type:'flood', source_type:'confirmed_declaration',
+    label:'鉄道計画運休の決定', levels:null, occurred:false },
+  { event_id:'flood_infrastructure_lockdown', disaster_type:'flood', source_type:'confirmed_declaration',
+    label:'道路・空港の閉鎖', levels:null, occurred:false },
+  { event_id:'flood_social_escalation', disaster_type:'flood', source_type:'confirmed_declaration',
+    label:'社会全体の非常体制移行度',
+    levels:[
+      { level_id:'weather_warning',    label:'気象警報発令' },
+      { level_id:'evacuation_info',    label:'自治体の避難情報発令', description:'自施設の属する基礎自治体への発令で判定' },
+      { level_id:'gov_hq_established', label:'政府・自治体の災害対策本部設置' },
+    ],
+    current_level_id:null,
+    note:'本部設置判断の遅れ（日和り）を牽制する可視化指標' },
+  { event_id:'flood_river_level', disaster_type:'flood', source_type:'confirmed_declaration',
+    label:'河川水位（自院近隣の観測所）',
+    levels:[
+      { level_id:'kaidan_chuui',  label:'氾濫注意', description:'氾濫注意水位到達・氾濫注意情報発表を同一段階として扱う' },
+      { level_id:'kaidan_keikai', label:'氾濫警戒', description:'氾濫警戒情報発表' },
+    ],
+    current_level_id:null },
+  { event_id:'flood_self_observed_flooding', disaster_type:'flood', source_type:'self_observed',
+    label:'自院での浸水確認（内水氾濫の発生そのもの）', levels:null, occurred:false,
+    note:'「浸水したという事実」の発生を表すイベント。浸水の程度（m/s/x）はITEMS側のflood_hospital_floodingが担う。lifeline_functionality_lostのトリガー候補の1つ（2026/07/12新設）' },
+  { event_id:'flood_power_outage', disaster_type:'flood', source_type:'self_observed',
+    label:'自院での停電発生', levels:null, occurred:false,
+    note:'浸水を伴わずに単独発生しうる（暴風による送電線断線等）。lifeline_functionality_lostのトリガー候補として浸水と並列に扱う（2026/07/12新設）' },
+
+  // --- 降灰（ashfall、9-7-2確定分） ---
+  { event_id:'ashfall_stage', disaster_type:'ashfall', source_type:'confirmed_declaration',
+    label:'降灰対策ステージ',
+    levels:[
+      { level_id:'stage1', label:'ステージ1（鉄道停止）',   description:'BCP発動トリガー' },
+      { level_id:'stage3', label:'ステージ3（大規模停電）', description:'病院単独では対処不能。都の優先復旧指定施設としての対応を待つ' },
+    ],
+    current_level_id:null,
+    note:'都の公式ステージ区分をそのまま採用' },
+  { event_id:'ashfall_forecast', disaster_type:'ashfall', source_type:'predicted_value',
+    label:'降灰予報（層厚予測・気象庁の階級表現）',
+    levels:[
+      { level_id:'sukoshi',    label:'少量' },
+      { level_id:'yaya_taryo', label:'やや多量' },
+      { level_id:'taryo',      label:'多量' },
+    ],
+    current_level_id:null },
+  { event_id:'ashfall_self_observed', disaster_type:'ashfall', source_type:'self_observed',
+    label:'自院での降灰確認', levels:null, occurred:false,
+    note:'ashfall_forecastのyaya_taryoと同一発火先への予備ルート。予報が外れて自院で先に確認された場合に同じ通過点へ収束させる（9-1一般化方針）' },
+];
+
+/* ═══════════════════════════════════════
+   Nodes（9章：通過点・決断の窓）
+   トリガー条件はノード側が持つ（9-4確定）。triggered_byの各条件はOR判定
+   （1つでも満たせば発火。9-6「種別ごとに複数のイベントを列挙できる」に対応）。
+   node_type: 'waypoint'（通過点） | 'decision_window'（決断の窓）
+   一部のtriggered_byは未確定のため空配列のまま（5章「未確定事項」参照、次回セッションで検討）。
+═══════════════════════════════════════ */
+const NODES = [
+  // --- オールハザード共通ノード（disaster_type: 'core'） ---
+  { node_id:'hq_establishment', disaster_type:'core', node_type:'waypoint',
+    label:'本部立ち上げ',
+    note:'震度・水位等と無関係にZERO HOURへの遷移そのものをトリガーとする。施設内人員のみで最小構成として即座に開始。triggered_byは空のため、S.nodeState.hq_establishment.declaredの操作（人間の宣言）で発火する',
+    triggered_by:[] },
+  { node_id:'executive_contact', disaster_type:'core', node_type:'waypoint',
+    label:'幹部連絡',
+    triggered_by:[
+      { event_id:'earthquake_seismic_intensity', min_level_id:'s5strong' },
+      { event_id:'flood_social_escalation',       min_level_id:'weather_warning' },
+      { event_id:'ashfall_stage',                 min_level_id:'stage1' },
+      // ashfall_stageのstage1（鉄道停止）は院内規程上のBCP発動トリガーであり、
+      // 「院長承認が必要」という運用（富士山噴火降灰対策チェックリスト1-3節）から、
+      // BCP発動と同時に幹部連絡は発生している前提で追加（2026/07/08確定）
+    ] },
+  { node_id:'auto_mobilization', disaster_type:'core', node_type:'waypoint',
+    label:'自動参集',
+    triggered_by:[
+      { event_id:'earthquake_seismic_intensity', min_level_id:'s6weak_or_above' },
+      { event_id:'flood_social_escalation',       min_level_id:'gov_hq_established' },
+      { event_id:'ashfall_stage',                 min_level_id:'stage1' },
+    ],
+    note:'「参集フェーズに入った」という組織全体の通過点であり、ノードとしてはこれ1つで確定（2026/07/12）。'
+      + '個々の職員の参集要否判断（自施設6km圏内／系列病院6km圏内／それ以外の在宅待機）は'
+      + '層3の自動参集アクションカードに委譲する' },
+  { node_id:'lifeline_functionality_lost', disaster_type:'core', node_type:'waypoint',
+    label:'ライフライン機能喪失',
+    triggered_by:[
+      { event_id:'earthquake_seismic_intensity', min_level_id:'s6weak_or_above' },
+      { event_id:'flood_self_observed_flooding', requires_occurred:true },
+      { event_id:'flood_power_outage',           requires_occurred:true },
+      { event_id:'ashfall_stage',                min_level_id:'stage3' },
+    ],
+    note:'セカンドアクション・カード（層3）のimmediateステップ以降が発火する通過点。'
+      + '「地震だから」「降灰だから」ではなく、ライフラインが機能喪失したという共通の事実を表す。'
+      + '選択の余地のない外部事実の記録であり通過点に確定する。水害は浸水・停電いずれかのOR条件で'
+      + '発火し、浸水の程度（m/s/x）を評価するITEMS側のflood_hospital_floodingとは区別する'
+      + '（2026/07/12新設）' },
+  { node_id:'stranded_person_handling', disaster_type:'core', node_type:'waypoint',
+    label:'帰宅困難患者・職員の取扱い検討',
+    note:'水害固有の通過点から9-7-1でオールハザード共通に格上げ',
+    triggered_by:[
+      { event_id:'flood_railway_suspension',      requires_occurred:true },
+      { event_id:'flood_infrastructure_lockdown', requires_occurred:true },
+    ] },
+  { node_id:'medical_continuation_decision', disaster_type:'core', node_type:'decision_window',
+    label:'医療継続の判断',
+    requires_predecessor:['hq_establishment'],
+    // hq_establishmentは施設内人員のみで最小構成として即座に開始する設計（9-4-1）。
+    // 幹部の参集・組織の完成を待つ意味ではなく、誰かが本部設置を宣言する行為そのものが
+    // 前提。夜間休日でもその場の責任者（上席当直医・管理看護師長等）が宣言すれば満たされる
+    // リニアな手続き（一次資料：災害発生時（夜間・休日）確認事項チェックリスト、2026/07/08確定）
+    triggered_by:[
+      { requires_damage_assessment:true },
+      { event_id:'flood_river_level', min_level_id:'kaidan_chuui' },
+    ] },
+  { node_id:'limit_declaration_consider', disaster_type:'core', node_type:'waypoint',
+    label:'限界申告を検討せよ',
+    note:'2章「限界の自己申告の原則」の初の具体化。選択の余地なし・記録のみ',
+    triggered_by:[
+      { event_id:'ashfall_stage', min_level_id:'stage3' },
+    ] },
+  { node_id:'limit_declaration_execute', disaster_type:'core', node_type:'decision_window',
+    label:'実際に限界を申告する',
+    note:'人間が任意のタイミングで自発的に開く。triggered_byは空のため、S.nodeState.limit_declaration_execute.declaredの操作（人間の宣言）で発火する',
+    triggered_by:[] },
+
+  // --- 降灰固有ノード（disaster_type: 'ashfall'） ---
+  { node_id:'ashfall_bcp_phase1', disaster_type:'ashfall', node_type:'decision_window',
+    label:'BCP第1段階',
+    triggered_by:[
+      { event_id:'ashfall_stage', min_level_id:'stage1' },
+    ] },
+  { node_id:'ashfall_filter_cooling_tower_protection', disaster_type:'ashfall', node_type:'waypoint',
+    label:'フィルター・冷却塔養生カード開始',
+    triggered_by:[
+      { event_id:'ashfall_forecast',      min_level_id:'yaya_taryo' },
+      { event_id:'ashfall_self_observed', requires_occurred:true },
+    ] },
+
+  // --- 水害固有ノード（disaster_type: 'flood'） ---
+  { node_id:'flood_teisuiban_setup', disaster_type:'flood', node_type:'decision_window',
+    label:'止水板設置決定',
+    triggered_by:[
+      { event_id:'flood_social_escalation', min_level_id:'weather_warning' },
+    ] },
+  { node_id:'flood_all_clinical_stop', disaster_type:'flood', node_type:'decision_window',
+    label:'全診療停止',
+    triggered_by:[
+      { event_id:'flood_social_escalation', min_level_id:'gov_hq_established' },
+    ] },
+];
+
+/* ═══════════════════════════════════════
+   ACTION_CARDS（層3：セカンドアクション・カード）
+   schema_v1.md 10章 確定版をそのまま移植（2026/07/12）。
+   stepsは種別を問わず常に4要素固定：approaching → immediate → first_hour → settled。
+   linked_node_idはstep単位（10-2確定）。表示判定は既存のisNodeReady()をそのまま
+   参照するだけとし（10-4未確定事項3、2026/07/12決着）、ACTION_CARDS側に条件を
+   複製しない。地震のapproachingはlinked_node_id:nullで「該当なし」を表す。
+
+   【設計原則】アクション・カードは院内共通・部署別カスタマイズ禁止（2026/07/13確定）。
+   部署別の独自カード（調査カード等）は本ツールの成果物ではなく、各病院が個別に作成する
+   頒布ポリシー。checklist要素は{text, cond}形式。condは「病院全体としての機能構成」に
+   応じて無意味な行を機械的に削るためだけに使う（部署ごとのカスタムではない）。condなし
+   ＝全病院共通で常に表示。既存のisVisible(cond)をそのまま再利用する（checkFunctionCond
+   はDOM（プロファイル設定フォームのチェックボックス）を読む前提のため、印刷出力時も
+   フォームの状態を経由して評価すること。DOM非依存の静的入力に対応させる場合は別途
+   isVisible相当の関数を分離する必要がある）。
+   21項目中condを付与したのは以下2件のみ（2026/07/13レビュー確定）：
+     - 地震/水害 first_hour「電子カルテの使用可否判断」→ {function:'d_emr'}
+     - 降灰 approaching「維持透析患者の都外移送の起動判断」→ {function:'d_dialysis'}
+   ヘリポート・冷却塔・MRI/CT関連の項目はcondを付与せず、必要に応じて
+   テキスト側に「（あれば）」等の注釈を入れるに留める（2026/07/13決定）。
+═══════════════════════════════════════ */
+const ACTION_CARDS = [
+  {
+    action_card_id: 'eq_second_action_card',
+    disaster_type: 'earthquake',
+    label: '地震時セカンドアクション・カード',
+    trigger_note: '自動参集基準を満たすような災害の場合、本部の指示を待たずに実施する（一次資料：'
+      + '02_公開用モデルBCP_別冊AC・資料「地震時セカンドアクション・カード」）。地震は点的に発災するため'
+      + 'approachingステップを持たない',
+    steps: [
+      { step_id: 'approaching', linked_node_id: null, time_label: '（該当なし）', checklist: [],
+        note: '地震は予兆をもって予測できないため、事前段階のチェック項目を持たない' },
+      { step_id: 'immediate', linked_node_id: 'lifeline_functionality_lost', time_label: '発災後30分以内', checklist: [
+        { text: 'トイレ、水道の使用禁止（貼り紙、口頭）' },
+        { text: '「災害対策本部連絡専用」と電話に表示' },
+        { text: '避難経路・避難順位の確認、ルートの整理' },
+        { text: '節電対策の実施' },
+        { text: '本部情報の記録と整理' },
+      ]},
+      { step_id: 'first_hour', linked_node_id: 'lifeline_functionality_lost', time_label: '発災後1時間', checklist: [
+        { text: '非常用トイレの準備および使用方法の徹底' },
+        { text: '患者持ち込み電気機器の使用禁止指示' },
+        { text: '電子カルテの使用可否判断（1時間経過でも本部から連絡なければ紙カルテ対応）', cond: { function: 'd_emr' } },
+        { text: '室内の片付け、物品整理' },
+        { text: '防寒対策' },
+      ]},
+      { step_id: 'settled', linked_node_id: 'lifeline_functionality_lost', time_label: 'ある程度落ち着いたら', checklist: [
+        { text: '勤務外職員の安否確認' },
+        { text: '面会者対応' },
+        { text: '勤務調整・休憩' },
+        { text: '院からの供給品の搬入' },
+      ]},
+    ],
+  },
+  {
+    action_card_id: 'flood_second_action_card',
+    disaster_type: 'flood',
+    label: '水害時セカンドアクション・カード',
+    trigger_note: 'immediateへの遷移条件は「浸水発生（flood_self_observed_flooding）」または'
+      + '「停電発生（flood_power_outage）」のOR条件（lifeline_functionality_lost、10-A-6）。'
+      + '台風接近中（approaching）の段階でも停電が単独で発生すればimmediateへ遷移する（2026/07/12確定）',
+    steps: [
+      { step_id: 'approaching', linked_node_id: 'flood_teisuiban_setup', time_label: '接近中・浸水前', checklist: [
+        { text: '止水板の破損・越流の有無確認' },
+        { text: '浸水区画からの患者・物品の垂直避難（1階等、低層階から優先）' },
+        { text: '電源盤・受変電設備の浸水想定区画の再確認（地下・低層階に設置されている場合）' },
+      ]},
+      { step_id: 'immediate', linked_node_id: 'lifeline_functionality_lost', time_label: '浸水発生後・直後対応', checklist: [
+        { text: 'トイレ、水道の使用禁止（貼り紙、口頭）' },
+        { text: '「災害対策本部連絡専用」と電話に表示' },
+        { text: '避難経路・避難順位の確認、ルートの整理' },
+        { text: '節電対策の実施' },
+        { text: '本部情報の記録と整理' },
+      ]},
+      { step_id: 'first_hour', linked_node_id: 'lifeline_functionality_lost', time_label: '浸水発生後1時間', checklist: [
+        { text: '非常用トイレの準備および使用方法の徹底' },
+        { text: '患者持ち込み電気機器の使用禁止指示' },
+        { text: '電子カルテの使用可否判断（1時間経過でも本部から連絡なければ紙カルテ対応）', cond: { function: 'd_emr' } },
+        { text: '室内の片付け、物品整理' },
+        { text: '防寒対策' },
+        { text: '浸水範囲の拡大有無の継続監視（水位・止水板の状況）' },
+        { text: 'エレベーター停止時の階段避難動線の確認（浸水による停電併発時）' },
+      ]},
+      { step_id: 'settled', linked_node_id: 'lifeline_functionality_lost', time_label: 'ある程度落ち着いたら', checklist: [
+        { text: '勤務外職員の安否確認' },
+        { text: '面会者対応' },
+        { text: '勤務調整・休憩' },
+        { text: '院からの供給品の搬入' },
+        { text: '施設の安全確認' },
+        { text: 'ヘリポートの使用可否の確認（あれば）' },
+        { text: '職員出勤のための止水板撤去の要否判断' },
+      ]},
+    ],
+  },
+  {
+    action_card_id: 'ashfall_second_action_card',
+    disaster_type: 'ashfall',
+    label: '降灰時セカンドアクション・カード',
+    trigger_note: 'stage1（鉄道停止）以降は降灰固有の緩やかな対応が続く。stage3（大規模停電）'
+      + 'または個別のライフライン機能喪失（冷却塔停止等）が発生した時点で、地震・水害と共通の'
+      + 'ライフライン喪失対応（immediate以降）に切り替わる。この切り替えは他種別同様、単発の'
+      + '事象ではなく複数のトリガー候補のOR条件として扱う',
+    steps: [
+      { step_id: 'approaching', linked_node_id: 'ashfall_filter_cooling_tower_protection', time_label: 'stage1発生後・降灰前', checklist: [
+        { text: '除灰ゾーニング（清潔エリア・汚染エリアの境界）の稼働開始' },
+        { text: 'フィルター・冷却塔養生カードの実施（ashfall_filter_cooling_tower_protection）' },
+        { text: '窓・ドア・空調吸気口の目張り、医療機器の養生' },
+        { text: 'MRI・CT等精密機器の早期電源オフ・保護モード移行の判断' },
+        { text: '維持透析患者の都外移送の起動判断（前兆期での判断が必須、3時間経過で搬送困難化）', cond: { function: 'd_dialysis' } },
+      ]},
+      { step_id: 'immediate', linked_node_id: 'lifeline_functionality_lost', time_label: 'ライフライン機能喪失発生後・直後対応', checklist: [
+        { text: 'トイレ、水道の使用禁止（貼り紙、口頭）' },
+        { text: '「災害対策本部連絡専用」と電話に表示' },
+        { text: '避難経路・避難順位の確認、ルートの整理' },
+        { text: '節電対策の実施' },
+        { text: '本部情報の記録と整理' },
+        { text: '冷却塔停止に伴う代替冷却手段への切り替え' },
+      ]},
+      { step_id: 'first_hour', linked_node_id: 'lifeline_functionality_lost', time_label: 'ライフライン機能喪失後1時間', checklist: [
+        { text: '非常用トイレの準備および使用方法の徹底' },
+        { text: '患者持ち込み電気機器の使用禁止指示' },
+        { text: '電子カルテの使用可否判断（1時間経過でも本部から連絡なければ紙カルテ対応）', cond: { function: 'd_emr' } },
+        { text: '室内の片付け、物品整理' },
+        { text: '防寒対策' },
+        { text: '医療用酸素の在庫日数の再確認（供給途絶時の診療縮小基準の適用判断）' },
+      ]},
+      { step_id: 'settled', linked_node_id: 'lifeline_functionality_lost', time_label: 'ある程度落ち着いたら', checklist: [
+        { text: '勤務外職員の安否確認' },
+        { text: '面会者対応' },
+        { text: '勤務調整・休憩' },
+        { text: '院からの供給品の搬入' },
+        { text: '除灰ゾーニングの運用状況の見直し' },
+        { text: '都の電力優先復旧指定施設としての復旧要請状況の確認（stage3の場合）' },
+      ]},
+    ],
+  },
+];
 
 const STATUS_SCORES = { m: 0, s: 1, x: 3 };
 
+// オールハザード統合構造：種別をキーとして単一オブジェクトに格納する。
+// 「種別BCP」へのアンチテーゼという心意気に基づき、種別ごとに別ファイル・別変数へ分割しない。
+// MEMBERSHIP_PARAMSはオールハザード共通の単一テーブル。種別で分けない。
+// 根拠：この境界値は災害の物理的特性ではなく、行動判断支援票の原案作成時に
+// 災害対策委員会へ行った「このスコアならどう動くか」というアンケートをファジー推論にかけて
+// 逆算したもの。委員会が答えていたのは医療機能の深刻度に対する行動判断の閾値感覚であり、
+// 地震固有の特性にチューニングされたものではない。よって種別を問わず共通で使える。
 const MEMBERSHIP_PARAMS = {
   0: { a: 0.0, b: 0.0, c: 0.3, d: 0.5 },
   1: { a: 0.3, b: 0.5, c: 0.7, d: 1.0 },
@@ -1554,6 +1930,8 @@ const S = {
   step0Result: null,   // 'safe' | 'danger' | null
   cellState:   {},     // { itemId: 'm'|'s'|'x' }
   damageLevel: null,   // 0–4
+  eventState:  {},     // { event_id: { currentLevelId: string|null, occurred: boolean|null } }
+  nodeState:   {},     // { node_id: { declared: boolean } } 人間が自発的に開くノードの宣言状態
 };
 
 /* ═══════════════════════════════════════
@@ -1574,6 +1952,10 @@ updateClock();
 /* ═══════════════════════════════════════
    Tab navigation
 ═══════════════════════════════════════ */
+// v2 dist先行公開のため'action'を一時除外（2026/07/13）。DOM上のタブボタン順と
+// 必ず一致させること（switchTabはインデックス対応のため、ズレるとタブのハイライトと
+// 表示内容が食い違うバグになる。実際に本バグが一度発生し、判断履歴タブをクリックした
+// のにアクション・カードの中身が表示される不具合として現れた）。
 const TAB_IDS = ['setup','eval','history','guide'];
 function switchTab(id) {
   document.querySelectorAll('.tab-btn').forEach((b, i) => {
@@ -1586,6 +1968,7 @@ function switchTab(id) {
     updateKtHeader();
     buildTable();
   }
+  if (id === 'action') renderActionCards();
 }
 
 /* ═══════════════════════════════════════
@@ -1596,6 +1979,24 @@ function onProfileChange() {
   document.getElementById('hdrHospital').textContent = name;
   // 帳票ヘッダーを更新
   updateKtHeader();
+  autoSave();
+  buildTable();
+}
+
+// 災害種別の切り替え（層0）。種別変更は「新しい発災」とみなし、eventState/nodeStateを
+// 自動リセットする（2026/07/13確定）。手動リセット（resetEval）とは異なり確認ダイアログは
+// 出さない。ITEMS評価（S.cellState等）は種別を跨いでも意味を持ちうるため保持する。
+//
+// v2 dist先行公開のため、この関数を呼び出すUI（初回設定タブの災害種別選択カード）は
+// 一時削除済み（2026/07/13）。呼び出し元がなくなったが、関数自体はB案（アクション・
+// カードタブと同じ扱い）でコードを残し、層2入力UI実装時に再利用する。
+// gatherData/loadData内のdisasterType保存・復元処理も同様の理由で残置。
+function onDisasterTypeChange() {
+  const checked = document.querySelector('input[name="disasterType"]:checked');
+  if (!checked) return;
+  currentDisasterType = checked.value;
+  S.eventState = initEventState();
+  S.nodeState  = initNodeState();
   autoSave();
   buildTable();
 }
@@ -1614,12 +2015,275 @@ function saveProfile() {
    Condition check
 ═══════════════════════════════════════ */
 function isVisible(cond) {
-  if (cond === 'always') return true;
-  if (cond === 'emr')    return !!document.getElementById('d_emr')?.checked;
-  if (cond === 'icu')    return !!document.getElementById('d_icu')?.checked;
-  return !!document.getElementById(cond)?.checked;
+  // TODO(v2.0リリース前に削除): 旧cond文字列形式との後方互換用。全ITEMSを複合形式{function, facility}に統一したら不要。
+  if (typeof cond === 'string') {
+    cond = { function: cond };
+  }
+
+  let result = true;
+  if (cond.function) {
+    result = result && checkFunctionCond(cond.function);
+  }
+  if (cond.facility) {
+    result = result && checkFacilityCond(cond.facility);
+  }
+  return result;
 }
-function getVisible() { return ITEMS.filter(it => isVisible(it.cond)); }
+
+function checkFunctionCond(fn) {
+  if (fn === 'always') return true;
+  if (fn === 'emr')    return !!document.getElementById('d_emr')?.checked;
+  if (fn === 'icu')    return !!document.getElementById('d_icu')?.checked;
+  return !!document.getElementById(fn)?.checked;
+}
+
+function checkFacilityCond(facility) {
+  // 施設・立地属性。現状はcheckFunctionCondと同じくDOM要素の状態を見るだけだが、
+  // 将来facilityの入力形式が数値等に変わった場合に個別対応できるよう関数を分けている。
+  return !!document.getElementById(facility)?.checked;
+}
+
+// 現在評価対象としている災害種別。α版では固定値。将来、層0のUIから切り替える想定。
+// TODO(層0UI実装時に置き換え): 現在は固定値。ドロップダウン等での動的切替に対応させる。
+let currentDisasterType = 'earthquake';
+
+/* ═══════════════════════════════════════
+   Event / Node判定（9章：イベントレイヤー）
+═══════════════════════════════════════ */
+
+// EVENTSの内容からS.eventStateの初期値を作る。levelsを持つイベントはcurrentLevelId:null、
+// occurred型はoccurred:falseで初期化する。
+function initEventState() {
+  const state = {};
+  EVENTS.forEach(ev => {
+    state[ev.event_id] = ev.levels
+      ? { currentLevelId: null, occurred: null }
+      : { currentLevelId: null, occurred: false };
+  });
+  return state;
+}
+
+// NODESの内容からS.nodeStateの初期値を作る。全ノードdeclared:falseで初期化する。
+// triggered_byを持たないノード（本部立ち上げ、限界申告の実行等）は、人間が明示的に
+// 宣言する行為によってのみ発火する。この宣言状態を保持する。
+function initNodeState() {
+  const state = {};
+  NODES.forEach(n => { state[n.node_id] = { declared: false }; });
+  return state;
+}
+
+// ノードが人間によって宣言済みかを判定する。
+function isDeclared(nodeId) {
+  const st = S.nodeState[nodeId];
+  return !!(st && st.declared);
+}
+
+// levelsを持つイベントについて、あるlevel_idが「到達済みか」を判定する。
+// levelsは配列の並び順を段階の進行順とみなし、現在値のindex >= 判定対象のindexなら到達済みとする。
+function isLevelReached(eventId, minLevelId) {
+  const ev = EVENTS.find(e => e.event_id === eventId);
+  if (!ev || !ev.levels) return false;
+  const st = S.eventState[eventId];
+  if (!st || !st.currentLevelId) return false;
+  const idxCurrent = ev.levels.findIndex(l => l.level_id === st.currentLevelId);
+  const idxTarget  = ev.levels.findIndex(l => l.level_id === minLevelId);
+  if (idxCurrent === -1 || idxTarget === -1) return false;
+  return idxCurrent >= idxTarget;
+}
+
+// occurred型イベントについて、発生済みかを判定する。
+function isOccurred(eventId) {
+  const st = S.eventState[eventId];
+  return !!(st && st.occurred);
+}
+
+// ノードのtriggered_by条件を判定する。条件は複数列挙されうるが、1つでも満たせば発火（OR判定、9-6）。
+// triggered_byが空配列のノード（本部立ち上げ、限界申告の実行等）は常にfalseを返す
+// （このタイプのノードはイベント発火ではなく、別のトリガー・人間の自発的判断で開く）。
+// requires_damage_assessment: ITEMS側の被害評価（S.damageLevel）が確定したことを条件にする。
+// これは病院の外で起きる状況進行（EVENTS）ではなくシステム内部の計算結果のため、
+// event_id参照とは別の条件タイプとして扱う（9-5未確定事項2の検討結果、2026/07/08確定）。
+function isNodeTriggered(node) {
+  if (!node.triggered_by || node.triggered_by.length === 0) return false;
+  return node.triggered_by.some(cond => {
+    if (cond.requires_damage_assessment) return S.damageLevel !== null;
+    if (cond.min_level_id) return isLevelReached(cond.event_id, cond.min_level_id);
+    if (cond.requires_occurred) return isOccurred(cond.event_id);
+    return false;
+  });
+}
+
+// requires_predecessorの前提ノード判定（AND条件）。triggered_byのOR判定とは別軸で扱う。
+// 前提ノードは「誰かが最小構成で宣言した」というリニアな手続き上の前提であり、
+// 幹部全員の参集や組織の完成を意味しない（hq_establishmentは施設内人員のみで即座に開始する
+// 設計、9-4-1参照）。前提ノード自体が発火済みかどうかは isNodeTriggered で判定する。
+// 前提を持たないノード（requires_predecessorが空/未定義）は常にtrueを返す。
+function arePredecessorsMet(node) {
+  if (!node.requires_predecessor || node.requires_predecessor.length === 0) return true;
+  return node.requires_predecessor.every(predId => {
+    const predNode = NODES.find(n => n.node_id === predId);
+    return predNode ? isNodeReady(predNode) : false;
+  });
+}
+
+// ノードが実際に発火しているとみなせるか。
+// triggered_byを持つノードはisNodeTriggered（システム自動判定）、
+// triggered_byが空のノード（人間が自発的に開くノード）はisDeclared（人間の宣言）で判定する。
+// いずれの場合も、前提ノード（requires_predecessor）を満たしていることが必要（AND）。
+function isNodeReady(node) {
+  const fired = (node.triggered_by && node.triggered_by.length > 0)
+    ? isNodeTriggered(node)
+    : isDeclared(node.node_id);
+  return fired && arePredecessorsMet(node);
+}
+
+// 現在の災害種別（currentDisasterType）に該当するノードのうち、発火済み（前提ノードも満たす）
+// ものを返す。disaster_type: 'core' のノードは全種別で共通して評価対象になる。
+function getTriggeredNodes() {
+  return NODES.filter(n =>
+    (n.disaster_type === 'core' || n.disaster_type === currentDisasterType) &&
+    isNodeReady(n)
+  );
+}
+
+/* ═══════════════════════════════════════
+   ACTION_CARDS 判定関数群（層3）
+   条件そのものはNODES（層2）が単一の情報源として持つ。ACTION_CARDS側は
+   linked_node_idによる参照のみを持ち、条件を複製しない（10-4未確定事項3、
+   2026/07/12決着）。
+═══════════════════════════════════════ */
+
+// 現在の災害種別（currentDisasterType）に該当するACTION_CARDSを返す。
+// disaster_type: 'core' のカードは存在しない前提だが、将来の拡張に備え同じ判定を適用する。
+function getActiveCards() {
+  return ACTION_CARDS.filter(c =>
+    c.disaster_type === 'core' || c.disaster_type === currentDisasterType
+  );
+}
+
+// 1枚のカードについて、現時点で「表示すべき」stepの配列を返す。
+// linked_node_idがnull（地震のapproaching等）のstepは常に非表示とする。
+// 対応するノードが存在しない、またはisNodeReady()がfalseのstepも非表示とする。
+function getActiveStepsForCard(card) {
+  return card.steps.filter(step => {
+    if (!step.linked_node_id) return false;
+    const node = NODES.find(n => n.node_id === step.linked_node_id);
+    return !!(node && isNodeReady(node));
+  });
+}
+
+// currentDisasterTypeに該当する全カードについて、表示すべきstepだけを
+// { card, step } のペアの配列として返す。UI実装時にそのまま描画ループへ渡せる形。
+// disaster_typeフィルタはgetActiveCards内で必ず適用する
+// （action_card_demo.jsで一度混入したバグ：フィルタ漏れで全種別のカードが出力される
+//   誤りの再発防止。handoff_v3参照）。
+function getActiveActionSteps() {
+  const result = [];
+  getActiveCards().forEach(card => {
+    getActiveStepsForCard(card).forEach(step => {
+      result.push({ card, step });
+    });
+  });
+  return result;
+}
+
+// 1つのstepのchecklistのうち、現在の病院プロファイル（フォームのチェック状態）で
+// 意味を持つ行だけを返す。既存のisVisible(cond)をそのまま再利用する（2026/07/13確定：
+// アクション・カードは院内共通・部署別カスタマイズ禁止。condは「病院全体としての
+// 機能構成」に応じた行の間引きのみに使う）。cond未指定の行は常に表示。
+function getVisibleChecklistItems(step) {
+  return step.checklist.filter(item => !item.cond || isVisible(item.cond));
+}
+
+function getVisible() {
+  return ITEMS.filter(it =>
+    isVisible(it.cond) &&
+    it.weight_by_disaster && (it.weight_by_disaster[currentDisasterType] !== undefined)
+  );
+}
+
+/* ═══════════════════════════════════════
+   ACTION_CARDS レンダリング（層3・本部PC用タブ）
+   1カード＝1 .step-card として描画し、そのカードのうち現時点で発火している
+   stepだけを本文に列挙する。stepの発火判定はgetActiveStepsForCard、
+   checklist行の間引きはgetVisibleChecklistItemsをそのまま使う（新規ロジックなし）。
+═══════════════════════════════════════ */
+const ACTION_STEP_LABELS = {
+  approaching: '予兆・事前段階',
+  immediate:   '発災・機能喪失直後',
+  first_hour:  '1時間後',
+  settled:     '落ち着いたら',
+};
+
+function renderActionCards() {
+  const label = document.getElementById('actionDisasterLabel');
+  const emptyBox = document.getElementById('actionCardEmpty');
+  const container = document.getElementById('actionCardContainer');
+
+  const cards = getActiveCards();
+  label.textContent = cards.length ? cards[0].label.replace('セカンドアクション・カード', '') : '-';
+
+  const activeSteps = getActiveActionSteps(); // [{card, step}, ...]
+  container.innerHTML = '';
+
+  if (activeSteps.length === 0) {
+    emptyBox.style.display = 'block';
+    return;
+  }
+  emptyBox.style.display = 'none';
+
+  // カード単位でグルーピングして描画（同じカードのstepをまとめて1つの.step-cardにする）
+  cards.forEach(card => {
+    const stepsForThisCard = activeSteps.filter(s => s.card === card).map(s => s.step);
+    if (stepsForThisCard.length === 0) return;
+
+    const cardEl = document.createElement('div');
+    cardEl.className = 'step-card';
+
+    const hd = document.createElement('div');
+    hd.className = 'step-hd';
+    hd.innerHTML = `<span class="step-badge">層3</span><span class="step-title">${escapeHtml(card.label)}</span>`;
+    cardEl.appendChild(hd);
+
+    const body = document.createElement('div');
+    body.className = 'step-body';
+
+    stepsForThisCard.forEach(step => {
+      const items = getVisibleChecklistItems(step);
+      if (items.length === 0) return;
+
+      const stepBlock = document.createElement('div');
+      stepBlock.style.marginBottom = '1rem';
+      const stepLabel = ACTION_STEP_LABELS[step.step_id] || step.step_id;
+      stepBlock.innerHTML = `<div style="font-size:0.8125rem;font-weight:700;color:var(--primary);margin-bottom:0.5rem;">
+        ${escapeHtml(stepLabel)}（${escapeHtml(step.time_label)}）
+      </div>`;
+
+      const ul = document.createElement('div');
+      items.forEach((item, idx) => {
+        const rowId = `ac_${card.action_card_id}_${step.step_id}_${idx}`;
+        const row = document.createElement('label');
+        row.className = 'cb-label';
+        row.style.display = 'flex';
+        row.style.marginBottom = '0.375rem';
+        row.innerHTML = `<input type="checkbox" id="${rowId}"><span>${escapeHtml(item.text)}</span>`;
+        ul.appendChild(row);
+      });
+      stepBlock.appendChild(ul);
+      body.appendChild(stepBlock);
+    });
+
+    cardEl.appendChild(body);
+    container.appendChild(cardEl);
+  });
+}
+
+// 既存コードベースにHTMLエスケープの共通関数がなければ簡易実装する
+function escapeHtml(s) {
+  const div = document.createElement('div');
+  div.textContent = String(s);
+  return div.innerHTML;
+}
 
 /* ═══════════════════════════════════════
    Build Step 1 table (kt/tt方式)
@@ -1647,7 +2311,17 @@ function buildTable() {
       const td = document.createElement('td');
       td.className = 'cat-td';
       td.rowSpan = catCount[it.cat];
-      td.textContent = it.cat;
+
+      // 「医療ガス系」専用処理：2行以下（酸素・吸引圧のみ、圧縮空気=ICU非該当）の場合は
+      // 縦書き5文字が収まらないため「ガス系」に短縮する。3行以上（圧縮空気を含む）なら正式名称のまま。
+      // これは医療ガス系という1カテゴリに限定した特別処理であり、他カテゴリへの一般化は
+      // 複数の具体例が出てから検討する（12-4「具体例が2つ以上出るまで一般化を保留する」）。
+      let catLabel = it.cat;
+      if (it.cat === '医療ガス系' && catCount[it.cat] <= 2) {
+        catLabel = 'ガス系';
+      }
+      td.textContent = catLabel;
+
       tr.appendChild(td);
       catDone[it.cat] = true;
     }
@@ -1704,6 +2378,7 @@ function calcAndUpdateStep2() {
   }
 
   S.damageLevel = result.level;
+  S.fuzzyScore  = result.score;
   const dmg = result.level;
 
   // Step2: 被害程度をハイライト（自動のみ）
@@ -1735,10 +2410,10 @@ function renderRecoveryItems(level) {
   const visible   = getVisible();
   const criticals = visible
     .filter(it => S.cellState[it.id] === 'x')
-    .sort((a, b) => (ITEM_WEIGHTS[b.id] ?? 1) - (ITEM_WEIGHTS[a.id] ?? 1));
+    .sort((a, b) => getItemWeight(b) - getItemWeight(a));
   const marginals = visible
     .filter(it => S.cellState[it.id] === 's')
-    .sort((a, b) => (ITEM_WEIGHTS[b.id] ?? 1) - (ITEM_WEIGHTS[a.id] ?? 1));
+    .sort((a, b) => getItemWeight(b) - getItemWeight(a));
 
   if (!criticals.length && !marginals.length) return '';
 
@@ -1746,14 +2421,14 @@ function renderRecoveryItems(level) {
     <div class="recovery-row">
       <div class="rk-badge rk-x">${i + 1}</div>
       <div class="recovery-name">${it.label}</div>
-      <div class="recovery-wt">重要度 ${ITEM_WEIGHTS[it.id] ?? 1}</div>
+      <div class="recovery-wt">重要度 ${getItemWeight(it)}</div>
     </div>`).join('');
 
   const margRows = marginals.map(it => `
     <div class="recovery-row">
       <div class="rk-badge rk-s rk-s-text">△</div>
       <div class="recovery-name">${it.label}</div>
-      <div class="recovery-wt">重要度 ${ITEM_WEIGHTS[it.id] ?? 1}</div>
+      <div class="recovery-wt">重要度 ${getItemWeight(it)}</div>
     </div>`).join('');
 
   return `
@@ -1779,13 +2454,19 @@ function trapezoid(x, a, b, c, d) {
   return (d - x) / (d - c);
 }
 
+// 現在の災害種別における項目の重みを取得する。未定義なら1を仮値として返す
+// （getVisibleで既に種別フィルタ済みのはずだが、フィルタを経由しない呼び出しに備えた保険）
+function getItemWeight(it) {
+  return it.weight_by_disaster?.[currentDisasterType] ?? 1;
+}
+
 function calcFuzzy() {
   const visible = getVisible();
   let totalScore = 0, totalWeight = 0;
   visible.forEach(it => {
     const st = S.cellState[it.id];
     if (st !== undefined) {
-      const w = ITEM_WEIGHTS[it.id] ?? 1;
+      const w = getItemWeight(it);
       totalScore  += w * (STATUS_SCORES[st] ?? 0);
       totalWeight += w;
     }
@@ -1936,15 +2617,15 @@ function recordHistory() {
   const visible  = getVisible();
   const crits    = visible
     .filter(it => S.cellState[it.id] === 'x')
-    .sort((a, b) => (ITEM_WEIGHTS[b.id] ?? 1) - (ITEM_WEIGHTS[a.id] ?? 1))
+    .sort((a, b) => getItemWeight(b) - getItemWeight(a))
     .map(it => it.label);
   const margs    = visible
     .filter(it => S.cellState[it.id] === 's')
-    .sort((a, b) => (ITEM_WEIGHTS[b.id] ?? 1) - (ITEM_WEIGHTS[a.id] ?? 1))
+    .sort((a, b) => getItemWeight(b) - getItemWeight(a))
     .map(it => it.label);
   const memo     = document.getElementById('memo-input')?.value?.trim() || '';
 
-  const rec = { ts, step0: S.step0Result, damage: dmg, group,
+  const rec = { ts, step0: S.step0Result, damage: dmg, group, fuzzyScore: S.fuzzyScore ?? null,
                 outAction: info.out, inpAction: info.inp, crits, margs, memo,
                 cellState: { ...S.cellState } };
 
@@ -2078,7 +2759,12 @@ function buildHistoryTicketHTML(entry) {
     let catTd = '';
     if (!catDone[item.cat]) {
       catDone[item.cat] = true;
-      catTd = `<td class="kt2-cat" rowspan="${catCount[item.cat]}">${item.cat}</td>`;
+      // 「医療ガス系」専用処理。画面表示側（1719行目付近）と同じ理由・同じ条件。
+      let catLabel = item.cat;
+      if (item.cat === '医療ガス系' && catCount[item.cat] <= 2) {
+        catLabel = 'ガス系';
+      }
+      catTd = `<td class="kt2-cat" rowspan="${catCount[item.cat]}">${catLabel}</td>`;
     }
     return `<tr>${catTd}<td class="kt2-item${item.sub ? ' sub' : ''}" style="${bBot}">${item.label}</td>
       ${sc('○','m','sel-m')}${sc('△','s','sel-s')}${sc('×','x','sel-x')}</tr>`;
@@ -2115,18 +2801,26 @@ function buildHistoryTicketHTML(entry) {
       </div>
       <div style="text-align:right;font-size:6pt;color:#555;line-height:1.9;">
         <div>記録日時：${entry.ts}</div>
-        <span style="color:#991b1b;font-weight:700;border:0.5pt solid #fca5a5;background:#fee2e2;padding:0 4pt;border-radius:2pt;display:inline-block;">発災直後使用 — 大きく貼り出すこと</span>
+        <span style="color:#000;font-weight:700;border:0.5pt solid #666;background:#e5e7eb;padding:0 4pt;border-radius:2pt;display:inline-block;">発災直後使用 — 大きく貼り出すこと</span>
       </div>
     </div>
     <div class="kt2-step-bar"><span class="kt2-step-no">Step 1</span><span class="kt2-step-title">各項目の状況</span></div>
-    <table class="kt2"><colgroup><col style="width:13pt"><col><col style="width:20pt"><col style="width:20pt"><col style="width:20pt"></colgroup>
+    <table class="kt2"><colgroup><col style="width:36pt"><col><col style="width:20pt"><col style="width:20pt"><col style="width:20pt"></colgroup>
       <thead><tr><th colspan="2" style="text-align:left;padding-left:6pt">項　目</th><th>○</th><th>△</th><th>×</th></tr></thead>
       <tbody>${s1rows}</tbody></table>
-    <div class="kt2-step-bar"><span class="kt2-step-no">Step 2</span><span class="kt2-step-title">被害程度を確認する</span></div>
+    <div class="kt2-step-bar" style="justify-content:space-between;">
+      <span><span class="kt2-step-no">Step 2</span><span class="kt2-step-title">被害程度を確認する</span></span>
+      ${(entry.fuzzyScore != null && dmg != null) ? (() => {
+        const grays = ['#f3f4f6', '#e5e7eb', '#d1d5db', '#9ca3af', '#4b5563'];
+        const bg = grays[dmg] ?? '#9ca3af';
+        const fg = dmg === 4 ? '#fff' : '#000';
+        return `<span style="font-size:6.5pt;font-weight:700;color:${fg};background:${bg};border:0.5pt solid #666;border-radius:8pt;padding:1.5pt 8pt;">推定: 被害${dmg}（スコア ${Number(entry.fuzzyScore).toFixed(2)}）</span>`;
+      })() : ''}
+    </div>
     <table class="kt2"><tbody><tr><td class="kt2-dmg-hd" style="width:52pt;text-align:left">被害程度</td>${dmgRow}</tr></tbody></table>
     <div class="kt2-step-bar"><span class="kt2-step-no">Step 3</span><span class="kt2-step-title">行動基準を確認する</span></div>
     <table class="kt2">
-      <thead><tr><th colspan="2" style="text-align:left;padding-left:6pt;width:60pt">診療区分</th><th>被害０</th><th>被害１</th><th>被害２</th><th>被害３</th><th>被害４</th></tr></thead>
+      <thead><tr><th colspan="2" style="text-align:left;padding-left:6pt;width:60pt"></th><th>被害０</th><th>被害１</th><th>被害２</th><th>被害３</th><th>被害４</th></tr></thead>
       <tbody>
         <tr><td class="kt2-cat" rowspan="3" style="font-size:4pt">行動基準</td><td class="kt2-act-lbl">外来</td>${actRow('out')}</tr>
         <tr><td class="kt2-act-lbl">入院</td>${actRow('inp')}</tr>
@@ -2169,6 +2863,8 @@ function resetEval() {
   S.step0Result = null;
   S.cellState   = {};
   S.damageLevel = null;
+  S.eventState  = initEventState();
+  S.nodeState   = initNodeState();
 
   // Step 0 リセット
   document.getElementById('step0-btns').style.display = '';
@@ -2219,11 +2915,14 @@ function gatherData() {
     hospitalName: document.getElementById('hospitalName').value,
     address:      document.getElementById('address').value,
     beds:         document.getElementById('beds').value,
+    disasterType: currentDisasterType,
     depts:        DEPT_IDS.filter(id => document.getElementById(id)?.checked),
     evalState: {
       step0Result: S.step0Result,
       cellState:   { ...S.cellState },
       damageLevel: S.damageLevel,
+      eventState:  JSON.parse(JSON.stringify(S.eventState)),
+      nodeState:   JSON.parse(JSON.stringify(S.nodeState)),
     },
   };
 }
@@ -2235,7 +2934,7 @@ function autoSave() {
 function loadData() {
   try {
     const raw = localStorage.getItem('bcp_disaster_profile');
-    if (!raw) return;
+    if (!raw) { S.eventState = initEventState(); S.nodeState = initNodeState(); return; }
     const d = JSON.parse(raw);
     if (d.hospitalName) {
       document.getElementById('hospitalName').value = d.hospitalName;
@@ -2243,6 +2942,11 @@ function loadData() {
     }
     if (d.address)  document.getElementById('address').value  = d.address;
     if (d.beds)     document.getElementById('beds').value     = d.beds;
+    if (d.disasterType) {
+      currentDisasterType = d.disasterType;
+      const radio = document.querySelector(`input[name="disasterType"][value="${d.disasterType}"]`);
+      if (radio) radio.checked = true;
+    }
     (d.depts || []).forEach(id => {
       const el = document.getElementById(id);
       if (el) el.checked = true;
@@ -2251,6 +2955,14 @@ function loadData() {
       S.step0Result = d.evalState.step0Result ?? null;
       S.damageLevel = d.evalState.damageLevel ?? null;
       Object.assign(S.cellState, d.evalState.cellState || {});
+      // eventState/nodeStateはEVENTS/NODES定義側で新規追加されている可能性があるため、
+      // init関数の結果に保存済みの値を上書きする形でマージする
+      // （保存データにないidはinit関数の初期値のまま残る）。
+      S.eventState = Object.assign(initEventState(), d.evalState.eventState || {});
+      S.nodeState  = Object.assign(initNodeState(),  d.evalState.nodeState  || {});
+    } else {
+      S.eventState = initEventState();
+      S.nodeState  = initNodeState();
     }
   } catch(e) {}
 }
@@ -2281,11 +2993,13 @@ function printBlank() {
   // 現在の状態を退避
   const savedCellState = { ...S.cellState };
   const savedDamage    = S.damageLevel;
+  const savedFuzzyScore= S.fuzzyScore;
   const savedStep0     = S.step0Result;
 
   // 状態を一時クリア
   Object.keys(S.cellState).forEach(k => delete S.cellState[k]);
   S.damageLevel = null;
+  S.fuzzyScore  = null;
   S.step0Result = null;
 
   // Step2/3 ハイライトをすべて解除
@@ -2297,6 +3011,14 @@ function printBlank() {
   }
   document.getElementById('action-details-area').innerHTML = '';
   document.getElementById('recovery-area').innerHTML = '';
+
+  // 推定バッジ（fuzzyBadge）も表示・中身を明示的にクリアする。
+  // damageLevel/fuzzyScoreを null にしても、DOM側のテキスト・クラスは前回描画のまま残るため。
+  const fuzzyBadgeEl = document.getElementById('fuzzyBadge');
+  if (fuzzyBadgeEl) {
+    fuzzyBadgeEl.className = 'fuzzy-badge';
+    fuzzyBadgeEl.textContent = '';
+  }
 
   // 帳票をアンロック
   const kt = document.getElementById('kt');
@@ -2323,6 +3045,7 @@ function printBlank() {
   // 状態を戻す
   Object.assign(S.cellState, savedCellState);
   S.damageLevel = savedDamage;
+  S.fuzzyScore  = savedFuzzyScore;
   S.step0Result = savedStep0;
   if (wasLocked) kt.classList.add('locked');
 
