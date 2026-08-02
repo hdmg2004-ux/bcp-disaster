@@ -27,6 +27,16 @@
   const _blob = new Blob([JSON.stringify(_manifest)], {type: 'application/json'});
   document.getElementById('pwa-manifest').href = URL.createObjectURL(_blob);
 </script>
+<script>
+  // Service Worker登録（オフライン動作対応）
+  // sw.js は同一ディレクトリ（public-html/）に配置すること。
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .catch((err) => console.warn('SW registration failed:', err));
+    });
+  }
+</script>
 <title>発災時行動判断支援ツール — 東京医療減災Labo</title>
 <style>
 /* ═══════════════════════════════════════
@@ -359,6 +369,80 @@ body {
 }
 .group0-label { font-size: 1.375rem; font-weight: 900; color: var(--danger-text); margin-bottom: 0.75rem; }
 .group0-desc  { font-size: 0.9rem; color: var(--danger-text); font-weight: 600; margin-bottom: 0.375rem; }
+
+/* EMIS入力促し */
+.emis-prompt {
+  background: var(--bg-primary);
+  border: 2px solid var(--primary);
+  border-radius: var(--radius-lg);
+  padding: 1.125rem;
+  margin-top: 1rem;
+  text-align: left;
+}
+.emis-prompt-title { font-size: 1rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem; }
+.emis-prompt-body   { font-size: 0.8125rem; color: var(--text-primary); line-height: 1.6; }
+
+/* 状況入力タブ：EVENTSブロック */
+.event-group { margin-bottom: 1.25rem; }
+.event-group:last-child { margin-bottom: 0; }
+.event-group-hd {
+  font-size: 0.8125rem; font-weight: 700; color: var(--text-secondary);
+  margin-bottom: 0.5rem; padding-bottom: 0.25rem; border-bottom: 1px solid var(--border-default);
+}
+.event-row {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 0; border-bottom: 1px dashed var(--border-default);
+}
+.event-row:last-child { border-bottom: none; }
+.event-label { font-size: 0.8125rem; font-weight: 600; color: var(--text-primary); flex: 1 1 auto; min-width: 200px; }
+.event-note  { font-size: 0.6875rem; color: var(--text-secondary); flex-basis: 100%; margin-top: 0.125rem; }
+.event-select {
+  font-size: 0.8125rem; padding: 0.3rem 0.5rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--border-default); background: var(--bg-primary); color: var(--text-primary);
+}
+.event-refonly { font-size: 0.75rem; color: var(--text-secondary); font-style: italic; }
+
+/* 発火ノード表示（状況入力タブ：今何が起きているか） */
+.node-fired-area { margin-top: 1.25rem; }
+.node-fired-empty {
+  font-size: 0.8125rem; color: var(--text-secondary);
+  padding: 0.75rem; text-align: center;
+}
+.node-card {
+  display: flex; align-items: flex-start; gap: 0.625rem;
+  padding: 0.75rem 0.875rem; border-radius: var(--radius-md);
+  margin-bottom: 0.5rem; border: 1px solid var(--border-default);
+}
+.node-card:last-child { margin-bottom: 0; }
+.node-card.waypoint { background: var(--bg-secondary); }
+.node-card.decision {
+  background: var(--warning-bg); border: 1px solid var(--warning-border);
+}
+.node-card-icon { font-size: 1.125rem; flex-shrink: 0; line-height: 1.3; }
+.node-card-body { flex: 1 1 auto; }
+.node-card-label { font-size: 0.875rem; font-weight: 700; color: var(--text-primary); }
+.node-card-tag {
+  display: inline-block; font-size: 0.6875rem; font-weight: 600; padding: 0.1rem 0.5rem;
+  border-radius: 999px; margin-left: 0.5rem; vertical-align: middle;
+}
+.node-card.waypoint .node-card-tag { background: var(--bg-primary); color: var(--text-secondary); border: 1px solid var(--border-default); }
+.node-card.decision .node-card-tag { background: var(--warning); color: #fff; }
+.node-card-note { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem; line-height: 1.5; }
+.node-card-declare-btn { margin-top: 0.5rem; }
+
+/* あなたが決めること（宣言型ノード） */
+.declare-card {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  padding: 0.875rem; border-radius: var(--radius-md);
+  margin-bottom: 0.625rem; border: 1px solid var(--border-default);
+  background: var(--bg-primary);
+}
+.declare-card:last-child { margin-bottom: 0; }
+.declare-card.is-declared { border-color: var(--primary); background: var(--bg-secondary); }
+.declare-card-body { flex: 1 1 auto; }
+.declare-card-label { font-size: 0.875rem; font-weight: 700; color: var(--text-primary); }
+.declare-card-note { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem; line-height: 1.5; }
+.declare-card-btnrow { margin-top: 0.625rem; }
 
 /* ─── Step 1 ─── */
 .progress-wrap { margin-bottom: 1rem; }
@@ -1044,6 +1128,7 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
 <!-- ─── Tab bar ─── -->
 <nav class="tab-bar">
   <button class="tab-btn active" onclick="switchTab('setup')">⚙️ 初回設定</button>
+  <button class="tab-btn"        onclick="switchTab('situation')">📡 状況入力</button>
   <button class="tab-btn"        onclick="switchTab('eval')">📋 評価・帳票</button>
   <button class="tab-btn"        onclick="switchTab('history')">📅 判断履歴</button>
   <!-- v2 dist先行公開のため一時非表示（2026/07/13）。層2のEVENTS/NODESを操作する
@@ -1116,17 +1201,20 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
 
 
 <!-- ════════════════════════════════════════════
-     TAB: 評価・帳票
+     TAB: 状況入力（層2：外部トリガー入力 + Step0）
 ════════════════════════════════════════════ -->
-<div class="tab-content" id="tab-eval">
+<div class="tab-content" id="tab-situation">
 <div class="main" style="max-width:860px">
 
-  <!-- ── Step 0: 場の安全確認（帳票の上に配置） ── -->
+  <!-- ── Step 0: 場の安全確認 ── -->
   <div class="step-card" id="step0-card" style="margin-bottom:1rem">
     <div class="step-hd">
       <span class="step-badge">Step 0</span>
       <span class="step-title">場の安全確認</span>
       <span class="step-status pending" id="step0-status">未実施</span>
+      <button class="btn btn-secondary btn-sm" style="flex-shrink:0" onclick="resetEval()">
+        🔄 評価をリセット
+      </button>
     </div>
     <div class="step-body">
       <p style="font-size:0.9375rem;font-weight:700;color:var(--text-primary)">
@@ -1157,12 +1245,59 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
           <p class="group0-desc">ただちに安全な場所へ退避してください。</p>
           <p class="group0-desc">患者・職員の安全確保を最優先にしてください。</p>
         </div>
+        <!-- EMIS緊急時入力の促し（背景：DMAT公式資料の知見を踏まえた表現。
+             handoff_v5_draft.md「プロジェクトの背景思想」参照。管理側からの要求ではなく
+             当事者側の生存戦略として提示する。「決まった」ではなく「決めた」＝待つの
+             ではなく決断する行為であることを表現） -->
+        <div class="emis-prompt">
+          <div class="emis-prompt-title">📡 群0（緊急避難）と判断した。まず、それだけをEMISで発信する。</div>
+          <p class="emis-prompt-body">
+            根拠が全部揃っていなくても大丈夫です。詳細な資源評価は後から少しずつ埋めれば
+            大丈夫です。まずはあなたの危機を多くの人に知らせましょう。
+          </p>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- ── 層2：外部トリガー入力（EVENTS） ── -->
+  <div class="card">
+    <div class="card-title">📡 外部の状況を入力する</div>
+    <p style="font-size:0.8125rem;color:var(--text-secondary);margin-bottom:0.75rem">
+      震度計や水位計の生の数値を入力する画面ではありません。気象庁発表・自治体発令など、
+      すでに確定した外部の情報を、確認した内容のまま選択してください。
+    </p>
+    <div id="situationEventsArea"></div>
+  </div>
+
+  <!-- ── 層2：人間による宣言（外部条件では判定しない意思決定） ── -->
+  <div class="card">
+    <div class="card-title">✋ あなたが決めること</div>
+    <p style="font-size:0.8125rem;color:var(--text-secondary);margin-bottom:0.75rem">
+      震度や水位がいくつであっても、これらは外部条件では自動的に決まりません。
+      その場の責任者が判断し、宣言してください。
+    </p>
+    <div id="declareArea"></div>
+  </div>
+
+  <!-- ── 今、何が起きているか（発火中のNODES） ── -->
+  <div class="card">
+    <div class="card-title">⚡ 今、発火している通過点・決断の窓</div>
+    <div id="nodeFiredArea"></div>
+  </div>
+
+</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     TAB: 評価・帳票
+════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-eval">
+<div class="main" style="max-width:860px">
+
   <!-- ── 行動判断支援票（.kt） ── -->
-  <div class="kt locked" id="kt">
+  <div class="kt" id="kt">
 
     <!-- 帳票ヘッダー -->
     <div class="kt-hd">
@@ -1616,11 +1751,14 @@ const EVENTS = [
   { event_id:'ashfall_stage', disaster_type:'ashfall', source_type:'confirmed_declaration',
     label:'降灰対策ステージ',
     levels:[
-      { level_id:'stage1', label:'ステージ1（鉄道停止）',   description:'BCP発動トリガー' },
-      { level_id:'stage3', label:'ステージ3（大規模停電）', description:'病院単独では対処不能。都の優先復旧指定施設としての対応を待つ' },
+      { level_id:'stage1', label:'ステージ1（鉄道停止）',     description:'BCP発動トリガー' },
+      { level_id:'stage2', label:'ステージ2（自動車走行不能）', description:'出勤禁止・当直継続。冷却塔停止。除灰ゾーニング設置。透析患者移送の最終判断（この段階が移送の最終窓）' },
+      { level_id:'stage3', label:'ステージ3（大規模停電）',   description:'病院単独では対処不能。都の優先復旧指定施設としての対応を待つ' },
     ],
     current_level_id:null,
-    note:'都の公式ステージ区分をそのまま採用' },
+    note:'都の公式ステージ区分をそのまま採用。ステージ2・3は降灰量として同じ（3〜30cm）だが、'
+      + '電力インフラの損傷有無で分岐する（fujisan_analysis_v4.docx 2.1節）。ステージ2は'
+      + '2026/07/22追加（垂水中央病院防災委員会の指摘反映、透析患者移送の決断の窓の前提として必須）' },
   { event_id:'ashfall_forecast', disaster_type:'ashfall', source_type:'predicted_value',
     label:'降灰予報（層厚予測・気象庁の階級表現）',
     levels:[
@@ -1721,6 +1859,22 @@ const NODES = [
       { event_id:'ashfall_forecast',      min_level_id:'yaya_taryo' },
       { event_id:'ashfall_self_observed', requires_occurred:true },
     ] },
+  { node_id:'dialysis_evacuation_consider', disaster_type:'ashfall', node_type:'waypoint',
+    label:'透析患者移送の検討を開始せよ',
+    note:'ステージ2移行後24時間以内が移送の最終窓（fujisan_analysis_v4.docx 6.2節、'
+      + '垂水中央病院防災委員会の指摘反映）。選択の余地なし・記録のみ（2026/07/22追加）',
+    triggered_by:[
+      { event_id:'ashfall_stage', min_level_id:'stage2' },
+    ] },
+  { node_id:'dialysis_evacuation_decide', disaster_type:'ashfall', node_type:'decision_window',
+    label:'透析患者の移送を判断する',
+    note:'院長が事前に判断基準を文書化しておくことが不可欠（fujisan_analysis_v4.docx 6.2節）。'
+      + 'ステージ2移行後24時間以内が最終窓——この窓を逃すと選択肢が消える。'
+      + '人間が任意のタイミングで自発的に開く。triggered_byは空のため、'
+      + 'S.nodeState.dialysis_evacuation_decide.declaredの操作（人間の宣言）で発火する'
+      + '（2026/07/22追加）',
+    requires_predecessor:['dialysis_evacuation_consider'],
+    triggered_by:[] },
 
   // --- 水害固有ノード（disaster_type: 'flood'） ---
   { node_id:'flood_teisuiban_setup', disaster_type:'flood', node_type:'decision_window',
@@ -1956,7 +2110,7 @@ updateClock();
 // 必ず一致させること（switchTabはインデックス対応のため、ズレるとタブのハイライトと
 // 表示内容が食い違うバグになる。実際に本バグが一度発生し、判断履歴タブをクリックした
 // のにアクション・カードの中身が表示される不具合として現れた）。
-const TAB_IDS = ['setup','eval','history','guide'];
+const TAB_IDS = ['setup','situation','eval','history','guide'];
 function switchTab(id) {
   document.querySelectorAll('.tab-btn').forEach((b, i) => {
     b.classList.toggle('active', TAB_IDS[i] === id);
@@ -1968,6 +2122,7 @@ function switchTab(id) {
     updateKtHeader();
     buildTable();
   }
+  if (id === 'situation') { renderSituationEvents(); renderDeclareArea(); renderNodeFired(); }
   if (id === 'action') renderActionCards();
 }
 
@@ -2078,6 +2233,16 @@ function isDeclared(nodeId) {
   return !!(st && st.declared);
 }
 
+// 人間による宣言行為そのもの。「限界申告の原則」（9-4-1確定）：triggered_byを持たない
+// ノードは外部条件では判定しない。人間の判断そのものが発火条件になる。取り消しも可能。
+function declareNode(nodeId, declared) {
+  if (!S.nodeState[nodeId]) S.nodeState[nodeId] = { declared: false };
+  S.nodeState[nodeId].declared = !!declared;
+  renderNodeFired();
+  renderDeclareArea();
+  autoSave();
+}
+
 // levelsを持つイベントについて、あるlevel_idが「到達済みか」を判定する。
 // levelsは配列の並び順を段階の進行順とみなし、現在値のindex >= 判定対象のindexなら到達済みとする。
 function isLevelReached(eventId, minLevelId) {
@@ -2095,6 +2260,102 @@ function isLevelReached(eventId, minLevelId) {
 function isOccurred(eventId) {
   const st = S.eventState[eventId];
   return !!(st && st.occurred);
+}
+
+/* ═══════════════════════════════════════
+   状況入力タブ（層2 EVENTS入力UI）
+   全種別を常時表示する（絞り込みなし。「全部見せる」設計思想、handoff_v5_draft.md参照）。
+   入力可否は source_type ではなく、実際にNODESのtriggered_byから参照されているか否かで
+   判断する（ashfall_forecastはpredicted_valueだがtriggered_byから参照される唯一の例外、
+   9-3コメント参照）。
+═══════════════════════════════════════ */
+const DISASTER_TYPE_LABELS = { earthquake: '🏚️ 震度（地震）', flood: '🌊 水害', ashfall: '🌋 降灰' };
+
+// あるevent_idが、いずれかのNODESのtriggered_byから参照されているか判定する。
+// 参照されていないイベント（flood_typhoon_approach等）は表示専用として扱う。
+function isEventReferencedByAnyNode(eventId) {
+  return NODES.some(n => (n.triggered_by || []).some(cond => cond.event_id === eventId));
+}
+
+function renderSituationEvents() {
+  const area = document.getElementById('situationEventsArea');
+  if (!area) return;
+
+  const order = ['earthquake', 'flood', 'ashfall'];
+  area.innerHTML = order.map(dt => {
+    const evs = EVENTS.filter(e => e.disaster_type === dt);
+    if (evs.length === 0) return '';
+    const rows = evs.map(ev => renderEventRow(ev)).join('');
+    return `
+      <div class="event-group">
+        <div class="event-group-hd">${DISASTER_TYPE_LABELS[dt]}</div>
+        ${rows}
+      </div>
+    `;
+  }).join('');
+}
+
+function renderEventRow(ev) {
+  const referenced = isEventReferencedByAnyNode(ev.event_id);
+  const noteHtml = ev.note ? `<div class="event-note">${ev.note}</div>` : '';
+
+  // 表示専用（トリガーとして参照されていないイベント。例：flood_typhoon_approach）
+  if (!referenced) {
+    return `
+      <div class="event-row">
+        <div class="event-label">${ev.label}</div>
+        <div class="event-refonly">参考情報（判断のトリガーには使いません）</div>
+        ${noteHtml}
+      </div>
+    `;
+  }
+
+  // levelsを持つイベント：セレクトボックス
+  if (ev.levels) {
+    const st = S.eventState[ev.event_id] || {};
+    const options = ['<option value="">未選択</option>']
+      .concat(ev.levels.map(l =>
+        `<option value="${l.level_id}"${st.currentLevelId === l.level_id ? ' selected' : ''}>${l.label}</option>`
+      )).join('');
+    return `
+      <div class="event-row">
+        <div class="event-label">${ev.label}</div>
+        <select class="event-select" onchange="onEventLevelChange('${ev.event_id}', this.value)">
+          ${options}
+        </select>
+        ${noteHtml}
+      </div>
+    `;
+  }
+
+  // occurred型：チェックボックス
+  const st = S.eventState[ev.event_id] || {};
+  return `
+    <div class="event-row">
+      <label class="cb-label" style="flex:1 1 auto">
+        <input type="checkbox" ${st.occurred ? 'checked' : ''}
+               onchange="onEventOccurredChange('${ev.event_id}', this.checked)">
+        ${ev.label}
+      </label>
+      ${noteHtml}
+    </div>
+  `;
+}
+
+function onEventLevelChange(eventId, levelId) {
+  if (!S.eventState[eventId]) S.eventState[eventId] = { currentLevelId: null, occurred: null };
+  S.eventState[eventId].currentLevelId = levelId || null;
+  renderDeclareArea();
+  renderNodeFired();
+  autoSave();
+}
+
+function onEventOccurredChange(eventId, checked) {
+  if (!S.eventState[eventId]) S.eventState[eventId] = { currentLevelId: null, occurred: false };
+  S.eventState[eventId].occurred = !!checked;
+  renderDeclareArea();
+  renderNodeFired();
+  autoSave();
 }
 
 // ノードのtriggered_by条件を判定する。条件は複数列挙されうるが、1つでも満たせば発火（OR判定、9-6）。
@@ -2144,6 +2405,114 @@ function getTriggeredNodes() {
     (n.disaster_type === 'core' || n.disaster_type === currentDisasterType) &&
     isNodeReady(n)
   );
+}
+
+/* ═══════════════════════════════════════
+   状況入力タブ：発火中NODESの表示
+   ①タブは「全部見せる」設計思想（handoff_v5_draft.md参照）のため、getTriggeredNodesの
+   currentDisasterTypeフィルタ（層0UI未実装のTODO、固定値'earthquake'）には依存せず、
+   種別を問わず全NODESを評価対象にする。EVENTSを入力した瞬間、何が発火したかを
+   即座に見せることが目的（「がっかりUI」対策として2026/07/16導入）。
+═══════════════════════════════════════ */
+function getAllTriggeredNodesAcrossTypes() {
+  return NODES.filter(n => isNodeReady(n));
+}
+
+/* ═══════════════════════════════════════
+   状況入力タブ：宣言型ノード（triggered_byが空、人間の宣言のみで発火）
+   「限界申告の原則」（9-4-1確定）：外部条件では判定しない、人間の判断そのものが
+   発火条件になるノード専用のUI。2026/07/16時点でNODES中2件のみ該当
+   （hq_establishment, limit_declaration_execute）。
+═══════════════════════════════════════ */
+function getDeclarableNodes() {
+  // 前提条件（requires_predecessor）を持つノードは、前提未達の間はカードごと非表示にする
+  // （2026/07/22変更：常時表示だと、まだ状況が至っていないのに重い決断が目に入り優先順位の
+  // 感覚を狂わせるとの指摘。前提を持たないノード（hq_establishment等）は従来通り常時表示）
+  return NODES.filter(n =>
+    n.triggered_by && n.triggered_by.length === 0 &&
+    arePredecessorsMet(n)
+  );
+}
+
+function renderDeclareArea() {
+  const area = document.getElementById('declareArea');
+  if (!area) return;
+
+  const nodes = getDeclarableNodes();
+  area.innerHTML = nodes.map(n => renderDeclareCard(n)).join('');
+}
+
+function renderDeclareCard(node) {
+  const declared = isDeclared(node.node_id);
+  const noteHtml = node.note ? `<div class="declare-card-note">${node.note}</div>` : '';
+  const btnHtml = declared
+    ? `<button class="btn btn-secondary btn-sm" onclick="declareNode('${node.node_id}', false)">
+         ✓ 宣言済み（取り消す）
+       </button>`
+    : `<button class="btn btn-primary btn-sm" onclick="declareNode('${node.node_id}', true)">
+         宣言する
+       </button>`;
+
+  return `
+    <div class="declare-card ${declared ? 'is-declared' : ''}">
+      <div class="declare-card-body">
+        <span class="declare-card-label">${node.label}</span>
+        ${noteHtml}
+        <div class="declare-card-btnrow">${btnHtml}</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderNodeFired() {
+  const area = document.getElementById('nodeFiredArea');
+  if (!area) return;
+
+  const fired = getAllTriggeredNodesAcrossTypes();
+  if (fired.length === 0) {
+    area.innerHTML = `<div class="node-fired-empty">まだ何も発火していません。上の状況を入力すると、ここに表示されます。</div>`;
+    return;
+  }
+
+  area.innerHTML = fired.map(n => renderNodeCard(n)).join('');
+}
+
+function renderNodeCard(node) {
+  const isDecision = node.node_type === 'decision_window';
+  const icon = isDecision ? '🔶' : '✅';
+  const tagLabel = isDecision ? '決断の窓' : '通過点';
+  const noteHtml = node.note ? `<div class="node-card-note">${node.note}</div>` : '';
+
+  // triggered_byが空のノード（人間の自発的宣言でのみ発火）は、まだ宣言していない場合
+  // ここには出てこない（isNodeReadyがfalseを返すため）。宣言済みノードが表示された場合、
+  // 宣言ボタンではなく「宣言済み」であることが分かる表示にする。
+  const declareBtn = (node.triggered_by && node.triggered_by.length === 0)
+    ? `<div class="node-card-note">✓ 宣言済み</div>`
+    : '';
+
+  // decision_windowには、対応するアクションカード（層3）一式を別ウィンドウ・印刷用に
+  // 開くリンクを置く想定。リンク先の実装は次回セッション以降（本セッションは層2完成が
+  // 優先、handoff_v5_draft.md「今後の予定」参照）。それまでは押しても何も起きない状態を
+  // 隠さず、準備中であることが分かる表示にしておく。
+  const actionLinkHtml = isDecision
+    ? `<button class="btn btn-secondary btn-sm node-card-declare-btn" disabled
+               title="対応するアクションカード一式を別ウィンドウで開く機能は準備中です">
+         🎯 対応するアクションカードを見る（準備中）
+       </button>`
+    : '';
+
+  return `
+    <div class="node-card ${isDecision ? 'decision' : 'waypoint'}">
+      <div class="node-card-icon">${icon}</div>
+      <div class="node-card-body">
+        <span class="node-card-label">${node.label}</span>
+        <span class="node-card-tag">${tagLabel}</span>
+        ${noteHtml}
+        ${declareBtn}
+        ${actionLinkHtml}
+      </div>
+    </div>
+  `;
 }
 
 /* ═══════════════════════════════════════
@@ -2528,6 +2897,11 @@ function markStepDone(id, text) {
 }
 
 /* ─── Step 0 ─── */
+// Step0は①状況入力タブに配置（v3で移設）。「危険あり」の場合は②評価・帳票タブへ
+// 移動しなくても①タブ内で群0確定・EMIS入力促しの結果が完結して見えるようにする
+// （①タブで即断・即発信できることを優先。handoff_v5_draft.md「全体設計思想」参照）。
+// ②タブの帳票（#kt）は常時ロック解除済みのため、ここでのlockedクラス操作は不要だが、
+// 「危険あり」時に被害4を強制ハイライトする処理自体は②タブ側の表示にも反映させるため維持する。
 function step0Select(choice) {
   S.step0Result = choice;
   document.getElementById('step0-btns').style.display = 'none';
@@ -2537,8 +2911,7 @@ function step0Select(choice) {
     document.getElementById('step0-status').textContent = '⚠ 危険あり';
     document.getElementById('step0-status').className = 'step-status pending';
     document.getElementById('group0-result').style.display = 'block';
-    // 帳票を有効化し、被害4を強制ハイライト
-    document.getElementById('kt').classList.remove('locked');
+    // ②タブの帳票側にも被害4の強制ハイライトを反映（②タブを開いた時に一致して見えるように）
     buildTable();
     for (let i = 0; i < 5; i++) {
       document.getElementById('d' + i)?.classList.toggle('sel', i === 4);
@@ -2550,9 +2923,9 @@ function step0Select(choice) {
     document.getElementById('recovery-area').innerHTML = '';
   } else {
     markStepDone('step0', '✓ 安全');
-    document.getElementById('kt').classList.remove('locked');
     buildTable();
-    document.getElementById('kt').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // 「安全」の場合のみ、次にやるべきStep1評価がある②タブへ誘導する
+    switchTab('eval');
   }
   autoSave();
 }
@@ -2872,8 +3245,10 @@ function resetEval() {
   document.getElementById('step0-status').textContent  = '未実施';
   document.getElementById('step0-status').className    = 'step-status pending';
 
-  // 帳票をロック
-  document.getElementById('kt').classList.add('locked');
+  // 帳票は常時ロック解除方針（v3）のため、ここでの再ロックは行わない
+  renderSituationEvents();
+  renderDeclareArea();
+  renderNodeFired();
 
   // Step 1 tbody クリア
   const tbody = document.getElementById('step1tbody');
@@ -3020,7 +3395,8 @@ function printBlank() {
     fuzzyBadgeEl.textContent = '';
   }
 
-  // 帳票をアンロック
+  // 帳票は常時ロック解除方針（v3）のため通常はlockedクラスを持たないが、
+  // 念のため印刷直前にアンロック状態を保証し、印刷後に元の状態へ戻す
   const kt = document.getElementById('kt');
   const wasLocked = kt?.classList.contains('locked');
   if (wasLocked) kt.classList.remove('locked');
@@ -3062,12 +3438,15 @@ window.addEventListener('DOMContentLoaded', () => {
   updateKtHeader();
   updateKtDateTime();
   setInterval(updateKtDateTime, 60000); // 1分ごとに更新
+  renderSituationEvents();
+  renderDeclareArea();
+  renderNodeFired();
 
-  // Restore Step 0 state
+  // Restore Step 0 state（①状況入力タブに配置。②タブの帳票は常時ロック解除済みのため
+  // lockedクラスの操作は不要）
   if (S.step0Result === 'safe') {
     document.getElementById('step0-btns').style.display = 'none';
     markStepDone('step0', '✓ 安全');
-    document.getElementById('kt').classList.remove('locked');
     buildTable();
     // Restore step 2/3 highlights
     if (S.damageLevel !== null) {
@@ -3088,7 +3467,6 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('step0-status').textContent = '⚠ 危険あり';
     document.getElementById('step0-status').className   = 'step-status pending';
     document.getElementById('group0-result').style.display = 'block';
-    document.getElementById('kt').classList.remove('locked');
     buildTable();
     for (let i = 0; i < 5; i++) {
       document.getElementById('d' + i)?.classList.toggle('sel', i === 4);
