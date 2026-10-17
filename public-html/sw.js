@@ -1,6 +1,6 @@
 // sw.js — 発災時行動判断支援ツール オフラインキャッシュ
 // キャッシュ名は更新のたびにバージョンを上げる（v1 → v2 …）
-const CACHE_NAME = 'bcp-disaster-v1';
+const CACHE_NAME = 'bcp-disaster-v2';
 
 // キャッシュ対象。index.html本体のみで、アイコン等はHTML内にdata URIとして
 // 埋め込まれているため個別キャッシュ不要。
