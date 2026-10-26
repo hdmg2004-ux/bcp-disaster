@@ -1,6 +1,8 @@
 // sw.js — 発災時行動判断支援ツール オフラインキャッシュ
-// キャッシュ名は更新のたびにバージョンを上げる（v1 → v2 …）
-const CACHE_NAME = 'bcp-disaster-v2';
+// キャッシュ名は sw.js の処理を変えたときに上げる（v1 → v2 → v3 …）。
+// 本体（index.html）の更新だけなら上げなくてよい：下の stale-while-revalidate で取り直され、
+// 新しい版が出たことは画面側（index.html 内の「版・更新通知」の層）が知らせる。
+const CACHE_NAME = 'bcp-disaster-v3';
 
 // キャッシュ対象。index.html本体のみで、アイコン等はHTML内にdata URIとして
 // 埋め込まれているため個別キャッシュ不要。
@@ -31,11 +33,15 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// フェッチ時：キャッシュファースト、なければネットワーク、
-// ネットワーク成功時はキャッシュを更新（次回オフライン時のため）
+// フェッチ時：キャッシュがあれば即座に返し、裏でネットワークから取り直してキャッシュを更新する
+// （Stale-While-Revalidate）。発災時は回線が細いため、起動はキャッシュを優先する。
 self.addEventListener('fetch', (event) => {
   // GET以外（POST等）はそのままネットワークへ
   if (event.request.method !== 'GET') return;
+
+  // 版の確認（index.html?__vcheck=…）はキャッシュせず、そのままネットワークへ通す
+  const url = new URL(event.request.url);
+  if (url.searchParams.has('__vcheck')) return;
 
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
@@ -50,14 +56,8 @@ self.addEventListener('fetch', (event) => {
           }
           return networkResponse;
         })
-        .catch(() => {
-          // ネットワーク失敗時、キャッシュがあればそれを使う
-          // （下のreturn cachedResponseと合流するため、ここでは何もしない）
-          return cachedResponse;
-        });
+        .catch(() => cachedResponse);
 
-      // キャッシュがあれば即座にキャッシュを返しつつ、裏でネットワーク更新を試みる
-      // （Stale-While-Revalidate）。キャッシュがなければネットワーク応答を待つ。
       return cachedResponse || networkFetch;
     })
   );
