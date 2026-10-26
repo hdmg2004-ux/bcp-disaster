@@ -27,6 +27,98 @@
   const _blob = new Blob([JSON.stringify(_manifest)], {type: 'application/json'});
   document.getElementById('pwa-manifest').href = URL.createObjectURL(_blob);
 </script>
+<meta name="app-version" content="2.2">
+<script>
+/* ─ 版・データ版・更新通知（難読化しない層。build_release.py が差し込む） ─ */
+(function () {
+  var APP_VERSION = '2.2';
+  var SCHEMA_VERSION = 1;   // 端末に保存するデータの形の版。形を変えたら上げ、下の移行処理を足す
+
+  // ── データ版の入口 ──
+  // 本体（bcp_disaster_profile / bcp_disaster_history）より先に動く。
+  // 版の記録がない端末は v2.1 以前のデータ＝schema 1 とみなす。
+  try {
+    var META_KEY = 'bcp_disaster_meta';
+    var meta = JSON.parse(localStorage.getItem(META_KEY) || 'null') || {};
+    var from = meta.schemaVersion || 1;
+    // 例：if (from < 2) { /* schema 1 → 2 の移行 */ }
+    if (from > SCHEMA_VERSION) console.warn('保存データが新しい版のものです（schema ' + from + '）');
+    meta.schemaVersion = Math.max(from, SCHEMA_VERSION);
+    meta.appVersion = APP_VERSION;
+    localStorage.setItem(META_KEY, JSON.stringify(meta));
+  } catch (e) {}
+
+  // ── Service Worker と更新通知（https で開いたときだけ） ──
+  if (!/^https?:$/.test(location.protocol) || !('serviceWorker' in navigator)) return;
+
+  var CHECK_INTERVAL = 10 * 60 * 1000;   // 確認は10分に1回まで
+  var lastCheck = 0, shown = false;
+
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./sw.js').catch(function (err) { console.warn('SW registration failed:', err); });
+    check();
+  });
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') check(); });
+
+  function newer(a, b) {   // a が b より新しい版なら true（"2.10" > "2.9"）
+    var x = String(a).split('.'), y = String(b).split('.');
+    for (var i = 0; i < Math.max(x.length, y.length); i++) {
+      var p = parseInt(x[i] || '0', 10), q = parseInt(y[i] || '0', 10);
+      if (p !== q) return p > q;
+    }
+    return false;
+  }
+  function fetchLatest() {   // sw.js は __vcheck の付いた要求をキャッシュせずネットワークへ通す
+    return fetch('./index.html?__vcheck=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); });
+  }
+  function versionOf(html) {
+    var m = html.match(/<meta name="app-version" content="([^"]+)"/);
+    return m ? m[1] : null;
+  }
+  function check() {
+    var now = Date.now();
+    if (shown || now - lastCheck < CHECK_INTERVAL || !navigator.onLine) return;
+    lastCheck = now;
+    fetchLatest().then(function (html) {
+      var v = versionOf(html);
+      if (v && newer(v, APP_VERSION)) banner(v);
+    }).catch(function () { /* 通信できないときは何もしない */ });
+  }
+  function banner(v) {
+    shown = true;
+    var st = document.createElement('style');
+    st.textContent = '.upd-bar{position:fixed;left:12px;right:12px;bottom:12px;z-index:2000;background:#1e3a8a;color:#fff;border-radius:10px;padding:12px 16px;box-shadow:0 6px 20px rgba(0,0,0,.25);display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:.9rem;line-height:1.5}'
+      + '.upd-bar b{font-size:1rem}.upd-bar .t{flex:1;min-width:220px}.upd-bar button{border:0;border-radius:6px;padding:.5rem 1rem;font-weight:700;font-size:.9rem;min-height:40px;cursor:pointer}'
+      + '.upd-bar .go{background:#fff;color:#1e3a8a}.upd-bar .later{background:transparent;color:#dbeafe;border:1px solid #93c5fd}'
+      + '@media print{.upd-bar{display:none!important}}';
+    document.head.appendChild(st);
+    var bar = document.createElement('div');
+    bar.className = 'upd-bar'; bar.setAttribute('role', 'status');
+    bar.innerHTML = '<div class="t"><b>新しい版（Ver.' + v + '）が公開されています。</b><br>'
+      + '入力した内容はこの端末に保存されているので、更新しても消えません。評価の途中なら、区切りのよいところで更新してください。</div>'
+      + '<button class="go" type="button">更新する</button><button class="later" type="button">あとで</button>';
+    document.body.appendChild(bar);
+    bar.querySelector('.later').onclick = function () { bar.remove(); };
+    bar.querySelector('.go').onclick = function () {
+      var btn = this; btn.disabled = true; btn.textContent = '更新しています…';
+      // 新しい版を取り直してキャッシュに入れてから再読み込みする（取れなければキャッシュは触らない）
+      fetchLatest().then(function (html) {
+        if (!('caches' in window)) return;
+        return caches.keys().then(function (keys) {
+          return Promise.all(keys.map(function (k) {
+            return caches.open(k).then(function (c) {
+              var res = function () { return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8' } }); };
+              return Promise.all([c.put('./', res()), c.put('./index.html', res())]);
+            });
+          }));
+        });
+      }).then(function () { location.reload(); })
+        .catch(function () { btn.disabled = false; btn.textContent = '更新する'; alert('通信できませんでした。少し時間をおいて、もう一度押してください。'); });
+    };
+  }
+})();
+</script>
 <title>発災時行動判断支援ツール — 東京医療減災Labo</title>
 <style>
 
@@ -1267,7 +1359,7 @@ td.cat-first-row { border-top: 3px solid #1e3a6e !important; }
     </div>
 
     <div class="kt-footer">
-      <span>東京医療減災Labo（東京都立病院機構）／ 無償提供 / Ver.2.1</span>
+      <span>東京医療減災Labo（東京都立病院機構）／ 無償提供 / Ver.2.2</span>
       <span id="ktFooter">○○病院　BCP</span>
     </div>
 
